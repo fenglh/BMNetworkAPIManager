@@ -8,7 +8,7 @@
 
 #import "BMAPICalledProxy.h"
 #import "BMRequestGenerotor.h"
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 #import "BMURLResponse.h"
 #import "BMLoger.h"
 #import "BMBaseNetworkConfigure.h"
