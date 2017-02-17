@@ -61,7 +61,7 @@
 #pragma mark -公共方法
 
 
-#warning get 方法没有经过验证
+//#warning get 方法没有经过验证
 - (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:YES]];
