@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C7591491E30925B00615928 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7591481E30925B00615928 /* main.m */; };
+		0C75914C1E30925B00615928 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75914B1E30925B00615928 /* AppDelegate.m */; };
+		0C75914F1E30925B00615928 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75914E1E30925B00615928 /* ViewController.m */; };
+		0C7591541E30925B00615928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C7591531E30925B00615928 /* Assets.xcassets */; };
+		0C7591571E30925B00615928 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C7591551E30925B00615928 /* LaunchScreen.storyboard */; };
+		0C75922D1E3093B400615928 /* BMAPICalledProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7591611E3093B300615928 /* BMAPICalledProxy.m */; };
+		0C75922E1E3093B400615928 /* BMBaseAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7591661E3093B300615928 /* BMBaseAPIManager.m */; };
+		0C7592671E3093B400615928 /* BMCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592101E3093B300615928 /* BMCachedObject.m */; };
+		0C7592681E3093B400615928 /* BMChace.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592121E3093B300615928 /* BMChace.m */; };
+		0C7592691E3093B400615928 /* BMLoger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592151E3093B300615928 /* BMLoger.m */; };
+		0C75926B1E3093B400615928 /* NSArray+AXNetworkingMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75921B1E3093B300615928 /* NSArray+AXNetworkingMethods.m */; };
+		0C75926C1E3093B400615928 /* NSDictionary+AXNetworkingMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75921D1E3093B300615928 /* NSDictionary+AXNetworkingMethods.m */; };
+		0C75926D1E3093B400615928 /* NSMutableString+AXNetworkingMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75921F1E3093B300615928 /* NSMutableString+AXNetworkingMethods.m */; };
+		0C75926E1E3093B400615928 /* NSObject+AXNetworkingMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592211E3093B300615928 /* NSObject+AXNetworkingMethods.m */; };
+		0C75926F1E3093B400615928 /* NSURLRequest+AIFNetworkingMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592231E3093B300615928 /* NSURLRequest+AIFNetworkingMethods.m */; };
+		0C7592711E3093B400615928 /* BMRequestGenerotor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592291E3093B300615928 /* BMRequestGenerotor.m */; };
+		0C7592721E3093B400615928 /* BMURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75922C1E3093B400615928 /* BMURLResponse.m */; };
+		0C7592741E3093C800615928 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0C7592731E3093C800615928 /* Podfile */; };
+		0C7592801E31B0E700615928 /* BMBaseNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */; };
+		0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592821E31F80D00615928 /* NSString+Networking.m */; };
+		0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592851E31F8B200615928 /* NSData+Networking.m */; };
+		368DF94F1E52BE7800E0D0B8 /* BMAPIParamsSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 368DF94E1E52BE7800E0D0B8 /* BMAPIParamsSign.m */; };
+		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
+		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
+		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
+		369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */; };
+		52DFCF6D4684F2F6CDF9AECD /* libPods-BMNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0C7591441E30925B00615928 /* BMNetworking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMNetworking.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C7591481E30925B00615928 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0C75914A1E30925B00615928 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0C75914B1E30925B00615928 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0C75914D1E30925B00615928 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0C75914E1E30925B00615928 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0C7591531E30925B00615928 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0C7591561E30925B00615928 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0C7591581E30925B00615928 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C7591601E3093B300615928 /* BMAPICalledProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMAPICalledProxy.h; sourceTree = "<group>"; };
+		0C7591611E3093B300615928 /* BMAPICalledProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMAPICalledProxy.m; sourceTree = "<group>"; };
+		0C7591641E3093B300615928 /* BMAPIManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMAPIManagerProtocol.h; sourceTree = "<group>"; };
+		0C7591651E3093B300615928 /* BMBaseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMBaseAPIManager.h; sourceTree = "<group>"; };
+		0C7591661E3093B300615928 /* BMBaseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMBaseAPIManager.m; sourceTree = "<group>"; };
+		0C75920F1E3093B300615928 /* BMCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMCachedObject.h; sourceTree = "<group>"; };
+		0C7592101E3093B300615928 /* BMCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMCachedObject.m; sourceTree = "<group>"; };
+		0C7592111E3093B300615928 /* BMChace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMChace.h; sourceTree = "<group>"; };
+		0C7592121E3093B300615928 /* BMChace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMChace.m; sourceTree = "<group>"; };
+		0C7592141E3093B300615928 /* BMLoger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLoger.h; sourceTree = "<group>"; };
+		0C7592151E3093B300615928 /* BMLoger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLoger.m; sourceTree = "<group>"; };
+		0C75921A1E3093B300615928 /* NSArray+AXNetworkingMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+AXNetworkingMethods.h"; sourceTree = "<group>"; };
+		0C75921B1E3093B300615928 /* NSArray+AXNetworkingMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+AXNetworkingMethods.m"; sourceTree = "<group>"; };
+		0C75921C1E3093B300615928 /* NSDictionary+AXNetworkingMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+AXNetworkingMethods.h"; sourceTree = "<group>"; };
+		0C75921D1E3093B300615928 /* NSDictionary+AXNetworkingMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+AXNetworkingMethods.m"; sourceTree = "<group>"; };
+		0C75921E1E3093B300615928 /* NSMutableString+AXNetworkingMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+AXNetworkingMethods.h"; sourceTree = "<group>"; };
+		0C75921F1E3093B300615928 /* NSMutableString+AXNetworkingMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+AXNetworkingMethods.m"; sourceTree = "<group>"; };
+		0C7592201E3093B300615928 /* NSObject+AXNetworkingMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AXNetworkingMethods.h"; sourceTree = "<group>"; };
+		0C7592211E3093B300615928 /* NSObject+AXNetworkingMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AXNetworkingMethods.m"; sourceTree = "<group>"; };
+		0C7592221E3093B300615928 /* NSURLRequest+AIFNetworkingMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+AIFNetworkingMethods.h"; sourceTree = "<group>"; };
+		0C7592231E3093B300615928 /* NSURLRequest+AIFNetworkingMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+AIFNetworkingMethods.m"; sourceTree = "<group>"; };
+		0C7592281E3093B300615928 /* BMRequestGenerotor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRequestGenerotor.h; sourceTree = "<group>"; };
+		0C7592291E3093B300615928 /* BMRequestGenerotor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRequestGenerotor.m; sourceTree = "<group>"; };
+		0C75922B1E3093B400615928 /* BMURLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMURLResponse.h; sourceTree = "<group>"; };
+		0C75922C1E3093B400615928 /* BMURLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMURLResponse.m; sourceTree = "<group>"; };
+		0C7592731E3093C800615928 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0C75927E1E31B0E700615928 /* BMBaseNetworkConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMBaseNetworkConfigure.h; sourceTree = "<group>"; };
+		0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMBaseNetworkConfigure.m; sourceTree = "<group>"; };
+		0C7592811E31F80D00615928 /* NSString+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Networking.h"; sourceTree = "<group>"; };
+		0C7592821E31F80D00615928 /* NSString+Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Networking.m"; sourceTree = "<group>"; };
+		0C7592841E31F8B200615928 /* NSData+Networking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Networking.h"; sourceTree = "<group>"; };
+		0C7592851E31F8B200615928 /* NSData+Networking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Networking.m"; sourceTree = "<group>"; };
+		0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMBaseNetworkConfigureProtocol.h; path = BMAPIManagers/BaseAPIManager/BMBaseNetworkConfigureProtocol.h; sourceTree = "<group>"; };
+		2A3091C4A0B86DD4E377D2A9 /* Pods-BMNetworking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.release.xcconfig"; sourceTree = "<group>"; };
+		355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BMNetworking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		368DF94D1E52BE7800E0D0B8 /* BMAPIParamsSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMAPIParamsSign.h; sourceTree = "<group>"; };
+		368DF94E1E52BE7800E0D0B8 /* BMAPIParamsSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMAPIParamsSign.m; sourceTree = "<group>"; };
+		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
+		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
+		369C1D2D1E5406F6001B543C /* BMNetworkConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMNetworkConfigure.h; sourceTree = "<group>"; };
+		369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMNetworkConfigure.m; sourceTree = "<group>"; };
+		369C1D301E557930001B543C /* BMUploadPictureAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMUploadPictureAPIManager.h; sourceTree = "<group>"; };
+		369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMUploadPictureAPIManager.m; sourceTree = "<group>"; };
+		369C1D351E569FF3001B543C /* BMMineTypeFileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMMineTypeFileModel.h; sourceTree = "<group>"; };
+		369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMineTypeFileModel.m; sourceTree = "<group>"; };
+		447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0C7591411E30925B00615928 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52DFCF6D4684F2F6CDF9AECD /* libPods-BMNetworking.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C75913B1E30925B00615928 = {
+			isa = PBXGroup;
+			children = (
+				0C7592731E3093C800615928 /* Podfile */,
+				0C75915E1E3093B300615928 /* BMNetworkCenter */,
+				0C7591461E30925B00615928 /* BMNetworking */,
+				0C7591451E30925B00615928 /* Products */,
+				F159DBA601B00C445050759B /* Pods */,
+				9159418F7E694DAB2E8C21CC /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0C7591451E30925B00615928 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0C7591441E30925B00615928 /* BMNetworking.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0C7591461E30925B00615928 /* BMNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				369C1D2D1E5406F6001B543C /* BMNetworkConfigure.h */,
+				369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */,
+				369C1D301E557930001B543C /* BMUploadPictureAPIManager.h */,
+				369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */,
+				0C75914A1E30925B00615928 /* AppDelegate.h */,
+				0C75914B1E30925B00615928 /* AppDelegate.m */,
+				0C75914D1E30925B00615928 /* ViewController.h */,
+				0C75914E1E30925B00615928 /* ViewController.m */,
+				0C7591531E30925B00615928 /* Assets.xcassets */,
+				0C7591551E30925B00615928 /* LaunchScreen.storyboard */,
+				0C7591581E30925B00615928 /* Info.plist */,
+				0C7591471E30925B00615928 /* Supporting Files */,
+				369C1D261E53F794001B543C /* BMTestAPIManager.h */,
+				369C1D271E53F794001B543C /* BMTestAPIManager.m */,
+			);
+			path = BMNetworking;
+			sourceTree = "<group>";
+		};
+		0C7591471E30925B00615928 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0C7591481E30925B00615928 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0C75915E1E3093B300615928 /* BMNetworkCenter */ = {
+			isa = PBXGroup;
+			children = (
+				0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */,
+				0C75927E1E31B0E700615928 /* BMBaseNetworkConfigure.h */,
+				0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */,
+				0C75915F1E3093B300615928 /* BMAPICalledProxy */,
+				0C7591621E3093B300615928 /* BMAPIManagers */,
+				0C75920E1E3093B300615928 /* BMCache */,
+				0C7592131E3093B300615928 /* BMLoger */,
+				0C7592191E3093B300615928 /* BMNetWorkCategory */,
+				0C7592271E3093B300615928 /* BMRequestGenerotor */,
+				0C75922A1E3093B300615928 /* BMURLResponse */,
+			);
+			path = BMNetworkCenter;
+			sourceTree = "<group>";
+		};
+		0C75915F1E3093B300615928 /* BMAPICalledProxy */ = {
+			isa = PBXGroup;
+			children = (
+				368DF94D1E52BE7800E0D0B8 /* BMAPIParamsSign.h */,
+				368DF94E1E52BE7800E0D0B8 /* BMAPIParamsSign.m */,
+				0C7591601E3093B300615928 /* BMAPICalledProxy.h */,
+				0C7591611E3093B300615928 /* BMAPICalledProxy.m */,
+				369C1D351E569FF3001B543C /* BMMineTypeFileModel.h */,
+				369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */,
+			);
+			path = BMAPICalledProxy;
+			sourceTree = "<group>";
+		};
+		0C7591621E3093B300615928 /* BMAPIManagers */ = {
+			isa = PBXGroup;
+			children = (
+				0C7591631E3093B300615928 /* BaseAPIManager */,
+			);
+			path = BMAPIManagers;
+			sourceTree = "<group>";
+		};
+		0C7591631E3093B300615928 /* BaseAPIManager */ = {
+			isa = PBXGroup;
+			children = (
+				0C7591641E3093B300615928 /* BMAPIManagerProtocol.h */,
+				0C7591651E3093B300615928 /* BMBaseAPIManager.h */,
+				0C7591661E3093B300615928 /* BMBaseAPIManager.m */,
+			);
+			path = BaseAPIManager;
+			sourceTree = "<group>";
+		};
+		0C75920E1E3093B300615928 /* BMCache */ = {
+			isa = PBXGroup;
+			children = (
+				0C75920F1E3093B300615928 /* BMCachedObject.h */,
+				0C7592101E3093B300615928 /* BMCachedObject.m */,
+				0C7592111E3093B300615928 /* BMChace.h */,
+				0C7592121E3093B300615928 /* BMChace.m */,
+			);
+			path = BMCache;
+			sourceTree = "<group>";
+		};
+		0C7592131E3093B300615928 /* BMLoger */ = {
+			isa = PBXGroup;
+			children = (
+				0C7592141E3093B300615928 /* BMLoger.h */,
+				0C7592151E3093B300615928 /* BMLoger.m */,
+			);
+			path = BMLoger;
+			sourceTree = "<group>";
+		};
+		0C7592191E3093B300615928 /* BMNetWorkCategory */ = {
+			isa = PBXGroup;
+			children = (
+				0C75921A1E3093B300615928 /* NSArray+AXNetworkingMethods.h */,
+				0C75921B1E3093B300615928 /* NSArray+AXNetworkingMethods.m */,
+				0C75921C1E3093B300615928 /* NSDictionary+AXNetworkingMethods.h */,
+				0C75921D1E3093B300615928 /* NSDictionary+AXNetworkingMethods.m */,
+				0C75921E1E3093B300615928 /* NSMutableString+AXNetworkingMethods.h */,
+				0C75921F1E3093B300615928 /* NSMutableString+AXNetworkingMethods.m */,
+				0C7592201E3093B300615928 /* NSObject+AXNetworkingMethods.h */,
+				0C7592211E3093B300615928 /* NSObject+AXNetworkingMethods.m */,
+				0C7592221E3093B300615928 /* NSURLRequest+AIFNetworkingMethods.h */,
+				0C7592231E3093B300615928 /* NSURLRequest+AIFNetworkingMethods.m */,
+				0C7592811E31F80D00615928 /* NSString+Networking.h */,
+				0C7592821E31F80D00615928 /* NSString+Networking.m */,
+				0C7592841E31F8B200615928 /* NSData+Networking.h */,
+				0C7592851E31F8B200615928 /* NSData+Networking.m */,
+			);
+			path = BMNetWorkCategory;
+			sourceTree = "<group>";
+		};
+		0C7592271E3093B300615928 /* BMRequestGenerotor */ = {
+			isa = PBXGroup;
+			children = (
+				0C7592281E3093B300615928 /* BMRequestGenerotor.h */,
+				0C7592291E3093B300615928 /* BMRequestGenerotor.m */,
+			);
+			path = BMRequestGenerotor;
+			sourceTree = "<group>";
+		};
+		0C75922A1E3093B300615928 /* BMURLResponse */ = {
+			isa = PBXGroup;
+			children = (
+				0C75922B1E3093B400615928 /* BMURLResponse.h */,
+				0C75922C1E3093B400615928 /* BMURLResponse.m */,
+			);
+			path = BMURLResponse;
+			sourceTree = "<group>";
+		};
+		9159418F7E694DAB2E8C21CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F159DBA601B00C445050759B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */,
+				2A3091C4A0B86DD4E377D2A9 /* Pods-BMNetworking.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0C7591431E30925B00615928 /* BMNetworking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C75915B1E30925B00615928 /* Build configuration list for PBXNativeTarget "BMNetworking" */;
+			buildPhases = (
+				6E18B16B17F6897D601C296F /* [CP] Check Pods Manifest.lock */,
+				0C7591401E30925B00615928 /* Sources */,
+				0C7591411E30925B00615928 /* Frameworks */,
+				0C7591421E30925B00615928 /* Resources */,
+				1A4587F19645CB2BE14CF742 /* [CP] Embed Pods Frameworks */,
+				0F997EBD9D6D97226AE212D7 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BMNetworking;
+			productName = BMNetworking;
+			productReference = 0C7591441E30925B00615928 /* BMNetworking.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0C75913C1E30925B00615928 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = BlueMoon;
+				TargetAttributes = {
+					0C7591431E30925B00615928 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 0C75913F1E30925B00615928 /* Build configuration list for PBXProject "BMNetworking" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0C75913B1E30925B00615928;
+			productRefGroup = 0C7591451E30925B00615928 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0C7591431E30925B00615928 /* BMNetworking */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0C7591421E30925B00615928 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C7592741E3093C800615928 /* Podfile in Resources */,
+				0C7591571E30925B00615928 /* LaunchScreen.storyboard in Resources */,
+				0C7591541E30925B00615928 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F997EBD9D6D97226AE212D7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1A4587F19645CB2BE14CF742 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E18B16B17F6897D601C296F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C7591401E30925B00615928 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C75922E1E3093B400615928 /* BMBaseAPIManager.m in Sources */,
+				369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */,
+				0C7592721E3093B400615928 /* BMURLResponse.m in Sources */,
+				0C75926D1E3093B400615928 /* NSMutableString+AXNetworkingMethods.m in Sources */,
+				0C75914F1E30925B00615928 /* ViewController.m in Sources */,
+				369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */,
+				369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */,
+				0C75922D1E3093B400615928 /* BMAPICalledProxy.m in Sources */,
+				0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */,
+				0C7592681E3093B400615928 /* BMChace.m in Sources */,
+				0C7592711E3093B400615928 /* BMRequestGenerotor.m in Sources */,
+				0C75926F1E3093B400615928 /* NSURLRequest+AIFNetworkingMethods.m in Sources */,
+				0C75914C1E30925B00615928 /* AppDelegate.m in Sources */,
+				368DF94F1E52BE7800E0D0B8 /* BMAPIParamsSign.m in Sources */,
+				0C75926C1E3093B400615928 /* NSDictionary+AXNetworkingMethods.m in Sources */,
+				0C75926B1E3093B400615928 /* NSArray+AXNetworkingMethods.m in Sources */,
+				0C7592801E31B0E700615928 /* BMBaseNetworkConfigure.m in Sources */,
+				0C7592691E3093B400615928 /* BMLoger.m in Sources */,
+				0C7591491E30925B00615928 /* main.m in Sources */,
+				369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */,
+				0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */,
+				0C7592671E3093B400615928 /* BMCachedObject.m in Sources */,
+				0C75926E1E3093B400615928 /* NSObject+AXNetworkingMethods.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0C7591551E30925B00615928 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C7591561E30925B00615928 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0C7591591E30925B00615928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		0C75915A1E30925B00615928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0C75915C1E30925B00615928 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Li Chao (BTTHBUB23E)";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = BMNetworking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
+				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+			};
+			name = Debug;
+		};
+		0C75915D1E30925B00615928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A3091C4A0B86DD4E377D2A9 /* Pods-BMNetworking.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Li Chao (BTTHBUB23E)";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = BMNetworking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
+				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C75913F1E30925B00615928 /* Build configuration list for PBXProject "BMNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C7591591E30925B00615928 /* Debug */,
+				0C75915A1E30925B00615928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0C75915B1E30925B00615928 /* Build configuration list for PBXNativeTarget "BMNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C75915C1E30925B00615928 /* Debug */,
+				0C75915D1E30925B00615928 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0C75913C1E30925B00615928 /* Project object */;
+}

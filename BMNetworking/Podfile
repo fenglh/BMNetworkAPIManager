@@ -1,0 +1,14 @@
+source 'https://github.com/CocoaPods/Specs'
+#source 'http://192.168.240.26/ios/BMSpecs'
+
+platform :ios, "7.0"
+
+inhibit_all_warnings!
+target:BMNetworking do
+    pod "AFNetworking" #网络
+    pod 'RealReachability' #网络可达检测
+end
+
+#常用命令
+#   pod install --verbose --no-repo-update
+#   pod update --verbose --no-repo-update
