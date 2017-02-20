@@ -650,7 +650,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 - (void)callingProgress:(NSProgress *)progress
 {
-    [self.apiCallBackDelegate managerCallApiProgress:self progress:progress];
+    if ([self.apiCallBackDelegate respondsToSelector:@selector(managerCallApiProgress:progress:)]) {
+        [self.apiCallBackDelegate managerCallApiProgress:self progress:progress];
+    }
 }
 
 
@@ -673,7 +675,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         //拦截器
         self.errorType = BMAPIManagerErrorTypeSuccess;
         [self beforePerformSuccessWithResponse:response];
-        [self.apiCallBackDelegate managerCallApiDidSuccess:self];
+        if ([self.apiCallBackDelegate respondsToSelector:@selector(managerCallApiDidSuccess:)]) {
+            [self.apiCallBackDelegate managerCallApiDidSuccess:self];
+        }
         [self afterPerformSuccessWithResponse:response];
     }else{
         
@@ -727,7 +731,11 @@ static NSInteger BMManagerDefaultParamsError = -9997;
     self.requestId = response.requestId;
     [self removeRequestWithRequestId:response.requestId];//清除列表
     [self beforePerformFailWithResponse:response];
-    [self.apiCallBackDelegate managerCallApiDidFailed:self];
+    if ([self.apiCallBackDelegate respondsToSelector:@selector(managerCallApiDidFailed:)]) {
+        [self.apiCallBackDelegate managerCallApiDidFailed:self];
+    }
+    
+    
     [self afterPerformFailWithResponse:response];
 }
 
