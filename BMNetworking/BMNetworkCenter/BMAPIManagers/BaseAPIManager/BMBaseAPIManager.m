@@ -179,6 +179,10 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
     self.isPageRequest = NO;
     NSDictionary *params = [self.paramSource paramsForApi:self];
+    //兼容调用者没有使用paramSource delegate设置参数的方式，导致中间者调用loadData参数缺漏的情况
+    if (params == nil && self.requestParams) {
+        params = self.requestParams;
+    }
     NSInteger requestId = [self _loadDataWithParams:params];
     return requestId;
 }
