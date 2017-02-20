@@ -61,7 +61,7 @@
     NSString *format = [networkConfigureInstance contentFormat];
     NSString *timeStamp = [NSString stringWithFormat:@"%ld",time(NULL)];
     NSString *version = [networkConfigureInstance appVersion];
-    NSString *paramJsonString = [NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded;//确保字典不为nil，这里不能使用NSMutableDictionary来初始化，否则会导致jsonStringEncoded不一致
+    NSString *paramJsonString = businessParam.jsonStringEncoded;//不能使用[NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded，否则会导致jsonStringEncoded不一致
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithDictionary:@{@"client":clientPlatform,@"cuid":clientUUID,@"format":format,@"time":timeStamp,@"version":version}];
     //进行签名
     NSString *signatureString = [self signWithParams:paramsDict businessJsonString:paramJsonString signBusinessParam:signBusinessParam];
