@@ -55,7 +55,7 @@
 }
 
 NSString * BMNotificationNetworkingTokenInvalid = @"BMNotificationNetworkingTokenInvalid";
-NSString * BMNotificationNetworkingUnLogin = @"BMNotificationNetworkingUnLogin";
+NSString * BMNotificationNetworkingUserUnLogin = @"BMNotificationNetworkingUserUnLogin";
 
 static NSInteger BMManagerDefaultOtherError = -9999;//网络错误码
 static NSInteger BMManagerDefaultAPINotAllow = -9998;//
@@ -332,7 +332,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         }else if (loginStatus == BMUserLoginStatusUnLogin){
             self.responseMsg = @"用户未登录";
             NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUnLogin object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUserUnLogin object:self];
             return NO;
         }
 

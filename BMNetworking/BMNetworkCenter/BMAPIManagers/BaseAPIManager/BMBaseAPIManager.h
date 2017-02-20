@@ -122,7 +122,7 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
 
 
 extern const NSString * BMNotificationNetworkingTokenInvalid;   //token无效
-extern const NSString * BMNotificationNetworkingUnLogin;        //用户未登录
+extern const NSString * BMNotificationNetworkingUserUnLogin;        //用户未登录
 
 
 @end
