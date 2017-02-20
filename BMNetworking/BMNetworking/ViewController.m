@@ -122,6 +122,7 @@
 - (void)managerCallApiDidSuccess:(BMBaseAPIManager *)manager
 {
     NSLog(@"接口请求成功!");
+    //
 }
 
 - (void)managerCallApiDidFailed:(BMBaseAPIManager *)manager
