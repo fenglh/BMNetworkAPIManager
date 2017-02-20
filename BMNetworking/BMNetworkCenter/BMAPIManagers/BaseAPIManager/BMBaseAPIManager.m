@@ -54,7 +54,8 @@
         [self.requestIdList addObject:@(REQUEST_ID)];                                                   \
 }
 
-NSString * BMNetworkingNotificationRequestLogin = @"BMNetworkingNotificationRequestLogin";
+NSString * BMNotificationNetworkingTokenInvalid = @"BMNotificationNetworkingTokenInvalid";
+NSString * BMNotificationNetworkingUnLogin = @"BMNotificationNetworkingUnLogin";
 
 static NSInteger BMManagerDefaultOtherError = -9999;//网络错误码
 static NSInteger BMManagerDefaultAPINotAllow = -9998;//
@@ -322,11 +323,19 @@ static NSInteger BMManagerDefaultParamsError = -9997;
     BOOL useToken = [self useToken];
     BMUserLoginStatus loginStatus = [networkConfigureInstance loginStatus];
     // 未登录or token无效情况
-    if (useToken &&  loginStatus != BMUserLoginStatusLoginNormal) {
-        self.responseMsg = @"用户未登录或token失效";
-        NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-        [[NSNotificationCenter defaultCenter] postNotificationName:BMNetworkingNotificationRequestLogin object:self];
-        return NO;
+    if (useToken ) {
+        if ( loginStatus == BMUserLoginStatusTokenInvalid) {
+            self.responseMsg = @"Token失效";
+            NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
+            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
+            return NO;
+        }else if (loginStatus == BMUserLoginStatusUnLogin){
+            self.responseMsg = @"用户未登录";
+            NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
+            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUnLogin object:self];
+            return NO;
+        }
+
     }
     
     if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:)]) {
@@ -710,11 +719,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
         //处理token过期
         if (self.errorCode == [networkConfigureInstance tokenInvalidValue]) {
-            BMUserLoginStatus loginStatus = [networkConfigureInstance loginStatus];
-            if (loginStatus != BMUserLoginStatusTokenInvalid) {
-                loginStatus = BMUserLoginStatusTokenInvalid;
-            }
-            [[NSNotificationCenter defaultCenter] postNotificationName:BMNetworkingNotificationRequestLogin object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:nil];
         }
     }
 
