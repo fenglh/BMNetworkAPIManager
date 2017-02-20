@@ -121,8 +121,8 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
 - (void)cleanAllParamsCaChe;//删除所有缓存
 
 
-extern const NSString * BMNotificationNetworkingTokenInvalid;   //token无效
-extern const NSString * BMNotificationNetworkingUserUnLogin;        //用户未登录
+extern NSString * BMNotificationNetworkingTokenInvalid;   //token无效
+extern NSString * BMNotificationNetworkingUserUnLogin;        //用户未登录
 
 
 @end
