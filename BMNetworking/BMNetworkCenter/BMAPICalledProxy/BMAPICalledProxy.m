@@ -7,7 +7,6 @@
 //
 
 #import "BMAPICalledProxy.h"
-#import "BMRequestGenerotor.h"
 #import "AFNetworking.h"
 #import "BMURLResponse.h"
 #import "BMLoger.h"
@@ -216,7 +215,7 @@
 {
     if (_sessionManager == nil) {
         _sessionManager = [AFHTTPSessionManager manager];
-        _sessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance timeOutSeconds];
+        _sessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
         _sessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
         _sessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     }

@@ -27,7 +27,7 @@
 - (BOOL)isOutDated
 {
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastUpdateTime];
-    return timeInterval > [networkConfigureInstance timeOutSeconds];
+    return timeInterval > [networkConfigureInstance cacheTimeOutSeconds];
 }
 
 

@@ -45,7 +45,8 @@ typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
 - (NSString *)responseCodeKey;          //响应码key,默认@"responseCode"
 - (NSString *)responseMsgKey;           //响应信息key,默认@"responseMsg"
 - (NSUInteger)cacheCountLimit;          //最多缓存数量,默认1000
-- (NSTimeInterval)timeOutSeconds;       //网络超时时间,默认20s
+- (NSTimeInterval)cacheTimeOutSeconds;  //缓存时间，默认5分钟
+- (NSTimeInterval)requestTimeOutSeconds;//网络超时时间,默认20s
 - (NSString *)contentFormat;            //http content 格式,默认@"json"
 - (NSString *)clientPlatform;           //客户端类型,@"ios"
 - (CLLocation *)location;               //定位信息,默认nil

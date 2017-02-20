@@ -143,6 +143,12 @@
     return 1000;
 }
 
+//缓存时间
+- (NSTimeInterval)cacheTimeOutSeconds
+{
+    return 300;
+}
+
 //网络超时时间
 - (NSTimeInterval)timeOutSeconds
 {
