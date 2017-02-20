@@ -33,7 +33,7 @@ typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
 - (NSString *)clientUUID;               //设备唯一标示符
 - (NSString *)appVersion;               //客户端版本
 - (NSString *)appType;                  //appType,即可至尊：washMall
-
+- (NSInteger)tokenInvalidValue;         //token无效值
 
 
 @optional

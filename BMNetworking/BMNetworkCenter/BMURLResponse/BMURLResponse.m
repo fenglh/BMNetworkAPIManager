@@ -17,6 +17,7 @@
 @property (nonatomic, assign, readwrite) BMURLResponseStatus status;
 @property (nonatomic, copy, readwrite) NSString *contentString;
 @property (nonatomic, copy, readwrite) id content;
+@property (nonatomic, copy, readwrite) NSError *error;
 @property (nonatomic, assign, readwrite) NSInteger requestId;
 @property (nonatomic, copy, readwrite) NSURLRequest *request;
 @property (nonatomic, copy, readwrite) NSData *responseData;
@@ -49,6 +50,7 @@
     self = [super init];
     if (self) {
         self.contentString = [responseString AIF_defaultValue:@""];//处理nil、null @""的情况 --note
+        self.error = error;
         self.status = [self responseStatusWithError:error];
         self.requestId = [requestId integerValue];
         self.request = request;

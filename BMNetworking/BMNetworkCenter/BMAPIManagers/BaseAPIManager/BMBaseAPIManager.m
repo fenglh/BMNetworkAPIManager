@@ -689,7 +689,6 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 - (void)failedOnCallingAPI:(BMURLResponse *)response withErrorType:(BMAPIManagerErrorType)errorType
 {
     self.errorType = errorType;
-    NSString *networkErrDetail;//网络错误详情
     if (errorType == BMAPIManagerErrorTypeNotAllowCallingApi) {
         self.responseMsg = @"不允许API调用,token过期或者无效!";
         self.errorCode = BMManagerDefaultAPINotAllow;
@@ -705,18 +704,12 @@ static NSInteger BMManagerDefaultParamsError = -9997;
             }else{
                 //默认认为网络或者服务器错误BMManagerDefaultOtherError
                 self.errorCode = BMManagerDefaultOtherError;//默认其他错误
-                self.responseMsg = @"网络不可达或者服务器错误";
-                
-                //http 错误信息
-                long status = [[response.content objectForKey:@"status"] longValue];
-                NSString *message = [response.content objectForKey:@"message"];
-                NSString *error = [response.content objectForKey:@"error"];
-                networkErrDetail = [NSString stringWithFormat:@"\n\thttp status:\n\t\tstatus:%@\n\t\tmessage:%@\n\t\terror:%@",@(status),message,error];
+                self.responseMsg = response.error.localizedDescription;
             }
         }
 
         //处理token过期
-        if (self.errorCode == 1301) {
+        if (self.errorCode == [networkConfigureInstance tokenInvalidValue]) {
             BMUserLoginStatus loginStatus = [networkConfigureInstance loginStatus];
             if (loginStatus != BMUserLoginStatusTokenInvalid) {
                 loginStatus = BMUserLoginStatusTokenInvalid;
@@ -725,7 +718,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         }
     }
 
-    NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld%@",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,kBMResponseCode,(long)self.errorCode,networkErrDetail);
+    NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,kBMResponseCode,(long)self.errorCode);
 
 
     self.requestId = response.requestId;

@@ -100,6 +100,15 @@
     return NO;
 }
 
+
+//token无效值
+- (NSInteger)tokenInvalidValue
+{
+    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
+    return 0;
+}
+
+
 #pragma mark - 可选
 //token
 - (NSString *)tokenKey

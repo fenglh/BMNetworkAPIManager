@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, BMURLResponseStatus)
 @property (nonatomic, assign, readonly) BMURLResponseStatus status;
 @property (nonatomic, copy, readonly) NSString *contentString;
 @property (nonatomic, copy, readonly) id content;
+@property (nonatomic, copy, readonly) NSError *error;
 @property (nonatomic, assign, readonly) NSInteger requestId;
 @property (nonatomic, copy, readonly) NSURLRequest *request;
 @property (nonatomic, copy, readonly) NSData *responseData;
