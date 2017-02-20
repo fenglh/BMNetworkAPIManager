@@ -150,7 +150,7 @@
 }
 
 //网络超时时间
-- (NSTimeInterval)timeOutSeconds
+- (NSTimeInterval)requestTimeOutSeconds
 {
     return 20;
 }
