@@ -27,6 +27,7 @@
 		0C7592801E31B0E700615928 /* BMBaseNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */; };
 		0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592821E31F80D00615928 /* NSString+Networking.m */; };
 		0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592851E31F8B200615928 /* NSData+Networking.m */; };
+		3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */; };
 		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
 		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
 		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
@@ -78,6 +79,8 @@
 		0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMBaseNetworkConfigureProtocol.h; path = BMAPIManagers/BaseAPIManager/BMBaseNetworkConfigureProtocol.h; sourceTree = "<group>"; };
 		2A3091C4A0B86DD4E377D2A9 /* Pods-BMNetworking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.release.xcconfig"; sourceTree = "<group>"; };
 		355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BMNetworking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3640176B1E5C168F00587D0C /* BMDownloadAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadAPIManager.h; sourceTree = "<group>"; };
+		3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadAPIManager.m; sourceTree = "<group>"; };
 		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
 		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
 		369C1D2D1E5406F6001B543C /* BMNetworkConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMNetworkConfigure.h; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		0C7591461E30925B00615928 /* BMNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				3640176A1E5C168F00587D0C /* BMDownload */,
 				369C1D2D1E5406F6001B543C /* BMNetworkConfigure.h */,
 				369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */,
 				369C1D301E557930001B543C /* BMUploadPictureAPIManager.h */,
@@ -246,6 +250,15 @@
 				0C75922C1E3093B400615928 /* BMURLResponse.m */,
 			);
 			path = BMURLResponse;
+			sourceTree = "<group>";
+		};
+		3640176A1E5C168F00587D0C /* BMDownload */ = {
+			isa = PBXGroup;
+			children = (
+				3640176B1E5C168F00587D0C /* BMDownloadAPIManager.h */,
+				3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */,
+			);
+			path = BMDownload;
 			sourceTree = "<group>";
 		};
 		36B37FF31E5AC291002E8D02 /* BMAPIParamSignature */ = {
@@ -402,6 +415,7 @@
 				0C75926D1E3093B400615928 /* NSMutableString+AXNetworkingMethods.m in Sources */,
 				0C75914F1E30925B00615928 /* ViewController.m in Sources */,
 				369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */,
+				3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */,
 				369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */,
 				0C75922D1E3093B400615928 /* BMAPICalledProxy.m in Sources */,
 				0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */,

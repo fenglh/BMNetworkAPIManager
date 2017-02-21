@@ -23,8 +23,8 @@
     NSNumber *requestId = [self generateRequestId];\
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
 \
-    NSURLSessionTask *task = [self.sessionManager REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
-        [self callAPIPogress:uploadProgress progressCallback:PROGRESS_CALLBACK];\
+    NSURLSessionTask *task = [self.httpJsonSessionManager REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
+ [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:SUCCESS_CALLBACK];\
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {\
@@ -38,8 +38,9 @@
 @interface BMAPICalledProxy ()
 
 @property (strong, nonatomic) NSNumber *recordRequestId;
-//@property (strong, nonatomic) AFHTTPRequestOperationManager *operationManager;
-@property (strong, nonatomic) AFHTTPSessionManager *sessionManager;
+
+//@property (strong, nonatomic) AFHTTPSessionManager *httpSessionManager;//
+@property (strong, nonatomic) AFHTTPSessionManager *httpJsonSessionManager;
 @property (strong, nonatomic) NSMutableDictionary *httpRequestTaskTable;//保存httpRequestTaskTable 的返回值，便于之后对task的处理
 @end
 
@@ -60,25 +61,32 @@
 #pragma mark -公共方法
 
 
-//#warning get 方法没有经过验证
-- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+//#warning get
+- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:YES]];
+    AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
+    serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
+    self.httpJsonSessionManager.responseSerializer = serializer;
+    
+    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     callHttpRequest(GET, urlString, params, progress, success, failure);
 
 }
 
-- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:YES]];
+    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     callHttpRequest(POST, urlString, params, progress, success, failure);
     
 }
 
-- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSNumber *requestId = [self generateRequestId];//生成requestId
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:NO]];
+    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];
     NSMutableDictionary *dataDict =[NSMutableDictionary dictionary];
@@ -94,7 +102,7 @@
     //2.取出kBMMineTypeFileModels ，该列表指出哪些参数是作为文件来上传
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
-    NSURLSessionTask *task = [self.sessionManager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *task = [self.httpJsonSessionManager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
         NSString *fileName=[NSString stringWithFormat:@"%.0f.unknow",[NSDate date].timeIntervalSince1970];//默认
         NSString *mineType=@"";//默认
@@ -108,7 +116,7 @@
         }
         NSLog(@"form-data:组装完成");
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-        [self callAPIPogress:uploadProgress progressCallback:progress];
+        [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -143,10 +151,10 @@
 /**
  * 调用进度
  */
-- (void)callAPIPogress:(NSProgress *)progress progressCallback:(void(^)(NSProgress *))progressCallback
+- (void)callAPIPogress:(NSProgress *)progress requestId:(NSInteger)requestId progressCallback:(void(^)(NSProgress *progress, NSInteger requestId))progressCallback
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        progressCallback?progressCallback(progress):nil;
+        progressCallback?progressCallback(progress,requestId):nil;
     });
 }
 
@@ -181,12 +189,19 @@
     }else{
         [self.httpRequestTaskTable removeObjectForKey:requestId];
     }
-    NSString *contentString = responseObject;
-    NSData *responseData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];\
-    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+    
+    NSString *contentString;
+    NSData *responseData;
+    
+    if ([NSJSONSerialization isValidJSONObject:responseObject]) {
+        responseData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];\
         NSDictionary *responseDictionary = (NSDictionary *)responseObject;
         contentString = responseDictionary.jsonStringEncoded;
+    }else{
+        contentString = @"(responseObject 不是有效的JSON对象(例如：文件、视频等)，此类型数据不作日志打印输出！)";
+        responseData = responseObject;
     }
+    
     [BMLoger logDebugInfoWithResponse:(NSHTTPURLResponse *)task.response resposeString:contentString request:task.originalRequest error:NULL];
     BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest responseData:responseData status:BMURLResponseStatusSuccess];
     successCallback?successCallback(response):nil;
@@ -211,15 +226,14 @@
 
 #pragma mark - getters and setters
 
-- (AFHTTPSessionManager *)sessionManager
+- (AFHTTPSessionManager *)httpJsonSessionManager
 {
-    if (_sessionManager == nil) {
-        _sessionManager = [AFHTTPSessionManager manager];
-        _sessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
-        _sessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
-        _sessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    if (_httpJsonSessionManager == nil) {
+        _httpJsonSessionManager = [AFHTTPSessionManager manager];
+        _httpJsonSessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+        _httpJsonSessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
     }
-    return _sessionManager;
+    return _httpJsonSessionManager;
 }
 
 - (NSMutableDictionary *)httpRequestTaskTable

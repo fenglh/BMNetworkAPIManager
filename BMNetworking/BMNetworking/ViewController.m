@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "BMTestAPIManager.h"
 #import "BMUploadPictureAPIManager.h"
+#import "BMDownloadAPIManager.h"
 
 @interface ViewController ()<BMAPIManagerCallBackDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) BMTestAPIManager *testAPIManager;
@@ -16,6 +17,9 @@
 
 @property (nonatomic, strong) BMUploadPictureAPIManager *uploadPictureAPIManager;
 @property (nonatomic, assign) NSInteger uploadPictureRequestId;
+
+@property(nonatomic, strong) BMDownloadAPIManager *downloadAPIManager;
+@property (nonatomic, assign) NSInteger downloadRequestId;
 
 @property (nonatomic, strong) UILabel *progressLabel;
 @end
@@ -27,7 +31,7 @@
     [self addProgressLabel];
     self.view.backgroundColor = [UIColor whiteColor];
     UIButton *button  = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button setTitle:@"点我" forState:UIControlStateNormal];
+    [button setTitle:@"下载视频" forState:UIControlStateNormal];
     button.frame = CGRectMake((self.view.frame.size.width-100)/2.0, 200, 100, 60);
     [self.view addSubview:button];
     [button addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +78,7 @@
 - (void)btnClick
 {
     NSLog(@"开始请求接口...");
-    self.testRequestId = [self.testAPIManager loadData];
+    self.downloadRequestId = [self.downloadAPIManager downloadDataWithUrl:@"http://pubfile.bluemoon.com.cn//group1/M00/04/B2/wKgwB1ijGMCAIMjeABF7Hokao64425.mp4"];
 }
 
 
@@ -95,6 +99,15 @@
 
 #pragma mark - 接口
 
+- (BMDownloadAPIManager *)downloadAPIManager
+{
+    if (_downloadAPIManager == nil) {
+        _downloadAPIManager = [[BMDownloadAPIManager alloc] init];
+        _downloadAPIManager.apiCallBackDelegate = self;
+    }
+    return _downloadAPIManager;
+}
+
 - (BMUploadPictureAPIManager *)uploadPictureAPIManager
 {
     if (_uploadPictureAPIManager == nil) {
@@ -114,19 +127,37 @@
 }
 - (void)managerCallApiProgress:(BMBaseAPIManager *)manager progress:(NSProgress *)progress
 {
-    NSString *string = [NSString stringWithFormat:@"上传进度:%@",progress.localizedDescription];
-    NSLog(@"%@",string);
-    self.progressLabel.text = string;
+    if (manager.requestId == self.uploadPictureRequestId) {
+        NSString *string = [NSString stringWithFormat:@"上传:%@",progress.localizedDescription];
+        NSLog(@"%@",string);
+        self.progressLabel.text = string;
+    }else{
+        NSString *string = [NSString stringWithFormat:@"下载:%@",progress.localizedDescription];
+        NSLog(@"%@",string);
+        self.progressLabel.text = string;
+    }
+
     
 }
 - (void)managerCallApiDidSuccess:(BMBaseAPIManager *)manager
 {
-    NSLog(@"接口请求成功!");
-    //
+    if (self.uploadPictureRequestId == manager.requestId) {
+        self.progressLabel.text = @"图片上传成功!";
+    }else if(self.downloadRequestId == manager.requestId){
+        self.progressLabel.text = @"视频下载成功!";
+    }else{
+        
+    }
 }
 
 - (void)managerCallApiDidFailed:(BMBaseAPIManager *)manager
 {
-    NSLog(@"接口请求失败!");
+    if (self.uploadPictureRequestId == manager.requestId) {
+        self.progressLabel.text = @"图片上传失败!";
+    }else if(self.downloadRequestId == manager.requestId){
+        self.progressLabel.text = @"视频下载失败!";
+    }else{
+        
+    }
 }
 @end

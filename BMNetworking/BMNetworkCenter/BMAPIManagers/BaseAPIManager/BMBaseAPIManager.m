@@ -43,8 +43,8 @@
 
 #define BMCallAPI(REQUEST_METHOD, REQUEST_ID)                                                           \
 {                                                                                                       \
-    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:apiParams url:[self requestUrl] apiName:[self apiName] progress:^(NSProgress * progress){\
-        [self callingProgress:progress];\
+    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:apiParams url:[self requestUrl] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
+        [self callingProgress:progress requestId:(NSInteger )requestId];\
     }\
     success:^(BMURLResponse *response) {                                      \
         [self successedOnCallingAPI:response];                                                          \
@@ -657,8 +657,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 #pragma api callbacks
 
-- (void)callingProgress:(NSProgress *)progress
+- (void)callingProgress:(NSProgress *)progress requestId:(NSInteger )requestId
 {
+    self.requestId = requestId;
     if ([self.apiCallBackDelegate respondsToSelector:@selector(managerCallApiProgress:progress:)]) {
         [self.apiCallBackDelegate managerCallApiProgress:self progress:progress];
     }

@@ -31,7 +31,10 @@
 {
     return @"18d01191fed4a1789da6b90606ec8d17";
 }
-
+- (NSInteger)tokenInvalidValue
+{
+    return 1301;
+}
 - (NSInteger)responseCodeSuccessValue
 {
     return 0;
@@ -62,7 +65,7 @@
 }
 - (BMNetworkLogLevel)networkLogLevel
 {
-    return BMNetworkLogLevelInfo;
+    return BMNetworkLogLevelVerbose;
 }
 
 @end
