@@ -56,6 +56,7 @@
 + (NSDictionary *)signaturedParamsWithBusinessParam:(NSDictionary *)businessParam signBusinessParam:(BOOL)signBusinessParam
 {
 
+    //
     NSString *clientPlatform = [networkConfigureInstance clientPlatform];
     NSString *clientUUID = [networkConfigureInstance clientUUID];
     NSString *format = [networkConfigureInstance contentFormat];
