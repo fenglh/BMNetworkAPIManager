@@ -28,6 +28,8 @@
 		0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592821E31F80D00615928 /* NSString+Networking.m */; };
 		0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592851E31F8B200615928 /* NSData+Networking.m */; };
 		3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */; };
+		3645AE911E5D4A5200EC01CD /* EXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8D1E5D4A5100EC01CD /* EXTRuntimeExtensions.m */; };
+		3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8F1E5D4A5100EC01CD /* EXTScope.m */; };
 		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
 		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
 		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
@@ -81,6 +83,11 @@
 		355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BMNetworking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3640176B1E5C168F00587D0C /* BMDownloadAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadAPIManager.h; sourceTree = "<group>"; };
 		3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadAPIManager.m; sourceTree = "<group>"; };
+		3645AE8C1E5D4A5100EC01CD /* EXTRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTRuntimeExtensions.h; sourceTree = "<group>"; };
+		3645AE8D1E5D4A5100EC01CD /* EXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTRuntimeExtensions.m; sourceTree = "<group>"; };
+		3645AE8E1E5D4A5100EC01CD /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
+		3645AE8F1E5D4A5100EC01CD /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
+		3645AE901E5D4A5100EC01CD /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
 		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
 		369C1D2D1E5406F6001B543C /* BMNetworkConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMNetworkConfigure.h; sourceTree = "<group>"; };
@@ -169,6 +176,7 @@
 				0C7592131E3093B300615928 /* BMLoger */,
 				0C7592191E3093B300615928 /* BMNetWorkCategory */,
 				0C75922A1E3093B300615928 /* BMURLResponse */,
+				3645AE8A1E5D4A4500EC01CD /* BMLibs */,
 			);
 			path = BMNetworkCenter;
 			sourceTree = "<group>";
@@ -259,6 +267,26 @@
 				3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */,
 			);
 			path = BMDownload;
+			sourceTree = "<group>";
+		};
+		3645AE8A1E5D4A4500EC01CD /* BMLibs */ = {
+			isa = PBXGroup;
+			children = (
+				3645AE8B1E5D4A5100EC01CD /* libextobjc */,
+			);
+			path = BMLibs;
+			sourceTree = "<group>";
+		};
+		3645AE8B1E5D4A5100EC01CD /* libextobjc */ = {
+			isa = PBXGroup;
+			children = (
+				3645AE8C1E5D4A5100EC01CD /* EXTRuntimeExtensions.h */,
+				3645AE8D1E5D4A5100EC01CD /* EXTRuntimeExtensions.m */,
+				3645AE8E1E5D4A5100EC01CD /* EXTScope.h */,
+				3645AE8F1E5D4A5100EC01CD /* EXTScope.m */,
+				3645AE901E5D4A5100EC01CD /* metamacros.h */,
+			);
+			path = libextobjc;
 			sourceTree = "<group>";
 		};
 		36B37FF31E5AC291002E8D02 /* BMAPIParamSignature */ = {
@@ -419,6 +447,7 @@
 				369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */,
 				0C75922D1E3093B400615928 /* BMAPICalledProxy.m in Sources */,
 				0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */,
+				3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */,
 				0C7592681E3093B400615928 /* BMChace.m in Sources */,
 				0C75926F1E3093B400615928 /* NSURLRequest+AIFNetworkingMethods.m in Sources */,
 				0C75914C1E30925B00615928 /* AppDelegate.m in Sources */,
@@ -431,6 +460,7 @@
 				369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */,
 				0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */,
 				0C7592671E3093B400615928 /* BMCachedObject.m in Sources */,
+				3645AE911E5D4A5200EC01CD /* EXTRuntimeExtensions.m in Sources */,
 				0C75926E1E3093B400615928 /* NSObject+AXNetworkingMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

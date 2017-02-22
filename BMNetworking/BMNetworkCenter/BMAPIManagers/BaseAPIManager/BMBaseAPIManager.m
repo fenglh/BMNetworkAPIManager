@@ -15,6 +15,7 @@
 #import "NSArray+AXNetworkingMethods.h"
 #import "BMBaseNetworkConfigure.h"
 #import "NSString+Networking.h"
+#import "EXTScope.h"
 
 
 
@@ -482,11 +483,12 @@ static NSInteger BMManagerDefaultParamsError = -9997;
     [BMLoger logDebugInfoWithCachedResponse:response apiName:[self apiName] url:[self requestUrl]];
 
     //延迟执行
-    __weak typeof(self) weakSelf;
+    @weakify(self);
     double delayInSeconds = 0.5;
     dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(afterTime, dispatch_get_main_queue(), ^{
-        [weakSelf successedOnCallingAPI:response];
+        @strongify(self)
+        [self successedOnCallingAPI:response];
     });
     
     return response.requestId;

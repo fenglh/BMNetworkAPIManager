@@ -3,19 +3,27 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "+[BMAPIParamsSign signaturedParamsWithBusinessParam:]:BMAPIParamsSign.m">
+         contextName = "-[BMURLResponse initWithResponseString:requestId:request:responseData:status:]:BMURLResponse.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.requestParams">
+            </PersistentString>
+            <PersistentString
+               value = "self.requestParams">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "__71-[BMAPICalledProxy callJSONPOSTWithParams:url:apiName:success:failure:]_block_invoke.59:BMAPICalledProxy.m">
       </ContextState>
       <ContextState
-         contextName = "+[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:]:BMAPIParamsSign.m">
+         contextName = "-[ViewController managerCallApiDidSuccess:]:ViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[BMBaseAPIManager _loadDataWithParams:]:BMBaseAPIManager.m">
+         contextName = "+[BMBaseNetworkConfigure getSubclasses]:BMBaseNetworkConfigure.m">
          <PersistentStrings>
             <PersistentString
-               value = "self.requestType">
+               value = "classes">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -29,6 +37,14 @@
       </ContextState>
       <ContextState
          contextName = "-[ViewController imagePickerController:didFinishPickingMediaWithInfo:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[BMBaseAPIManager _loadDataWithParams:]:BMBaseAPIManager.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.requestType">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "-[BMChace keyWithUrl:apiName:requestParams:]:BMChace.m">
@@ -45,26 +61,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[BMURLResponse initWithResponseString:requestId:request:responseData:status:]:BMURLResponse.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "request.requestParams">
-            </PersistentString>
-            <PersistentString
-               value = "self.requestParams">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "+[BMAPIParamsSign signaturedParamsWithBusinessParam:]:BMAPIParamsSign.m">
       </ContextState>
       <ContextState
-         contextName = "-[ViewController managerCallApiDidSuccess:]:ViewController.m">
-      </ContextState>
-      <ContextState
-         contextName = "+[BMBaseNetworkConfigure getSubclasses]:BMBaseNetworkConfigure.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "classes">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "+[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:]:BMAPIParamsSign.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
