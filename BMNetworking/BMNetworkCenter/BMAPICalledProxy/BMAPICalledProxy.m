@@ -102,6 +102,7 @@
     //2.取出kBMMineTypeFileModels ，该列表指出哪些参数是作为文件来上传
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSURLSessionTask *task = [self.httpJsonSessionManager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
         NSString *fileName=[NSString stringWithFormat:@"%.0f.unknow",[NSDate date].timeIntervalSince1970];//默认
