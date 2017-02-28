@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerRequestType){
 /*                          api回调代理 BMAPIManagerApiCallBackDelegate                                     */
 /***********************************************************************************************************/
 @protocol BMAPIManagerCallBackDelegate <NSObject>
-@required
+@optional
 
 /**
  *  成功回调，表示网络请求是成功的并且返回的数据是正确的，调用者可以直接使用，在该方法里面调用[manager fetchDataWithReformer:(id<BMAPIManagerCallBackDataReformer>)]来获取网络返回的数据
