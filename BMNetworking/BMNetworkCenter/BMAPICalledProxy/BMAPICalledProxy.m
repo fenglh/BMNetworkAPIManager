@@ -39,7 +39,6 @@
 
 @property (strong, nonatomic) NSNumber *recordRequestId;
 
-//@property (strong, nonatomic) AFHTTPSessionManager *httpSessionManager;//
 @property (strong, nonatomic) AFHTTPSessionManager *httpJsonSessionManager;
 @property (strong, nonatomic) NSMutableDictionary *httpRequestTaskTable;//保存httpRequestTaskTable 的返回值，便于之后对task的处理
 @end
@@ -60,15 +59,23 @@
 
 #pragma mark -公共方法
 
+- (NSString *)generateSignaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type
+{
+    if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(generateSignaturedUrlQueryStringWithBusinessParam:requestType:)]) {
+        return [[BMBaseNetworkConfigure shareInstance] signaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
+    }else{
+        return [BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
+    }
+}
+
 
 //#warning get
 - (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:YES]];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypeGet]];
     AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
     serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
     self.httpJsonSessionManager.responseSerializer = serializer;
-    
     self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     callHttpRequest(GET, urlString, params, progress, success, failure);
 
@@ -76,7 +83,7 @@
 
 - (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:YES]];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypePost]];
     self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     callHttpRequest(POST, urlString, params, progress, success, failure);
     
@@ -85,7 +92,7 @@
 - (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSNumber *requestId = [self generateRequestId];//生成requestId
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:params signBusinessParam:NO]];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypePostMimeType]];
     self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];

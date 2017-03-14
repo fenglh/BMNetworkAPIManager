@@ -8,17 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <BMEnumType.h>
 
-typedef NS_ENUM (NSUInteger , BMUserLoginStatus){
-    BMUserLoginStatusUnLogin,
-    BMUserLoginStatusTokenInvalid,
-    BMUserLoginStatusLoginNormal,
-};
-//网络日志等级
-typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
-    BMNetworkLogLevelInfo,
-    BMNetworkLogLevelVerbose
-};
 
 @protocol BMBaseNetworkConfigureProtocol <NSObject>
 @required
@@ -52,7 +43,10 @@ typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
 - (CLLocation *)location;               //定位信息,默认nil
 - (BMNetworkLogLevel)networkLogLevel;   //网络日志等级
 
-
+/**
+ * 生成查询字符串的签名，默认的签名算法为至尊洗衣
+ */
+-(NSString *)signaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type;//查询字符串签名方法
 
 
 @end

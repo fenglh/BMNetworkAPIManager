@@ -27,19 +27,13 @@
 
 @class BMBaseAPIManager;
 
-//HTTP 请求类型
-typedef NS_ENUM(NSUInteger, BMAPIManagerRequestType){
-    BMAPIManagerRequestTypeGet,
-    BMAPIManagerRequestTypePost,
-    BMAPIManagerRequestTypePostMimeType
-};
 
 
 
 
 #import <Foundation/Foundation.h>
 #import "BMURLResponse.h"
-
+#import <BMEnumType.h>
 
 
 

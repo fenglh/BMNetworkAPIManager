@@ -95,6 +95,7 @@
 		369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMineTypeFileModel.m; sourceTree = "<group>"; };
 		36B37FF41E5AC291002E8D02 /* BMAPIParamsSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMAPIParamsSign.h; sourceTree = "<group>"; };
 		36B37FF51E5AC291002E8D02 /* BMAPIParamsSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMAPIParamsSign.m; sourceTree = "<group>"; };
+		36CAB6BA1E77B33B00204B17 /* BMEnumType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMEnumType.h; sourceTree = "<group>"; };
 		447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +164,7 @@
 		0C75915E1E3093B300615928 /* BMNetworkCenter */ = {
 			isa = PBXGroup;
 			children = (
+				36CAB6B91E77B30700204B17 /* BMType */,
 				0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */,
 				0C75927E1E31B0E700615928 /* BMBaseNetworkConfigure.h */,
 				0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */,
@@ -291,6 +293,14 @@
 				36B37FF51E5AC291002E8D02 /* BMAPIParamsSign.m */,
 			);
 			path = BMAPIParamSignature;
+			sourceTree = "<group>";
+		};
+		36CAB6B91E77B30700204B17 /* BMType */ = {
+			isa = PBXGroup;
+			children = (
+				36CAB6BA1E77B33B00204B17 /* BMEnumType.h */,
+			);
+			path = BMType;
 			sourceTree = "<group>";
 		};
 		9159418F7E694DAB2E8C21CC /* Frameworks */ = {
