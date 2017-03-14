@@ -61,7 +61,7 @@
 
 - (NSString *)generateSignaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type
 {
-    if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(generateSignaturedUrlQueryStringWithBusinessParam:requestType:)]) {
+    if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(signaturedUrlQueryStringWithBusinessParam:requestType:)]) {
         return [[BMBaseNetworkConfigure shareInstance] signaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
     }else{
         return [BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
@@ -77,6 +77,9 @@
     serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
     self.httpJsonSessionManager.responseSerializer = serializer;
     self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
+    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
     callHttpRequest(GET, urlString, params, progress, success, failure);
 
 }
@@ -85,6 +88,9 @@
 {
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypePost]];
     self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
+    
     callHttpRequest(POST, urlString, params, progress, success, failure);
     
 }
@@ -132,7 +138,8 @@
     }];
     task.originalRequest.requestParams = params;
     self.httpRequestTaskTable[requestId] = task;
-    
+    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
     return [requestId integerValue];
 }
 
