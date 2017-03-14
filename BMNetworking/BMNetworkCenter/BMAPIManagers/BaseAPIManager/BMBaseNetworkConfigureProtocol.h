@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import <BMEnumType.h>
+#import "BMEnumType.h"
 
 
 @protocol BMBaseNetworkConfigureProtocol <NSObject>

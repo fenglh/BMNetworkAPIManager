@@ -33,7 +33,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BMURLResponse.h"
-#import <BMEnumType.h>
+#import "BMEnumType.h"
 
 
 

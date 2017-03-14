@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <BMEnumType.h>
+#import "BMEnumType.h"
 
 @interface BMAPIParamsSign : NSObject
 
