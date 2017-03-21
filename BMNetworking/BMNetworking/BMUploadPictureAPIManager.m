@@ -42,5 +42,9 @@
 
     return mutableParams;
 }
+//- (NSString *)queryStringWithParam:(NSDictionary *)params
+//{
+//    return @"a=123";
+//}
 
 @end

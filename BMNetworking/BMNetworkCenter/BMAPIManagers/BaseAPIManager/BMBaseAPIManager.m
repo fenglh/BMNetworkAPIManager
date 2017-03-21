@@ -16,6 +16,7 @@
 #import "BMBaseNetworkConfigure.h"
 #import "NSString+Networking.h"
 #import "EXTScope.h"
+#import "BMAPIParamsSign.h"
 
 
 
@@ -44,7 +45,7 @@
 
 #define BMCallAPI(REQUEST_METHOD, REQUEST_ID)                                                           \
 {                                                                                                       \
-    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:apiParams url:[self requestUrl] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
+    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:apiParams url:[self requestUrl] queryString:[self queryString] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
         [self callingProgress:progress requestId:(NSInteger )requestId];\
     }\
     success:^(BMURLResponse *response) {                                      \
@@ -119,27 +120,27 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 - (BOOL)isReachable
 {
-    ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
-    
-    if (status == RealStatusNotReachable)
-    {
-        NSLog(@"当前网络状态:网络不可达");
-    }
-    else if (status == RealStatusViaWiFi)
-    {
-        NSLog(@"当前网络状态:WiFi");
-    }
-    
-    else if (status == RealStatusViaWWAN)
-    {
-        NSLog(@"当前网络状态:WWAN");
-    }else{
-        NSLog(@"当前网络状态:未知网络");
-    }
-    
-    if (status == RealStatusNotReachable) {
-        return NO;
-    }
+//    ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
+//    
+//    if (status == RealStatusNotReachable)
+//    {
+//        NSLog(@"当前网络状态:网络不可达");
+//    }
+//    else if (status == RealStatusViaWiFi)
+//    {
+//        NSLog(@"当前网络状态:WiFi");
+//    }
+//    
+//    else if (status == RealStatusViaWWAN)
+//    {
+//        NSLog(@"当前网络状态:WWAN");
+//    }else{
+//        NSLog(@"当前网络状态:未知网络");
+//    }
+//    
+//    if (status == RealStatusNotReachable) {
+//        return NO;
+//    }
     
     return YES;
 }
@@ -219,7 +220,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 -(NSInteger)_loadDataWithParams:(NSDictionary *)params
 {
     
+    //注：requestParams只能记录接口的原始参数，不能记录格式化后（例如：在方法reformParamBase中重新赋值）参数。即只能在这里进行赋值
     self.requestParams = [params copy];
+    
     NSInteger requestId = 0;
     //拦截器，是否允许调用API
     if ([self shouldCallAPIWithParams:params]) {
@@ -363,6 +366,24 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 
 #pragma mark - 默认配置数据
+
+//这里传入的param，不能是self.requestParams。因为
+- (NSString *)queryString
+{
+    //返回查询字符串，优先级：接口 > BMBaseNetworkConfigure  > BMAPIParamsSign
+    if ([self respondsToSelector:@selector(queryStringWithParam:)]) {
+        NSLog(@"生成查询字符串，签名方式：使用接口单独配置的签名!");
+        return [self queryStringWithParam:[self reformParamsBase:self.requestParams]];
+    }else{
+        if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(queryStringWithParam:requestType:)]) {
+            NSLog(@"生成查询字符串，签名方式：使用BMBaseNetworkConfigure全局配置的签名!");
+            return [networkConfigureInstance queryStringWithParam:[self reformParamsBase:self.requestParams] requestType:self.requestType];
+        }else{
+            NSLog(@"生成查询字符串，签名方式：使用BMAPIParamsSign框架自带配置的签名!");
+            return [BMAPIParamsSign generateSignaturedUrlQueryStringWithParam:[self reformParamsBase:self.requestParams] requestType:self.requestType];
+        }
+    }
+}
 
 - (NSString *)interfaceUrl
 {
@@ -604,9 +625,8 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 - (NSDictionary *)reformParamsBase:(NSDictionary *)params
 {
-    //去掉前后空格
+    
     NSMutableDictionary *mutableParams = params?[params mutableCopy]:[[NSMutableDictionary alloc]init];
-
     //是否使用token
     if ([self useToken]) {
         // 配置token

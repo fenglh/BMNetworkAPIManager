@@ -122,6 +122,16 @@
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost
 - (BOOL)shouldCache;//是否缓存，YES缓存（5分钟）
 - (NSDictionary *)reformParams:(NSDictionary *)params;//格式化参数，例如去前后空格 ,当子类没有重写该方法时，会调用基类的该方法
+/**
+ * 描述：返回查询字符串，当接口需要单独的签名生成查询字符串时，可通过该协议方法实现并返回！
+ *
+ *      优先级：接口 > BMBaseNetworkConfigure > BMAPIParamsSignature
+ *
+ *      当接口没有实现queryStringWithParam方法时，使用BMBaseNetworkConfigure 对象返回的签名查询字符串。
+ *      当BMBaseNetworkConfigure对象也没有配置签名查询字符串时，默认使用BMAPIParamsSignature对象返回的签名查询字符串
+
+ */
+- (NSString *)queryStringWithParam:(NSDictionary *)params;
 @end
 
 

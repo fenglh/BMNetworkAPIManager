@@ -13,9 +13,9 @@
 
 /**
  * 生成已签名的url查询字符串，业务参数参与签名
- * 此签名算法默认为至尊洗衣的签名
+ * 此签名算法默认为至尊洗衣的签名（当type==BMAPIManagerRequestTypePostMimeType时，参数param不加入签名）
  *
  */
-+ (NSString *)generateSignaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type;
++ (NSString *)generateSignaturedUrlQueryStringWithParam:(NSDictionary *)param requestType:(BMAPIManagerRequestType)type;
 
 @end

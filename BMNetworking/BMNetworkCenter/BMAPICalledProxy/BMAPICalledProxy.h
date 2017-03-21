@@ -19,14 +19,32 @@ typedef void(^BMAPICallback)(BMURLResponse *response);
 - (NSNumber *)generateRequestId;//生成requestId，此方法开放出来，是为了让使用了缓存的接口也生成一个requestId
 
 //** GET 请求 **/
-- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure;
+- (NSInteger)callGETWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure;
 
 
 //** JSON post 请求 **//
-- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure;
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params
+                            url:(NSString *)url
+                    queryString:(NSString *)queryString
+                        apiName:(NSString *)apiName
+                       progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                        success:(BMAPICallback)success
+                        failure:(BMAPICallback)failure;
 
 //** multipart/form-data Http Post请求 **/
-- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress, NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure;
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params
+                                    url:(NSString *)url
+                            queryString:(NSString *)queryString
+                                apiName:(NSString *)apiName
+                               progress:(void(^)(NSProgress * progress, NSInteger requestId))progress
+                                success:(BMAPICallback)success
+                                failure:(BMAPICallback)failure;
 
 
 

@@ -44,9 +44,9 @@
 - (BMNetworkLogLevel)networkLogLevel;   //网络日志等级
 
 /**
- * 生成查询字符串的签名，默认的签名算法为至尊洗衣
+ * 返回查询字符串，默认的生成的签名算法为至尊洗衣
  */
--(NSString *)signaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type;//查询字符串签名方法
+-(NSString *)queryStringWithParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type;//查询字符串签名方法
 
 
 @end

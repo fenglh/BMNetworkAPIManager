@@ -11,19 +11,18 @@
 #import "BMURLResponse.h"
 #import "BMLoger.h"
 #import "BMBaseNetworkConfigure.h"
-#import "BMAPIParamsSign.h"
 #import "NSDictionary+AXNetworkingMethods.h"
 #import "NSURLRequest+AIFNetworkingMethods.h"
 #import "BMMineTypeFileModel.h"
 
 
 
-#define callHttpRequest(REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
+#define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
     NSNumber *requestId = [self generateRequestId];\
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
 \
-    NSURLSessionTask *task = [self.httpJsonSessionManager REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
+    NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
  [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:SUCCESS_CALLBACK];\
@@ -39,7 +38,7 @@
 
 @property (strong, nonatomic) NSNumber *recordRequestId;
 
-@property (strong, nonatomic) AFHTTPSessionManager *httpJsonSessionManager;
+//@property (strong, nonatomic) AFHTTPSessionManager *httpJsonSessionManager;
 @property (strong, nonatomic) NSMutableDictionary *httpRequestTaskTable;//保存httpRequestTaskTable 的返回值，便于之后对task的处理
 @end
 
@@ -59,47 +58,45 @@
 
 #pragma mark -公共方法
 
-- (NSString *)generateSignaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type
-{
-    if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(signaturedUrlQueryStringWithBusinessParam:requestType:)]) {
-        return [[BMBaseNetworkConfigure shareInstance] signaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
-    }else{
-        return [BMAPIParamsSign generateSignaturedUrlQueryStringWithBusinessParam:businessParam requestType:type];
-    }
-}
 
 
 //#warning get
-- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypeGet]];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    
+    AFHTTPSessionManager *manager = [self newManager];
     AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
     serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
-    self.httpJsonSessionManager.responseSerializer = serializer;
-    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = serializer;
+    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
     
-    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
-    callHttpRequest(GET, urlString, params, progress, success, failure);
+    callHttpRequest(manager, GET, urlString, params, progress, success, failure);
 
 }
 
-- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypePost]];
-    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
-    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    AFHTTPSessionManager *manager = [self newManager];
+    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
-    
-    callHttpRequest(POST, urlString, params, progress, success, failure);
+    callHttpRequest(manager,POST, urlString, params, progress, success, failure);
     
 }
 
-- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     NSNumber *requestId = [self generateRequestId];//生成requestId
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,[self generateSignaturedUrlQueryStringWithBusinessParam:params requestType:BMAPIManagerRequestTypePostMimeType]];
-    self.httpJsonSessionManager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    
+    
+    AFHTTPSessionManager *manager = [self newManager];
+    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];
     NSMutableDictionary *dataDict =[NSMutableDictionary dictionary];
@@ -116,7 +113,7 @@
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    NSURLSessionTask *task = [self.httpJsonSessionManager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
         NSString *fileName=[NSString stringWithFormat:@"%.0f.unknow",[NSDate date].timeIntervalSince1970];//默认
         NSString *mineType=@"";//默认
@@ -138,12 +135,13 @@
     }];
     task.originalRequest.requestParams = params;
     self.httpRequestTaskTable[requestId] = task;
-    NSMutableURLRequest *request = [self.httpJsonSessionManager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
     return [requestId integerValue];
 }
 
 #pragma mark - 私有方法
+
 
 
 /**
@@ -241,15 +239,23 @@
 
 #pragma mark - getters and setters
 
-- (AFHTTPSessionManager *)httpJsonSessionManager
+- (AFHTTPSessionManager *)newManager
 {
-    if (_httpJsonSessionManager == nil) {
-        _httpJsonSessionManager = [AFHTTPSessionManager manager];
-        _httpJsonSessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
-        _httpJsonSessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
-    }
-    return _httpJsonSessionManager;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+    manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
+    return manager;
 }
+
+//- (AFHTTPSessionManager *)httpJsonSessionManager
+//{
+//    if (_httpJsonSessionManager == nil) {
+//        _httpJsonSessionManager = [AFHTTPSessionManager manager];
+//        _httpJsonSessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+//        _httpJsonSessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
+//    }
+//    return _httpJsonSessionManager;
+//}
 
 - (NSMutableDictionary *)httpRequestTaskTable
 {

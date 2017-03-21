@@ -20,12 +20,12 @@
 
 
 
-+ (NSString *)generateSignaturedUrlQueryStringWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type
++ (NSString *)generateSignaturedUrlQueryStringWithParam:(NSDictionary *)param requestType:(BMAPIManagerRequestType)type
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     NSDictionary *nonSignaturedParams = [self nonSignaturedParams];
-    NSDictionary *signaturedParams = [self signaturedParamsWithBusinessParam:businessParam requestType:type];
+    NSDictionary *signaturedParams = [self signaturedParamsWithParam:param requestType:type];
     [params addEntriesFromDictionary:nonSignaturedParams];
     [params addEntriesFromDictionary:signaturedParams];
     
@@ -54,9 +54,9 @@
 
 /**
  * 已签名的参数
+ * 签名方式:公参+业务参数，即可param
  */
-//+ (NSDictionary *)signaturedParamsWithBusinessParam:(NSDictionary *)businessParam signBusinessParam:(BOOL)signBusinessParam
-+ (NSDictionary *)signaturedParamsWithBusinessParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type
++ (NSDictionary *)signaturedParamsWithParam:(NSDictionary *)param requestType:(BMAPIManagerRequestType)type
 {
 
     //
@@ -65,7 +65,7 @@
     NSString *format = [networkConfigureInstance contentFormat];
     NSString *timeStamp = [NSString stringWithFormat:@"%ld",time(NULL)];
     NSString *version = [networkConfigureInstance appVersion];
-    NSString *paramJsonString = businessParam.jsonStringEncoded;//不能使用[NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded，否则会导致jsonStringEncoded不一致
+    NSString *paramJsonString = param.jsonStringEncoded;//不能使用[NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded，否则会导致jsonStringEncoded不一致
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithDictionary:@{@"client":clientPlatform,@"cuid":clientUUID,@"format":format,@"time":timeStamp,@"version":version}];
     //进行签名
     NSString *signatureString = [self signWithParams:paramsDict businessJsonString:paramJsonString requestType:type];
@@ -100,7 +100,7 @@
         signBusinessParam = NO;
     }
     //3.拼装签名用string，直接使用json string。拼装算法：signString +businessParam.jsonStringEncoded
-    if (signBusinessParam) {
+    if (signBusinessParam && businessJsonString) {
         //增加业务参数
         signString = [signString stringByAppendingString:businessJsonString];
     }
