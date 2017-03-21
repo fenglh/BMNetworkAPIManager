@@ -135,8 +135,9 @@
     }];
     task.originalRequest.requestParams = params;
     self.httpRequestTaskTable[requestId] = task;
-    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
-    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
+    //注释掉request转换，因为在调用上传视频接口是，params不符合json格式，导致转换失败。
+//    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:nil apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
     return [requestId integerValue];
 }
 
