@@ -63,7 +63,7 @@
 //#warning get
 - (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
-    NSMutableDictionary *cpParams = [params mutableCopy];
+
     
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
@@ -72,30 +72,30 @@
     manager.responseSerializer = serializer;
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];
     
-    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:cpParams error:NULL];
-    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:cpParams httpMethod:@"GET"];
-    callHttpRequest(manager, GET, urlString, cpParams, progress, success, failure);
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
+    callHttpRequest(manager, GET, urlString, params, progress, success, failure);
 
 }
 
 - (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     
-    NSMutableDictionary *cpParams = [params mutableCopy];
+
     
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];
-    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:cpParams error:NULL];
-    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:cpParams httpMethod:@"POST"];
-    callHttpRequest(manager,POST, urlString, cpParams, progress, success, failure);
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
+    callHttpRequest(manager,POST, urlString, params, progress, success, failure);
     
 }
 
 - (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     
-    NSMutableDictionary *cpParams = [params mutableCopy];
+
     
     NSNumber *requestId = [self generateRequestId];//生成requestId
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
@@ -105,11 +105,11 @@
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];
     
     //1.分离NSData类型和非NSData类型参数
-    NSMutableDictionary *noDataDict = [cpParams mutableCopy];
+    NSMutableDictionary *noDataDict = [params mutableCopy];
     NSMutableDictionary *dataDict =[NSMutableDictionary dictionary];
-    NSArray *allKeys = [cpParams allKeys];
+    NSArray *allKeys = [params allKeys];
     for (NSString *key in allKeys) {
-        id obj = [cpParams objectForKey:key];
+        id obj = [params objectForKey:key];
         if ([obj isKindOfClass:[NSData class]]) {
             [dataDict setObject:obj forKey:key];
         }else{
@@ -117,7 +117,7 @@
         }
     }
     //2.取出kBMMineTypeFileModels ，该列表指出哪些参数是作为文件来上传
-    NSArray *mineTypeFileModels = [cpParams objectForKey:kBMMineTypeFileModels];
+    NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -140,11 +140,11 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [self callAPIFailure:task error:error requestId:requestId failureCallback:failure];
     }];
-    task.originalRequest.requestParams = cpParams;
+    task.originalRequest.requestParams = params;
     self.httpRequestTaskTable[requestId] = task;
     //注释掉request转换，因为在调用上传视频接口是，params不符合json格式，导致转换失败。
 //    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
-    [BMLoger logDebugInfoWithRequest:nil apiName:apiName url:url requestParams:cpParams httpMethod:@"MineTypePOST"];
+    [BMLoger logDebugInfoWithRequest:nil apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
     return [requestId integerValue];
 }
 
