@@ -229,7 +229,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         //验证器
         if ([self.validator manager:self isCorrectWithParamsData:params]) {
             //格式化参数
-            NSDictionary *apiParams = [self reformParamsBase:params];
+            //特别注意：params和[params copy] 的却别就是他们的key的顺序不同，key顺序不同会导致转jsonString不一致！！这样会导致签名错误。如果之后，不把业务参数的jsonString加入签名，那么这里可以忽略两者区别。
+            //在ios10之后， [params copy] 和 params的顺序应该是一致的！！
+            NSDictionary *apiParams = [self reformParamsBase:self.requestParams];
             //检查缓存，如果缓存中取到的data==nil，那么requestId = 0,则跳过return去请求网络.
             
             if ([self shouldCache]) {
