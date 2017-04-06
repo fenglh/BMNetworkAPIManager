@@ -14,19 +14,22 @@
 #import "NSDictionary+AXNetworkingMethods.h"
 #import "NSURLRequest+AIFNetworkingMethods.h"
 #import "BMMineTypeFileModel.h"
-
+#import "EXTScope.h"
 
 
 #define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
     NSNumber *requestId = [self generateRequestId];\
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
-\
+    @weakify(self);\
     NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
- [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
+        @strongify(self);\
+        [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
+        @strongify(self);\
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:SUCCESS_CALLBACK];\
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {\
+        @strongify(self);\
         [self callAPIFailure:task error:error requestId:requestId failureCallback:FAILURE_CALLBACK];\
     }];\
     task.originalRequest.requestParams = REQUEST_PARAMS;\
@@ -38,7 +41,6 @@
 
 @property (strong, nonatomic) NSNumber *recordRequestId;
 
-//@property (strong, nonatomic) AFHTTPSessionManager *httpJsonSessionManager;
 @property (strong, nonatomic) NSMutableDictionary *httpRequestTaskTable;//保存httpRequestTaskTable 的返回值，便于之后对task的处理
 @end
 
@@ -120,6 +122,7 @@
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    @weakify(self);
     NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
         NSString *fileName=[NSString stringWithFormat:@"%.0f.unknow",[NSDate date].timeIntervalSince1970];//默认
@@ -134,10 +137,13 @@
         }
         NSLog(@"form-data:组装完成");
     } progress:^(NSProgress * _Nonnull uploadProgress) {
+        @strongify(self);
         [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        @strongify(self);
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        @strongify(self);
         [self callAPIFailure:task error:error requestId:requestId failureCallback:failure];
     }];
     task.originalRequest.requestParams = params;
