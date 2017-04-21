@@ -300,7 +300,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
     if ([self respondsToSelector:@selector(usePage)]) {
         //分页记录
-        int64_t timeStamp = [[response.content objectForKey:@"timestamp"] longLongValue];
+        int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
         self.nextPageTimeStamp = timeStamp;
     }
 
@@ -368,6 +368,16 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 
 #pragma mark - 默认配置数据
+
+- (NSString *)pageTimeStampKey
+{
+    return kBMTimestamp;
+}
+
+- (NSString *)pageSizeKey
+{
+    return kBMPageSize;
+}
 
 //这里传入的param，不能是self.requestParams。因为
 - (NSString *)queryString
@@ -644,16 +654,17 @@ static NSInteger BMManagerDefaultParamsError = -9997;
             if ([self respondsToSelector:@selector(pageSize)]) {
                 pageSize = [self pageSize];
             }
-            mutableParams[kBMPageSize] = @(pageSize);
-            mutableParams[kBMTimestamp] = @(self.nextPageTimeStamp);
+            
+            mutableParams[[self pageSizeKey]] = @(pageSize);
+            mutableParams[[self pageTimeStampKey]] = @(self.nextPageTimeStamp);
         }else{
             //插入分页请求参数（这里有一点不太好的就是：所有的接口都会带上timestamp和pageSize这两个参数）
             NSUInteger unPageSize = 10;
             if ([self respondsToSelector:@selector(unPageSize)]) {
                 unPageSize = [self unPageSize];
             }
-            mutableParams[kBMPageSize] = @(unPageSize);
-            mutableParams[kBMTimestamp] = @(0);
+            mutableParams[[self pageSizeKey]] = @(unPageSize);
+            mutableParams[[self pageTimeStampKey]] = @(0);
         }
     }
     

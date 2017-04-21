@@ -117,6 +117,8 @@
 - (BOOL)usePage;//默认NO,是否使用分页
 - (NSUInteger)unPageSize;   //不分页大小,默认10(即调用loadData时，返回的分页大小)
 - (NSUInteger)pageSize;     //分页大小，默认10(即调用loadNextData时，返回的分页大小)
+- (NSString *)pageTimeStampKey; //分页时间戳的key，默认@"timestamp"
+- (NSString *)pageSizeKey; //分页大小戳的key，默认@"pageSize"
     
 - (BOOL)useToken;//默认NO
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost
