@@ -25,10 +25,13 @@
 #define kBMResponseMsg              ([networkConfigureInstance responseMsgKey])
 #define kBMResponseCode             ([networkConfigureInstance responseCodeKey])
 #define kBMResponseCodeSuccess      ([networkConfigureInstance responseCodeSuccessValue])
-#define kBMPageSize                 ([networkConfigureInstance pageSizeKey])
+#define kBMPageSizeKey              ([networkConfigureInstance pageSizeKey])
+#define kBMPageSize                 ([networkConfigureInstance pageSize])
 #define kBMTimestamp                ([networkConfigureInstance timestampKey])
 #define kBMToken                    ([networkConfigureInstance tokenKey])
 
+#define kBMPageIndexKey             ([networkConfigureInstance pageIndexKey])
+#define kBMPageTotalKey             ([networkConfigureInstance pageTotalKey])
 
 
 //判断是否为空nil null
@@ -77,7 +80,9 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 @property (nonatomic, strong)NSMutableDictionary *allRequestParams;//所有请求参数key-params
 
 //分页
-@property (nonatomic, assign) long long nextPageTimeStamp;//分页时间戳
+@property (nonatomic,assign) NSInteger nextPageNumber;  //下一页,分页类型是BMPageTypePageNumber时使用
+@property (nonatomic, assign) NSInteger totalDataCount; //总数量，用于判断是否达到最后一页，分页类型是BMPageTypePageNumber时使用
+@property (nonatomic, assign) long long nextPageTimeStamp;//分页时间戳，分页类型是BMPageTypeTimeStamp时使用
 @property (nonatomic, readwrite,assign) BOOL isPageRequest;//是否是分页请求
 
 @end
@@ -288,8 +293,22 @@ static NSInteger BMManagerDefaultParamsError = -9997;
  */
 - (void)beforePerformSuccessWithResponse:(BMURLResponse *)response
 {
-    //在调用拦截器之前可以作一些其他的事情...
-    //...这里暂时没有做其他事情，方便以后扩展
+
+    
+    if (self.isPageRequest) {
+        if ([self pageType] == BMPageTypeTimeStamp) {
+            //分页记录
+            int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
+            self.nextPageTimeStamp = timeStamp;
+        }else{
+            self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
+            NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+            if (self.nextPageNumber <= totalPageCount) {
+                self.nextPageNumber++;
+            }
+        }
+
+    }
     
     if ([self.interceptor respondsToSelector:@selector(manager:beforePerformSuccessWithResponse:)]) {
         [self.interceptor manager:self beforePerformSuccessWithResponse:response];
@@ -298,11 +317,6 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 - (void)afterPerformSuccessWithResponse:(BMURLResponse *)response
 {
-    if ([self respondsToSelector:@selector(usePage)]) {
-        //分页记录
-        int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
-        self.nextPageTimeStamp = timeStamp;
-    }
 
     if ([self.interceptor respondsToSelector:@selector(manager:afterPerformSuccessWithResponse:)]) {
         [self.interceptor manager:self afterPerformSuccessWithResponse:response];
@@ -344,6 +358,18 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
     }
     
+    if (self.isPageRequest && [self pageType] == BMPageTypePageNumber) {
+        if (self.nextPageNumber >0) {
+            //如果分页达到上限，则不请求
+            NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+            if (self.nextPageNumber > totalPageCount ) {
+                self.responseMsg = @"已经没有下一页了!";
+                return NO;
+            }
+        }
+    }
+    
+    
     if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:)]) {
         return [self.interceptor manager:self shouldCallAPIWithParams:params];
     } else {
@@ -376,7 +402,25 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 - (NSString *)pageSizeKey
 {
+    return kBMPageSizeKey;
+}
+- (NSString *)pageIndexKey
+{
+    return kBMPageIndexKey;
+}
+- (NSString *)pageTotalKey
+{
+    return kBMPageTotalKey;
+}
+- (NSUInteger)pageSize
+{
     return kBMPageSize;
+}
+
+
+- (BMPageType)pageType
+{
+    return BMPageTypeTimeStamp;
 }
 
 //这里传入的param，不能是self.requestParams。因为
@@ -645,28 +689,26 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         mutableParams[kBMToken] = [networkConfigureInstance tokenValue];
     }
 
-    //是否使用分页功能
-    if ([self respondsToSelector:@selector(usePage)]) {
-        //是否分页请求
-        if (self.isPageRequest) {
-            //插入分页请求参数
-            NSUInteger pageSize = 10;
-            if ([self respondsToSelector:@selector(pageSize)]) {
-                pageSize = [self pageSize];
-            }
-            
-            mutableParams[[self pageSizeKey]] = @(pageSize);
+    //是否分页请求
+    if (self.isPageRequest) {
+        mutableParams[[self pageSizeKey]] = @([self pageSize]);
+        
+        if ([self pageType] == BMPageTypeTimeStamp) {
             mutableParams[[self pageTimeStampKey]] = @(self.nextPageTimeStamp);
         }else{
-            //插入分页请求参数（这里有一点不太好的就是：所有的接口都会带上timestamp和pageSize这两个参数）
-            NSUInteger unPageSize = 10;
-            if ([self respondsToSelector:@selector(unPageSize)]) {
-                unPageSize = [self unPageSize];
-            }
-            mutableParams[[self pageSizeKey]] = @(unPageSize);
-            mutableParams[[self pageTimeStampKey]] = @(0);
+            mutableParams[[self pageIndexKey]] = @(self.nextPageNumber);
         }
+
+    }else{
+        //插入分页请求参数（这里有一点不太好的就是：所有的接口都会带上timestamp和pageSize这两个参数）
+        NSUInteger unPageSize = 10;
+        if ([self respondsToSelector:@selector(unPageSize)]) {
+            unPageSize = [self unPageSize];
+        }
+        mutableParams[[self pageSizeKey]] = @(unPageSize);
+        mutableParams[[self pageTimeStampKey]] = @(0);
     }
+
     
     
     //格式化参数

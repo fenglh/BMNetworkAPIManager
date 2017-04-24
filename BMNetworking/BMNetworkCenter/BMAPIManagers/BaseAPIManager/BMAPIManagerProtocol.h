@@ -113,11 +113,15 @@
 - (NSString *)testBaseUrl;  //测试地址
 
 
-
-- (BOOL)usePage;//默认NO,是否使用分页
+//分页
+- (BMPageType)pageType;     //分页类型，默认BMPageTypeTimeStamp
 - (NSUInteger)unPageSize;   //不分页大小,默认10(即调用loadData时，返回的分页大小)
 - (NSUInteger)pageSize;     //分页大小，默认10(即调用loadNextData时，返回的分页大小)
 - (NSString *)pageTimeStampKey; //分页时间戳的key，默认@"timestamp"
+
+- (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
+- (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
+
 - (NSString *)pageSizeKey; //分页大小戳的key，默认@"pageSize"
     
 - (BOOL)useToken;//默认NO

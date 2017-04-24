@@ -115,6 +115,14 @@
 {
     return @"token";
 }
+- (NSString *)pageIndexKey
+{
+    return @"pageIndex";
+}
+- (NSString *)pageTotalKey
+{
+    return @"total";
+}
 
 //分页key
 - (NSString *)pageSizeKey

@@ -23,6 +23,13 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerRequestType){
 };
 
 
+//分页类型
+typedef NS_ENUM (NSUInteger , BMPageType){
+    BMPageTypeTimeStamp,//按时间戳分页
+    BMPageTypePageNumber//按页码分页
+};
+
+
 //网络日志等级
 typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
     BMNetworkLogLevelInfo,
