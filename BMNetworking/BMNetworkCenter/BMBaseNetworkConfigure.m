@@ -130,6 +130,11 @@
     return @"pageSize";
 }
 
+- (NSUInteger)unPageSize
+{
+    return 10;
+}
+
 //分页大小
 - (NSUInteger)pageSize
 {

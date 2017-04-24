@@ -27,6 +27,7 @@
 #define kBMResponseCodeSuccess      ([networkConfigureInstance responseCodeSuccessValue])
 #define kBMPageSizeKey              ([networkConfigureInstance pageSizeKey])
 #define kBMPageSize                 ([networkConfigureInstance pageSize])
+#define kBMUnPageSize               ([networkConfigureInstance unPageSize])
 #define kBMTimestamp                ([networkConfigureInstance timestampKey])
 #define kBMToken                    ([networkConfigureInstance tokenKey])
 
@@ -416,6 +417,10 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
     return kBMPageSize;
 }
+- (NSUInteger)unPageSize
+{
+    return kBMUnPageSize;
+}
 
 
 - (BMPageType)pageType
@@ -700,13 +705,13 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         }
 
     }else{
-        //插入分页请求参数（这里有一点不太好的就是：所有的接口都会带上timestamp和pageSize这两个参数）
-        NSUInteger unPageSize = 10;
-        if ([self respondsToSelector:@selector(unPageSize)]) {
-            unPageSize = [self unPageSize];
+        //因服务端某些接口存在定义[self unPageSize]/[self pageTimeStampKey]/[self pageIndexKey]参数是必传的！所以这里全都都当做必传！
+        mutableParams[[self pageSizeKey]] = @([self unPageSize]);
+        if ([self pageType] == BMPageTypeTimeStamp) {
+            mutableParams[[self pageTimeStampKey]] = @(0);
+        }else{
+            mutableParams[[self pageIndexKey]]= @(0);
         }
-        mutableParams[[self pageSizeKey]] = @(unPageSize);
-        mutableParams[[self pageTimeStampKey]] = @(0);
     }
 
     

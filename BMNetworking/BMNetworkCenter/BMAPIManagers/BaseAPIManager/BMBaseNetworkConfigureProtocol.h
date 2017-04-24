@@ -31,6 +31,8 @@
 
 - (NSString *)tokenKey;                 //token key,默认@"token"
 - (NSString *)pageSizeKey;              //分页key,默认@"pageSize"
+
+- (NSUInteger)unPageSize;                //不分页（下拉）大小,默认@"10"
 - (NSUInteger)pageSize;                 //分页大小,默认@"10"
 - (NSString *)timestampKey;             //时间戳key,默认@"timestamp"
 
