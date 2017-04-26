@@ -114,6 +114,7 @@
 
 
 //分页
+- (BOOL)usePage;            //是否使用分页，默认NO
 - (BMPageType)pageType;     //分页类型，默认BMPageTypeTimeStamp
 - (NSUInteger)unPageSize;   //不分页大小,默认10(即调用loadData时，返回的分页大小)
 - (NSUInteger)pageSize;     //分页大小，默认10(即调用loadNextData时，返回的分页大小)

@@ -295,21 +295,23 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 - (void)beforePerformSuccessWithResponse:(BMURLResponse *)response
 {
 
-    
-    if (self.isPageRequest) {
-        if ([self pageType] == BMPageTypeTimeStamp) {
-            //分页记录
-            int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
-            self.nextPageTimeStamp = timeStamp;
-        }else{
-            self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
-            NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
-            if (self.nextPageNumber <= totalPageCount) {
-                self.nextPageNumber++;
+    if ([self usePage]) {
+        if (self.isPageRequest) {
+            if ([self pageType] == BMPageTypeTimeStamp) {
+                //分页记录
+                int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
+                self.nextPageTimeStamp = timeStamp;
+            }else{
+                self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
+                NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+                if (self.nextPageNumber <= totalPageCount) {
+                    self.nextPageNumber++;
+                }
             }
+            
         }
-
     }
+
     
     if ([self.interceptor respondsToSelector:@selector(manager:beforePerformSuccessWithResponse:)]) {
         [self.interceptor manager:self beforePerformSuccessWithResponse:response];
@@ -359,16 +361,19 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
     }
     
-    if (self.isPageRequest && [self pageType] == BMPageTypePageNumber) {
-        if (self.nextPageNumber >0) {
-            //如果分页达到上限，则不请求
-            NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
-            if (self.nextPageNumber > totalPageCount ) {
-                self.responseMsg = @"已经没有下一页了!";
-                return NO;
+    if ([self usePage]) {
+        if (self.isPageRequest && [self pageType] == BMPageTypePageNumber) {
+            if (self.nextPageNumber >0) {
+                //如果分页达到上限，则不请求
+                NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+                if (self.nextPageNumber > totalPageCount ) {
+                    self.responseMsg = @"已经没有下一页了!";
+                    return NO;
+                }
             }
         }
     }
+
     
     
     if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:)]) {
@@ -395,6 +400,11 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 
 
 #pragma mark - 默认配置数据
+
+- (BOOL)usePage
+{
+    return NO;
+}
 
 - (NSString *)pageTimeStampKey
 {
@@ -693,26 +703,30 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         // 配置token
         mutableParams[kBMToken] = [networkConfigureInstance tokenValue];
     }
-
-    //是否分页请求
-    if (self.isPageRequest) {
-        mutableParams[[self pageSizeKey]] = @([self pageSize]);
-        
-        if ([self pageType] == BMPageTypeTimeStamp) {
-            mutableParams[[self pageTimeStampKey]] = @(self.nextPageTimeStamp);
+    
+    if ([self usePage]) {
+        //是否分页请求
+        if (self.isPageRequest) {
+            mutableParams[[self pageSizeKey]] = @([self pageSize]);
+            
+            if ([self pageType] == BMPageTypeTimeStamp) {
+                mutableParams[[self pageTimeStampKey]] = @(self.nextPageTimeStamp);
+            }else{
+                mutableParams[[self pageIndexKey]] = @(self.nextPageNumber);
+            }
+            
         }else{
-            mutableParams[[self pageIndexKey]] = @(self.nextPageNumber);
-        }
-
-    }else{
-        //因服务端某些接口存在定义[self unPageSize]/[self pageTimeStampKey]/[self pageIndexKey]参数是必传的！所以这里全都都当做必传！
-        mutableParams[[self pageSizeKey]] = @([self unPageSize]);
-        if ([self pageType] == BMPageTypeTimeStamp) {
-            mutableParams[[self pageTimeStampKey]] = @(0);
-        }else{
-            mutableParams[[self pageIndexKey]]= @(0);
+            //因服务端某些接口存在定义[self unPageSize]/[self pageTimeStampKey]/[self pageIndexKey]参数是必传的！所以这里全都都当做必传！
+            mutableParams[[self pageSizeKey]] = @([self unPageSize]);
+            if ([self pageType] == BMPageTypeTimeStamp) {
+                mutableParams[[self pageTimeStampKey]] = @(0);
+            }else{
+                mutableParams[[self pageIndexKey]]= @(0);
+            }
         }
     }
+
+
 
     
     
