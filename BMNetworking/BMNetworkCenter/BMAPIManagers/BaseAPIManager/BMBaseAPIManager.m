@@ -94,7 +94,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 - (void)dealloc
 {
     [self cancelRequestWithRequestId:self.requestId];
-    NSLog(@">>接口%@ dealloc ,取消接口requestId=%ld请求",NSStringFromClass([self class]),(long)self.requestId);
+    NSLog(@">>接口%@ dealloc ",NSStringFromClass([self class]));
 }
 
 
@@ -209,6 +209,10 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
     self.isPageRequest = YES;
     NSDictionary *params = [self.paramSource paramsForApi:self];
+    //兼容调用者没有使用paramSource delegate设置参数的方式，导致中间者调用loadData参数缺漏的情况
+    if (params == nil && self.requestParams) {
+        params = self.requestParams;
+    }
     NSInteger requestId = [self _loadDataWithParams:params];
     return requestId;
 }
