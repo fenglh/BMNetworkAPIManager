@@ -66,6 +66,7 @@ NSString * BMNotificationNetworkingUserUnLogin = @"BMNotificationNetworkingUserU
 static NSInteger BMManagerDefaultOtherError = -9999;//网络错误码
 static NSInteger BMManagerDefaultAPINotAllow = -9998;//
 static NSInteger BMManagerDefaultParamsError = -9997;
+static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 @interface BMBaseAPIManager ()<BMAPIManager, BMAPIManagerValidator, BMAPIManagerInterceptor,BMAPIManagerParamsSourceDelegate>
 @property (strong, nonatomic) BMChace *cache;
@@ -173,6 +174,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
         _fetchedRawData = nil;
         _responseMsg = nil;
         _errorCode = BMManagerDefaultOtherError;//通指网络错误
+        _nextPageNumber = 2;//下一页从2开始，默认1是第一页
     }
     return self;
     
@@ -300,20 +302,22 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
 
     if ([self usePage]) {
-        if (self.isPageRequest) {
-            if ([self pageType] == BMPageTypeTimeStamp) {
-                //分页记录
-                int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
-                self.nextPageTimeStamp = timeStamp;
-            }else{
-                self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
+        
+        if ([self pageType] == BMPageTypeTimeStamp) {
+            //分页记录
+            int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
+            self.nextPageTimeStamp = timeStamp;
+        }else{
+            self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
+            if (self.isPageRequest) {//若是是上拉，那么页码递增
                 NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
                 if (self.nextPageNumber <= totalPageCount) {
                     self.nextPageNumber++;
                 }
             }
-            
+
         }
+
     }
 
     
@@ -372,6 +376,7 @@ static NSInteger BMManagerDefaultParamsError = -9997;
                 NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
                 if (self.nextPageNumber > totalPageCount ) {
                     self.responseMsg = @"已经没有下一页了!";
+                    self.errorCode = BMManagerDefaultNoNextPage;
                     return NO;
                 }
             }
@@ -800,7 +805,6 @@ static NSInteger BMManagerDefaultParamsError = -9997;
 {
     self.errorType = errorType;
     if (errorType == BMAPIManagerErrorTypeNotAllowCallingApi) {
-        self.responseMsg = @"不允许API调用,token过期或者无效!";
         self.errorCode = BMManagerDefaultAPINotAllow;
     }else
     {
