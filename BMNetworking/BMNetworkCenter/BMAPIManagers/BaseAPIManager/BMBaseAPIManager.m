@@ -730,7 +730,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
             if ([self pageType] == BMPageTypeTimeStamp) {
                 mutableParams[[self pageTimeStampKey]] = @(0);
             }else{
-                mutableParams[[self pageIndexKey]]= @(0);
+                mutableParams[[self pageIndexKey]]= @(1);
             }
         }
     }
