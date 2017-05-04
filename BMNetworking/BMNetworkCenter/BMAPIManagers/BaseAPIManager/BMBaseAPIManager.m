@@ -310,7 +310,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         }else{
             self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
             if (self.isPageRequest) {//若是是上拉，那么页码递增
-                NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+                NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
                 if (self.nextPageNumber <= totalPageCount) {
                     self.nextPageNumber++;
                 }
