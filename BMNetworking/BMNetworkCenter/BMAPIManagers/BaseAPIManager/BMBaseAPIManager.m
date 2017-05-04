@@ -373,7 +373,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         if (self.isPageRequest && [self pageType] == BMPageTypePageNumber) {
             if (self.nextPageNumber >0) {
                 //如果分页达到上限，则不请求
-                NSInteger totalPageCount = ceilf(self.totalDataCount / [self pageSize]);
+                NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);
                 if (self.nextPageNumber > totalPageCount ) {
                     self.responseMsg = @"已经没有下一页了!";
                     self.errorCode = BMManagerDefaultNoNextPage;
