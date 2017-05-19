@@ -34,7 +34,7 @@
     self = [super init];
     if (self) {
         self.contentString = responseString;
-        self.content = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:NULL];
+        self.content = responseData?[NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:NULL]:nil;
         self.status = status;
         self.requestId = [requestId integerValue];
         self.request = request;
