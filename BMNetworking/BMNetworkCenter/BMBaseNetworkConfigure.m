@@ -124,6 +124,11 @@
     return @"total";
 }
 
+- (NSUInteger)pageStartIndex
+{
+    return 0;
+}
+
 //分页key
 - (NSString *)pageSizeKey
 {

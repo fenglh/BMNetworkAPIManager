@@ -26,6 +26,7 @@
 #define kBMResponseCode             ([networkConfigureInstance responseCodeKey])
 #define kBMResponseCodeSuccess      ([networkConfigureInstance responseCodeSuccessValue])
 #define kBMPageSizeKey              ([networkConfigureInstance pageSizeKey])
+#define kBMPageStartIndex           ([networkConfigureInstance pageStartIndex])
 #define kBMPageSize                 ([networkConfigureInstance pageSize])
 #define kBMUnPageSize               ([networkConfigureInstance unPageSize])
 #define kBMTimestamp                ([networkConfigureInstance timestampKey])
@@ -174,7 +175,10 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         _fetchedRawData = nil;
         _responseMsg = nil;
         _errorCode = BMManagerDefaultOtherError;//通指网络错误
-        _nextPageNumber = 2;//下一页从2开始，默认1是第一页
+         //因为时间戳分页，timestamp都会从loadData第一次请求之后返回，告诉你下一次分页的timestamp值，而页码分页不会，所以第一次在初始化的时候就+1
+        // 页码分页和时间戳分页还是有区别，页码分页可以直接跳到指定分页，而时间戳分页只能上一页跳到下一页，不能夸页。
+        //目前，页码分页的实现也只有在上一页成功之后，才能请求下一页！
+        _nextPageNumber = [self pageStartIndex] + 1;
     }
     return self;
     
@@ -423,6 +427,11 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 - (NSString *)pageSizeKey
 {
     return kBMPageSizeKey;
+}
+
+- (NSUInteger)pageStartIndex
+{
+    return kBMPageStartIndex;
 }
 - (NSString *)pageIndexKey
 {
@@ -730,7 +739,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
             if ([self pageType] == BMPageTypeTimeStamp) {
                 mutableParams[[self pageTimeStampKey]] = @(0);
             }else{
-                mutableParams[[self pageIndexKey]]= @(1);
+                mutableParams[[self pageIndexKey]]= @([self pageStartIndex]);
             }
         }
     }

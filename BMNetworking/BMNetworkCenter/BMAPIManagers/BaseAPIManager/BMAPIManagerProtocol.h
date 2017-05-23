@@ -120,6 +120,7 @@
 - (NSUInteger)pageSize;     //分页大小，默认10(即调用loadNextData时，返回的分页大小)
 - (NSString *)pageTimeStampKey; //分页时间戳的key，默认@"timestamp"
 
+- (NSUInteger)pageStartIndex; //默认startIndex = 0，有些接口startIndex = 1
 - (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
 - (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
 
