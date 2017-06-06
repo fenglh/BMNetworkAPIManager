@@ -467,6 +467,9 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(queryStringWithParam:requestType:)]) {
             NSLog(@"生成查询字符串，签名方式：使用BMBaseNetworkConfigure全局配置的签名!");
             return [networkConfigureInstance queryStringWithParam:[self reformParamsBase:self.requestParams] requestType:self.requestType];
+        }else if ([[BMBaseNetworkConfigure shareInstance] respondsToSelector:@selector(queryStringWithParam:requestType:url:)]){
+            NSLog(@"生成查询字符串，签名方式：使用BMBaseNetworkConfigure全局配置的签名!");
+            return [networkConfigureInstance queryStringWithParam:[self reformParamsBase:self.requestParams] requestType:self.requestType url:[self requestUrl]];
         }else{
             NSLog(@"生成查询字符串，签名方式：使用BMAPIParamsSign框架自带配置的签名!");
             return [BMAPIParamsSign generateSignaturedUrlQueryStringWithParam:[self reformParamsBase:self.requestParams] requestType:self.requestType];
