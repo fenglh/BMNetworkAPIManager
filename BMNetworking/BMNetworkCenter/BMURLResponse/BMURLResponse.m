@@ -71,7 +71,7 @@
 
 - (instancetype)initWithData:(NSData *)data
 {
-    self = [super self];
+    self = [super init];
     if (self) {
         self.contentString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         self.status = [self responseStatusWithError:nil];

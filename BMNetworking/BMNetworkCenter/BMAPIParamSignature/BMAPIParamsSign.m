@@ -63,7 +63,7 @@
     NSString *clientPlatform = [networkConfigureInstance clientPlatform];
     NSString *clientUUID = [networkConfigureInstance clientUUID];
     NSString *format = [networkConfigureInstance contentFormat];
-    NSString *timeStamp = [NSString stringWithFormat:@"%ld",time(NULL)];
+    NSString *timeStamp = [NSString stringWithFormat:@"%ld000",time(NULL)];
     NSString *version = [networkConfigureInstance appVersion];
     NSString *paramJsonString = param.jsonStringEncoded;//不能使用[NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded，否则会导致jsonStringEncoded不一致
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithDictionary:@{@"client":clientPlatform,@"cuid":clientUUID,@"format":format,@"time":timeStamp,@"version":version}];
