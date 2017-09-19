@@ -272,6 +272,12 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
                     case BMAPIManagerRequestTypePostMimeType:
                         BMCallAPI(MineTypePOST, requestId);
                         break;
+                    case BMAPIManagerRequestTypePut:
+                        BMCallAPI(PUT, requestId);
+                        break;
+                    case BMAPIManagerRequestTypeDelete:
+                        BMCallAPI(DELETE, requestId);
+                        break;
                     default:
                         BMCallAPI(POST, requestId);
                         break;

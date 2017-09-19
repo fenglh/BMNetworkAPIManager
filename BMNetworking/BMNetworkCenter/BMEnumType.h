@@ -19,6 +19,8 @@ typedef NS_ENUM (NSUInteger , BMUserLoginStatus){
 typedef NS_ENUM(NSUInteger, BMAPIManagerRequestType){
     BMAPIManagerRequestTypeGet,
     BMAPIManagerRequestTypePost,
+    BMAPIManagerRequestTypePut,
+    BMAPIManagerRequestTypeDelete,
     BMAPIManagerRequestTypePostMimeType
 };
 

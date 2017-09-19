@@ -83,8 +83,6 @@
 - (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {
     
-
-    
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];
@@ -93,6 +91,67 @@
     callHttpRequest(manager,POST, urlString, params, progress, success, failure);
     
 }
+
+
+//** PUT 请求 **/
+- (NSInteger)callPUTWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure {
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    AFHTTPSessionManager *manager = [self newManager];
+    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"PUT"];
+    
+    NSNumber *requestId = [self generateRequestId];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    @weakify(self);
+    NSURLSessionTask *task = [manager PUT:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        @strongify(self);
+        [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        @strongify(self);
+        [self callAPIFailure:task error:error requestId:requestId failureCallback:failure];
+    }];
+    task.originalRequest.requestParams = params;
+    self.httpRequestTaskTable[requestId] = task;
+    return [requestId integerValue];
+    
+}
+
+//** DELETE 请求 **/
+- (NSInteger)callDELETEWithParams:(NSDictionary *)params
+                              url:(NSString *)url
+                      queryString:(NSString *)queryString
+                          apiName:(NSString *)apiName
+                         progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                          success:(BMAPICallback)success
+                          failure:(BMAPICallback)failure {
+    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    AFHTTPSessionManager *manager = [self newManager];
+    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:params error:NULL];
+    [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"DELETE"];
+    
+    NSNumber *requestId = [self generateRequestId];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    @weakify(self);
+    NSURLSessionTask *task = [manager DELETE:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        @strongify(self);
+        [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        @strongify(self);
+        [self callAPIFailure:task error:error requestId:requestId failureCallback:failure];
+    }];
+    task.originalRequest.requestParams = params;
+    self.httpRequestTaskTable[requestId] = task;
+    return [requestId integerValue];
+}
+
 
 - (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
 {

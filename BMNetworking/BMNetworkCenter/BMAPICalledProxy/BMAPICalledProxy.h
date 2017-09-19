@@ -27,6 +27,24 @@ typedef void(^BMAPICallback)(BMURLResponse *response);
                        success:(BMAPICallback)success
                        failure:(BMAPICallback)failure;
 
+//** PUT 请求 **/
+- (NSInteger)callPUTWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure;
+
+//** DELETE 请求 **/
+- (NSInteger)callDELETEWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure;
+
 
 //** JSON post 请求 **//
 - (NSInteger)callPOSTWithParams:(NSDictionary *)params
