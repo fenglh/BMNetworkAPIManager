@@ -34,6 +34,7 @@
 
 #define kBMPageIndexKey             ([networkConfigureInstance pageIndexKey])
 #define kBMPageTotalKey             ([networkConfigureInstance pageTotalKey])
+#define kBMResponseDataKey          ([networkConfigureInstance responseDataKey])
 
 
 //判断是否为空nil null
@@ -312,13 +313,16 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 {
 
     if ([self usePage]) {
-        
+        NSDictionary *data = [response.content copy];
+        if (kBMResponseDataKey) {
+            data = [response.content objectForKey:kBMResponseDataKey];
+        }
         if ([self pageType] == BMPageTypeTimeStamp) {
             //分页记录
-            int64_t timeStamp = [[response.content objectForKey:[self pageTimeStampKey]] longLongValue];
+            int64_t timeStamp = [[data objectForKey:[self pageTimeStampKey]] longLongValue];
             self.nextPageTimeStamp = timeStamp;
         }else{
-            self.totalDataCount = [[response.content objectForKey:[self pageTotalKey]] floatValue];
+            self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
             if (self.isPageRequest) {//若是是上拉，那么页码递增
                 NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
                 if (self.nextPageNumber <= totalPageCount) {

@@ -59,6 +59,8 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
 @property (weak, nonatomic) id<BMAPIManagerInterceptor>             interceptor;            //拦截器
 @property (weak, nonatomic) id<BMAPIManagerValidator>               validator;              //验证器
 
+@property (strong, nonatomic) id userInfo;      //针对这个请求，可以用来存储额外的数据,默认nil。
+
 //只读
 @property (nonatomic, copy, readonly) NSDictionary              *requestParams; //请参数
 @property (nonatomic, assign, readonly) NSInteger               requestId;      //请求Id,根据requestId可以可以判断是哪一次请求
@@ -76,7 +78,7 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
 - (NSInteger)loadData;
 - (NSInteger)loadDataWithParams:(NSDictionary *)params;
 - (NSInteger)loadNextPage;
-- (NSInteger)loadNextPageWithParams:(NSDictionary *)params;
+- (NSInteger)loadNextPageWithParams:(NSDictionary *)params OBJC_SWIFT_UNAVAILABLE("请使用'loadNextPage' 方法代替");
 
 
 

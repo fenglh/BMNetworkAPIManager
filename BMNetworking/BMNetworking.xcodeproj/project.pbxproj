@@ -29,6 +29,7 @@
 		0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592851E31F8B200615928 /* NSData+Networking.m */; };
 		3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */; };
 		3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8F1E5D4A5100EC01CD /* EXTScope.m */; };
+		3659C11F1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */; };
 		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
 		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
 		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
@@ -85,6 +86,9 @@
 		3645AE8E1E5D4A5100EC01CD /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		3645AE8F1E5D4A5100EC01CD /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		3645AE931E5D4B8100EC01CD /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		3659C11C1F789F2000C33A4A /* BMNetworkAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMNetworkAPIManager.h; sourceTree = "<group>"; };
+		3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BMBaseAPIManager+BMBlock.m"; sourceTree = "<group>"; };
+		3659C11E1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMBaseAPIManager+BMBlock.h"; sourceTree = "<group>"; };
 		3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMEnumType.h; sourceTree = "<group>"; };
 		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
 		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 		0C75915E1E3093B300615928 /* BMNetworkCenter */ = {
 			isa = PBXGroup;
 			children = (
+				3659C11C1F789F2000C33A4A /* BMNetworkAPIManager.h */,
 				3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */,
 				0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */,
 				0C75927E1E31B0E700615928 /* BMBaseNetworkConfigure.h */,
@@ -232,6 +237,8 @@
 		0C7592191E3093B300615928 /* BMNetWorkCategory */ = {
 			isa = PBXGroup;
 			children = (
+				3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */,
+				3659C11E1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.h */,
 				0C75921A1E3093B300615928 /* NSArray+AXNetworkingMethods.h */,
 				0C75921B1E3093B300615928 /* NSArray+AXNetworkingMethods.m */,
 				0C75921C1E3093B300615928 /* NSDictionary+AXNetworkingMethods.h */,
@@ -448,6 +455,7 @@
 				0C7592681E3093B400615928 /* BMChace.m in Sources */,
 				0C75926F1E3093B400615928 /* NSURLRequest+AIFNetworkingMethods.m in Sources */,
 				0C75914C1E30925B00615928 /* AppDelegate.m in Sources */,
+				3659C11F1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m in Sources */,
 				36B37FF61E5AC291002E8D02 /* BMAPIParamsSign.m in Sources */,
 				0C75926C1E3093B400615928 /* NSDictionary+AXNetworkingMethods.m in Sources */,
 				0C75926B1E3093B400615928 /* NSArray+AXNetworkingMethods.m in Sources */,

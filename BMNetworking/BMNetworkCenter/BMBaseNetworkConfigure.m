@@ -164,6 +164,12 @@
     return @"responseMsg";
 }
 
+//响应数据 key
+- (NSString *)responseDataKey
+{
+    return nil;
+}
+
 //最多缓存数量
 - (NSUInteger)cacheCountLimit
 {
