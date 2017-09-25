@@ -86,7 +86,6 @@
 		3645AE8E1E5D4A5100EC01CD /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
 		3645AE8F1E5D4A5100EC01CD /* EXTScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXTScope.m; sourceTree = "<group>"; };
 		3645AE931E5D4B8100EC01CD /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
-		3659C11C1F789F2000C33A4A /* BMNetworkAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMNetworkAPIManager.h; sourceTree = "<group>"; };
 		3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BMBaseAPIManager+BMBlock.m"; sourceTree = "<group>"; };
 		3659C11E1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMBaseAPIManager+BMBlock.h"; sourceTree = "<group>"; };
 		3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMEnumType.h; sourceTree = "<group>"; };
@@ -100,6 +99,7 @@
 		369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMMineTypeFileModel.m; sourceTree = "<group>"; };
 		36B37FF41E5AC291002E8D02 /* BMAPIParamsSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMAPIParamsSign.h; sourceTree = "<group>"; };
 		36B37FF51E5AC291002E8D02 /* BMAPIParamsSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMAPIParamsSign.m; sourceTree = "<group>"; };
+		36C245501F78CDBA0022E164 /* BMNetworkAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMNetworkAPIManager.h; sourceTree = "<group>"; };
 		447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,7 +168,7 @@
 		0C75915E1E3093B300615928 /* BMNetworkCenter */ = {
 			isa = PBXGroup;
 			children = (
-				3659C11C1F789F2000C33A4A /* BMNetworkAPIManager.h */,
+				36C245501F78CDBA0022E164 /* BMNetworkAPIManager.h */,
 				3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */,
 				0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */,
 				0C75927E1E31B0E700615928 /* BMBaseNetworkConfigure.h */,
@@ -588,6 +588,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
 				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Debug;
 		};
@@ -606,6 +607,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
 				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Release;
 		};

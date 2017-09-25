@@ -10,10 +10,13 @@
 #define BMNetworkAPIManager_h
 
 #import "BMEnumType.h"
-#import "BMBaseNetworkConfigureProtocol"
-#import "BMBaseNetworkConfigure"
+#import "BMAPIManagerProtocol.h"
+#import "BMBaseNetworkConfigureProtocol.h"
+#import "BMBaseNetworkConfigure.h"
 #import "BMMineTypeFileModel.h"
 #import "BMBaseAPIManager.h"
+
+
 
 
 #endif /* BMNetworkAPIManager_h */

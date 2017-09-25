@@ -19,8 +19,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BMURLResponse.h"
-#import "BMAPIManagerProtocol.h"
-#import "BMMineTypeFileModel.h"
+#import "BMNetworkAPIManager.h"
 
 @class BMBaseAPIManager;
 

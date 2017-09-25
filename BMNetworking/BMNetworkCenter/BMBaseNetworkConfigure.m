@@ -8,6 +8,7 @@
 
 #import "BMBaseNetworkConfigure.h"
 #import <objc/runtime.h>
+#import "BMNetworkAPIManager.h"
 
 @implementation BMBaseNetworkConfigure
 + (instancetype)shareInstance
