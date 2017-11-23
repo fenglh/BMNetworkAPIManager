@@ -144,7 +144,7 @@
     if (self.uploadPictureRequestId == manager.requestId) {
         self.progressLabel.text = @"图片上传成功!";
     }else if(self.downloadRequestId == manager.requestId){
-        id data = [manager fetchDataWithReformer:nil];
+//        id data = [manager fetchDataWithReformer:nil];
         self.progressLabel.text = @"视频下载成功!";
     }else{
         

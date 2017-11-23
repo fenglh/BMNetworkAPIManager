@@ -35,6 +35,7 @@
 #define kBMPageIndexKey             ([networkConfigureInstance pageIndexKey])
 #define kBMPageTotalKey             ([networkConfigureInstance pageTotalKey])
 #define kBMResponseDataKey          ([networkConfigureInstance responseDataKey])
+#define kBMHttpHeaderFields         ([networkConfigureInstance httpHeaderFields])
 
 
 //判断是否为空nil null
@@ -49,12 +50,20 @@
 #define getAPICallingResponseMsg(_ref) (isNillOrNull(_ref)?@"服务器返回数据异常":(isNillOrNull([(_ref) objectForKey:kBMResponseMsg])?@"服务器返回错误信息异常":[(_ref) objectForKey:kBMResponseMsg]))
 
 
-#define BMCallAPI(REQUEST_METHOD, REQUEST_ID)                                                           \
+#define BMCallAPI(REQUEST_METHOD, REQUEST_PARAMS,REQUEST_ID)                                            \
 {                                                                                                       \
-    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:apiParams url:[self requestUrl] queryString:[self queryString] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
-        [self callingProgress:progress requestId:(NSInteger )requestId];\
-    }\
-    success:^(BMURLResponse *response) {                                      \
+    /*将token插入到header(打了token标记的接口，都会增加header，在params即http body中也会保留这个值，兼容旧版本) */                                                                              \
+    BOOL useToken = [self useToken];                                                                    \
+    NSMutableDictionary *httpHeaderFields = [NSMutableDictionary dictionary];                           \
+    if (useToken) {                                                                                     \
+        [httpHeaderFields setValue:[networkConfigureInstance tokenValue] forKey:[networkConfigureInstance tokenKey]];   \
+    }                                                                                                   \
+    httpHeaderFields = [self reformHeaders:httpHeaderFields];                                          \
+    /*调用请求*/                                                                                         \
+    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:REQUEST_PARAMS  headers:httpHeaderFields url:[self requestUrl] queryString:[self queryString] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
+        [self callingProgress:progress requestId:(NSInteger )requestId];                                \
+    }                                                                                                   \
+    success:^(BMURLResponse *response) {                                                                \
         [self successedOnCallingAPI:response];                                                          \
     } failure:^(BMURLResponse *response) {                                                              \
         [self failedOnCallingAPI:response withErrorType:[self turnBMURLResponseStatusToBMAPIManagerErrorType:response.status]];        \
@@ -265,22 +274,22 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
                 //调用方式get or post
                 switch (self.requestType) {
                     case BMAPIManagerRequestTypeGet:
-                        BMCallAPI(GET, requestId);
+                        BMCallAPI(GET,apiParams, requestId);
                         break;
                     case BMAPIManagerRequestTypePost:
-                        BMCallAPI(POST, requestId);
+                        BMCallAPI(POST,apiParams, requestId);
                         break;
                     case BMAPIManagerRequestTypePostMimeType:
-                        BMCallAPI(MineTypePOST, requestId);
+                        BMCallAPI(MineTypePOST,apiParams, requestId);
                         break;
                     case BMAPIManagerRequestTypePut:
-                        BMCallAPI(PUT, requestId);
+                        BMCallAPI(PUT,apiParams, requestId);
                         break;
                     case BMAPIManagerRequestTypeDelete:
-                        BMCallAPI(DELETE, requestId);
+                        BMCallAPI(DELETE,apiParams, requestId);
                         break;
                     default:
-                        BMCallAPI(POST, requestId);
+                        BMCallAPI(POST,apiParams, requestId);
                         break;
                 }
                 NSMutableDictionary *lastParams = [apiParams mutableCopy];
@@ -434,6 +443,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     return kBMTimestamp;
 }
 
+
 - (NSString *)pageSizeKey
 {
     return kBMPageSizeKey;
@@ -536,6 +546,10 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 {
     //不做任何处理，返回原有参数≈
     return params;
+}
+
+- (NSDictionary *)reformHeaders:(NSDictionary *)headers {
+    return headers;
 }
 
 //默认请求类型

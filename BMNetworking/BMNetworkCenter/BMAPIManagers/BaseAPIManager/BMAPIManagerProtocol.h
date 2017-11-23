@@ -124,12 +124,16 @@
 - (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
 - (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
 
-- (NSString *)pageSizeKey; //分页大小戳的key，默认@"pageSize"
-    
+
+
 - (BOOL)useToken;//默认NO
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost
 - (BOOL)shouldCache;//是否缓存，YES缓存（5分钟）
 - (NSDictionary *)reformParams:(NSDictionary *)params;//格式化参数，例如去前后空格 ,当子类没有重写该方法时，会调用基类的该方法
+
+//20171123
+- (NSDictionary *)reformHeaders:(NSDictionary *)headers;//格式化header
+
 /**
  * 描述：返回查询字符串，当接口需要单独的签名生成查询字符串时，可通过该协议方法实现并返回！
  *

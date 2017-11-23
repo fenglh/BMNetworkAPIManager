@@ -30,6 +30,7 @@
 		3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */; };
 		3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8F1E5D4A5100EC01CD /* EXTScope.m */; };
 		3659C11F1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */; };
+		367BA17A1FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 367BA1791FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m */; };
 		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
 		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
 		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
@@ -88,6 +89,8 @@
 		3645AE931E5D4B8100EC01CD /* metamacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
 		3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BMBaseAPIManager+BMBlock.m"; sourceTree = "<group>"; };
 		3659C11E1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMBaseAPIManager+BMBlock.h"; sourceTree = "<group>"; };
+		367BA1781FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFHTTPRequestSerializer+addHeaders.h"; sourceTree = "<group>"; };
+		367BA1791FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPRequestSerializer+addHeaders.m"; sourceTree = "<group>"; };
 		3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMEnumType.h; sourceTree = "<group>"; };
 		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
 		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				0C7592821E31F80D00615928 /* NSString+Networking.m */,
 				0C7592841E31F8B200615928 /* NSData+Networking.h */,
 				0C7592851E31F8B200615928 /* NSData+Networking.m */,
+				367BA1781FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.h */,
+				367BA1791FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m */,
 			);
 			path = BMNetWorkCategory;
 			sourceTree = "<group>";
@@ -446,6 +451,7 @@
 				0C7592721E3093B400615928 /* BMURLResponse.m in Sources */,
 				0C75926D1E3093B400615928 /* NSMutableString+AXNetworkingMethods.m in Sources */,
 				0C75914F1E30925B00615928 /* ViewController.m in Sources */,
+				367BA17A1FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m in Sources */,
 				369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */,
 				3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */,
 				369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */,
@@ -586,8 +592,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
-				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+				PROVISIONING_PROFILE = "87f5988f-e884-40b6-b591-02abc8c9afbf";
+				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20171106;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Debug;
@@ -605,8 +611,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e4ee21f0-2e88-4c67-af81-fc0a67755266";
-				PROVISIONING_PROFILE_SPECIFIER = dev_NK94TM64KF.cn.com.bluemoon.sfa_101_1107;
+				PROVISIONING_PROFILE = "87f5988f-e884-40b6-b591-02abc8c9afbf";
+				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20171106;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Release;

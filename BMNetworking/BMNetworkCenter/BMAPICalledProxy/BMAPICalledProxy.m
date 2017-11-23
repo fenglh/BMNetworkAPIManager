@@ -13,6 +13,7 @@
 #import "BMBaseNetworkConfigure.h"
 #import "NSDictionary+AXNetworkingMethods.h"
 #import "NSURLRequest+AIFNetworkingMethods.h"
+#import "AFHTTPRequestSerializer+addHeaders.h"
 #import "BMMineTypeFileModel.h"
 #import "EXTScope.h"
 
@@ -63,7 +64,14 @@
 
 
 //#warning get
-- (NSInteger)callGETWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callGETWithParams:(NSDictionary *)params
+                       headers:(NSDictionary *)headers
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure
 {
 
     
@@ -72,7 +80,11 @@
     AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
     serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
     manager.responseSerializer = serializer;
-    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
+    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer addHeaders:headers];
+    manager.requestSerializer =  requestSerializer;
+
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
@@ -80,12 +92,23 @@
 
 }
 
-- (NSInteger)callPOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params
+                        headers:(NSDictionary *)headers
+                            url:(NSString *)url
+                    queryString:(NSString *)queryString
+                        apiName:(NSString *)apiName
+                       progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                        success:(BMAPICallback)success
+                        failure:(BMAPICallback)failure
 {
     
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
-    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
+    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer addHeaders:headers];
+    manager.requestSerializer =  requestSerializer;
+    
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
     callHttpRequest(manager,POST, urlString, params, progress, success, failure);
@@ -95,15 +118,21 @@
 
 //** PUT 请求 **/
 - (NSInteger)callPUTWithParams:(NSDictionary *)params
+                       headers:(NSDictionary *)headers
                            url:(NSString *)url
                    queryString:(NSString *)queryString
                        apiName:(NSString *)apiName
                       progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
                        success:(BMAPICallback)success
-                       failure:(BMAPICallback)failure {
+                       failure:(BMAPICallback)failure
+{
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
-    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
+    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer addHeaders:headers];
+    manager.requestSerializer =  requestSerializer;
+    
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"PUT"];
     
@@ -125,15 +154,21 @@
 
 //** DELETE 请求 **/
 - (NSInteger)callDELETEWithParams:(NSDictionary *)params
+                          headers:(NSDictionary *)headers
                               url:(NSString *)url
                       queryString:(NSString *)queryString
                           apiName:(NSString *)apiName
                          progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
                           success:(BMAPICallback)success
-                          failure:(BMAPICallback)failure {
+                          failure:(BMAPICallback)failure
+{
     NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
     AFHTTPSessionManager *manager = [self newManager];
-    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    
+    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer addHeaders:headers];
+    manager.requestSerializer =  requestSerializer;
+    
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"DELETE"];
     
@@ -153,7 +188,14 @@
 }
 
 
-- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params url:(NSString *)url queryString:(NSString *)queryString apiName:(NSString *)apiName progress:(void(^)(NSProgress * progress,NSInteger requestId))progress success:(BMAPICallback)success failure:(BMAPICallback)failure
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params
+                                headers:(NSDictionary *)headers
+                                    url:(NSString *)url
+                            queryString:(NSString *)queryString
+                                apiName:(NSString *)apiName
+                               progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                                success:(BMAPICallback)success
+                                failure:(BMAPICallback)failure
 {
     
 
@@ -163,7 +205,9 @@
     
     
     AFHTTPSessionManager *manager = [self newManager];
-    manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
+    [requestSerializer addHeaders:headers];
+    manager.requestSerializer =  requestSerializer;
     
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];
@@ -320,15 +364,6 @@
     return manager;
 }
 
-//- (AFHTTPSessionManager *)httpJsonSessionManager
-//{
-//    if (_httpJsonSessionManager == nil) {
-//        _httpJsonSessionManager = [AFHTTPSessionManager manager];
-//        _httpJsonSessionManager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
-//        _httpJsonSessionManager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
-//    }
-//    return _httpJsonSessionManager;
-//}
 
 - (NSMutableDictionary *)httpRequestTaskTable
 {
@@ -339,7 +374,66 @@
 }
 
 
+@end
 
 
+@implementation BMAPICalledProxy (DefaultHeader)
+
+//** GET 请求 **/
+- (NSInteger)callGETWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure {
+    return [self callGETWithParams:params headers:nil url:url queryString:queryString apiName:apiName progress:progress success:success failure:failure];
+    
+}
+
+//** PUT 请求 **/
+- (NSInteger)callPUTWithParams:(NSDictionary *)params
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure {
+    return [self callPUTWithParams:params headers:nil url:url queryString:queryString apiName:apiName progress:progress success:success failure:failure];
+}
+
+//** DELETE 请求 **/
+- (NSInteger)callDELETEWithParams:(NSDictionary *)params
+                              url:(NSString *)url
+                      queryString:(NSString *)queryString
+                          apiName:(NSString *)apiName
+                         progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                          success:(BMAPICallback)success
+                          failure:(BMAPICallback)failure {
+    return [self callDELETEWithParams:params headers:nil url:url queryString:queryString apiName:apiName progress:progress success:success failure:failure];
+}
+
+
+//** JSON post 请求 **//
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params
+                            url:(NSString *)url
+                    queryString:(NSString *)queryString
+                        apiName:(NSString *)apiName
+                       progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                        success:(BMAPICallback)success
+                        failure:(BMAPICallback)failure {
+    return [self callPOSTWithParams:params headers:nil url:url queryString:queryString apiName:apiName progress:progress success:success failure:failure];
+}
+
+//** multipart/form-data Http Post请求 **/
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params
+                                    url:(NSString *)url
+                            queryString:(NSString *)queryString
+                                apiName:(NSString *)apiName
+                               progress:(void(^)(NSProgress * progress, NSInteger requestId))progress
+                                success:(BMAPICallback)success
+                                failure:(BMAPICallback)failure {
+    return [self callMineTypePOSTWithParams:params headers:nil url:url queryString:queryString apiName:apiName progress:progress success:success failure:failure];
+}
 
 @end

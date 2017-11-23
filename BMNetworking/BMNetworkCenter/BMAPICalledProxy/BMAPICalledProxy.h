@@ -18,6 +18,74 @@ typedef void(^BMAPICallback)(BMURLResponse *response);
 + (instancetype)sharedInstance;
 - (NSNumber *)generateRequestId;//生成requestId，此方法开放出来，是为了让使用了缓存的接口也生成一个requestId
 
+
+//** GET 请求 **/
+- (NSInteger)callGETWithParams:(NSDictionary *)params
+                       headers:(NSDictionary *)headers
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure;
+
+//** PUT 请求 **/
+- (NSInteger)callPUTWithParams:(NSDictionary *)params
+                       headers:(NSDictionary *)headers
+                           url:(NSString *)url
+                   queryString:(NSString *)queryString
+                       apiName:(NSString *)apiName
+                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                       success:(BMAPICallback)success
+                       failure:(BMAPICallback)failure;
+
+//** DELETE 请求 **/
+- (NSInteger)callDELETEWithParams:(NSDictionary *)params
+                          headers:(NSDictionary *)headers
+                              url:(NSString *)url
+                      queryString:(NSString *)queryString
+                          apiName:(NSString *)apiName
+                         progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                          success:(BMAPICallback)success
+                          failure:(BMAPICallback)failure;
+
+
+//** JSON post 请求 **//
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params
+                        headers:(NSDictionary *)headers
+                            url:(NSString *)url
+                    queryString:(NSString *)queryString
+                        apiName:(NSString *)apiName
+                       progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                        success:(BMAPICallback)success
+                        failure:(BMAPICallback)failure;
+
+//** multipart/form-data Http Post请求 **/
+- (NSInteger)callMineTypePOSTWithParams:(NSDictionary *)params
+                                headers:(NSDictionary *)headers
+                                    url:(NSString *)url
+                            queryString:(NSString *)queryString
+                                apiName:(NSString *)apiName
+                               progress:(void(^)(NSProgress * progress, NSInteger requestId))progress
+                                success:(BMAPICallback)success
+                                failure:(BMAPICallback)failure;
+
+
+
+
+
+
+//取消请求
+- (void)cancelRequestWithRequestId:(NSNumber *)requestID;
+- (void)cancelRequestWithRequestIdList:(NSArray *)requestIDList;
+@end
+
+
+
+/**
+ 默认额外传header参数
+ */
+@interface BMAPICalledProxy (DefaultHeader)
 //** GET 请求 **/
 - (NSInteger)callGETWithParams:(NSDictionary *)params
                            url:(NSString *)url
@@ -38,12 +106,12 @@ typedef void(^BMAPICallback)(BMURLResponse *response);
 
 //** DELETE 请求 **/
 - (NSInteger)callDELETEWithParams:(NSDictionary *)params
-                           url:(NSString *)url
-                   queryString:(NSString *)queryString
-                       apiName:(NSString *)apiName
-                      progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
-                       success:(BMAPICallback)success
-                       failure:(BMAPICallback)failure;
+                              url:(NSString *)url
+                      queryString:(NSString *)queryString
+                          apiName:(NSString *)apiName
+                         progress:(void(^)(NSProgress * progress,NSInteger requestId))progress
+                          success:(BMAPICallback)success
+                          failure:(BMAPICallback)failure;
 
 
 //** JSON post 请求 **//
@@ -63,10 +131,4 @@ typedef void(^BMAPICallback)(BMURLResponse *response);
                                progress:(void(^)(NSProgress * progress, NSInteger requestId))progress
                                 success:(BMAPICallback)success
                                 failure:(BMAPICallback)failure;
-
-
-
-//取消请求
-- (void)cancelRequestWithRequestId:(NSNumber *)requestID;
-- (void)cancelRequestWithRequestIdList:(NSArray *)requestIDList;
 @end

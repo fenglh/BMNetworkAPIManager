@@ -28,7 +28,7 @@
 
 
 @optional
-
+- (NSDictionary *)httpHeaderFields;     //http header fields, 默认nil
 - (NSString *)tokenKey;                 //token key,默认@"token"
 - (NSString *)pageSizeKey;              //分页key,默认@"pageSize"
 

@@ -111,6 +111,10 @@
 
 
 #pragma mark - 可选
+
+- (NSDictionary *)httpHeaderFields {
+    return nil;
+}
 //token
 - (NSString *)tokenKey
 {
