@@ -58,9 +58,9 @@
     if (useToken) {                                                                                     \
         [httpHeaderFields setValue:[networkConfigureInstance tokenValue] forKey:[networkConfigureInstance tokenKey]];   \
     }                                                                                                   \
-    httpHeaderFields = [self reformHeaders:httpHeaderFields];                                          \
+    NSDictionary *headers = [self reformHeaders:httpHeaderFields];                                          \
     /*调用请求*/                                                                                         \
-    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:REQUEST_PARAMS  headers:httpHeaderFields url:[self requestUrl] queryString:[self queryString] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
+    REQUEST_ID = [[BMAPICalledProxy sharedInstance] call##REQUEST_METHOD##WithParams:REQUEST_PARAMS  headers:headers url:[self requestUrl] queryString:[self queryString] apiName:[self apiName] progress:^(NSProgress * progress, NSInteger requestId){\
         [self callingProgress:progress requestId:(NSInteger )requestId];                                \
     }                                                                                                   \
     success:^(BMURLResponse *response) {                                                                \
