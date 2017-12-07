@@ -18,6 +18,9 @@
 + (void)logDebugInfoWithRequest:(NSURLRequest *)request apiName:(NSString *)apiName url:(NSString *)url requestParams:(id)requestParams httpMethod:(NSString *)httpMethod
 {
     
+    if ([configurationInstance networkLogLevel] < BMNetworkLogLevelVerbose) {
+        return;
+    }
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n**************************************************************\n*                       Request Start                        *\n**************************************************************\n\n"];
     
     [logString appendFormat:@"API Name:\t\t%@\n", [apiName AIF_defaultValue:@"N/A"]];
@@ -29,9 +32,9 @@
     [logString appendURLRequest:request];
     
     [logString appendFormat:@"\n\n**************************************************************\n*                         Request End                        *\n**************************************************************\n\n\n\n"];
-    if ([configurationInstance networkLogLevel] > BMNetworkLogLevelInfo) {
-        NSLog(@"%@", logString);
-    }
+    
+    NSLog(@"%@", logString);
+
     
 }
 
@@ -39,8 +42,12 @@
 + (void)logDebugInfoWithResponse:(NSHTTPURLResponse *)response resposeString:(NSString *)responseString request:(NSURLRequest *)request error:(NSError *)error
 {
 
-    BOOL shouldLogError = error ? YES : NO;
     
+    if ([configurationInstance networkLogLevel] < BMNetworkLogLevelInfo) {
+        return;
+    }
+    
+    BOOL shouldLogError = error ? YES : NO;
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n==============================================================\n=                        API Response                        =\n==============================================================\n\n"];
     
     [logString appendFormat:@"Status:\t%ld\t(%@)\n\n", (long)response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode]];
@@ -58,13 +65,15 @@
     [logString appendURLRequest:request];
     
     [logString appendFormat:@"\n\n==============================================================\n=                        Response End                        =\n==============================================================\n\n\n\n"];
-    if ([configurationInstance networkLogLevel] > BMNetworkLogLevelInfo) {
-        NSLog(@"%@", logString);
-    }
+
+    NSLog(@"%@", logString);
 }
 
 + (void)logDebugInfoWithCachedResponse:(BMURLResponse *)response apiName:(NSString *)apiName url:(NSString *)url
 {
+    if ([configurationInstance networkLogLevel] < BMNetworkLogLevelInfo) {
+        return;
+    }
 
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n==============================================================\n=                      Cached Response                       =\n==============================================================\n\n"];
     
@@ -74,9 +83,8 @@
     [logString appendFormat:@"Params:\n%@", response.requestParams];
     [logString appendFormat:@"Content:\n\t%@\n\n", response.contentString];
     [logString appendFormat:@"\n\n==============================================================\n=                        Response End                        =\n==============================================================\n\n\n\n"];
-    if ([configurationInstance networkLogLevel] > BMNetworkLogLevelInfo) {
-        NSLog(@"%@", logString);
-    }
+    NSLog(@"%@", logString);
 }
+
 
 @end

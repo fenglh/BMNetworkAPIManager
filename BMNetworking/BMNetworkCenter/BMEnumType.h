@@ -34,6 +34,7 @@ typedef NS_ENUM (NSUInteger , BMPageType){
 
 //网络日志等级
 typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
+    BMNetworkLogLevelUnLog,
     BMNetworkLogLevelInfo,
     BMNetworkLogLevelVerbose
 };
