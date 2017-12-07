@@ -381,12 +381,20 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         if ( loginStatus == BMUserLoginStatusTokenInvalid) {
             self.responseMsg = @"Token失效";
             NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
+            if ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidEvent:)]) {
+                [networkConfigureInstance tokenInvalidEvent:self];
+            }else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
+            }
             return NO;
         }else if (loginStatus == BMUserLoginStatusUnLogin){
             self.responseMsg = @"用户未登录";
             NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUserUnLogin object:self];
+            if ([networkConfigureInstance respondsToSelector:@selector(userUnLoginEvent:)]) {
+                [networkConfigureInstance userUnLoginEvent:self];
+            }else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUserUnLogin object:self];
+            }
             return NO;
         }
 
@@ -860,7 +868,11 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
         //处理token过期
         if (self.errorCode == [networkConfigureInstance tokenInvalidValue]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:nil];
+            if ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidEvent:)]) {
+                [networkConfigureInstance tokenInvalidEvent:self];
+            }else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
+            }
         }
     }
 

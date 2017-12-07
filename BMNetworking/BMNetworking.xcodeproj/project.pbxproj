@@ -31,6 +31,7 @@
 		3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8F1E5D4A5100EC01CD /* EXTScope.m */; };
 		3659C11F1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */; };
 		367BA17A1FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 367BA1791FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m */; };
+		367BA17C1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 367BA17B1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec */; };
 		369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D271E53F794001B543C /* BMTestAPIManager.m */; };
 		369C1D2F1E5406F6001B543C /* BMNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D2E1E5406F6001B543C /* BMNetworkConfigure.m */; };
 		369C1D321E557930001B543C /* BMUploadPictureAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D311E557930001B543C /* BMUploadPictureAPIManager.m */; };
@@ -91,6 +92,7 @@
 		3659C11E1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BMBaseAPIManager+BMBlock.h"; sourceTree = "<group>"; };
 		367BA1781FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFHTTPRequestSerializer+addHeaders.h"; sourceTree = "<group>"; };
 		367BA1791FC6A427001781C0 /* AFHTTPRequestSerializer+addHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPRequestSerializer+addHeaders.m"; sourceTree = "<group>"; };
+		367BA17B1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BMNetworkAPIManager.podspec; sourceTree = "<group>"; };
 		3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMEnumType.h; sourceTree = "<group>"; };
 		369C1D261E53F794001B543C /* BMTestAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMTestAPIManager.h; sourceTree = "<group>"; };
 		369C1D271E53F794001B543C /* BMTestAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMTestAPIManager.m; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		0C75913B1E30925B00615928 = {
 			isa = PBXGroup;
 			children = (
+				367BA17B1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec */,
 				0C7592731E3093C800615928 /* Podfile */,
 				0C75915E1E3093B300615928 /* BMNetworkCenter */,
 				0C7591461E30925B00615928 /* BMNetworking */,
@@ -386,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C7592741E3093C800615928 /* Podfile in Resources */,
+				367BA17C1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec in Resources */,
 				0C7591571E30925B00615928 /* LaunchScreen.storyboard in Resources */,
 				0C7591541E30925B00615928 /* Assets.xcassets in Resources */,
 			);

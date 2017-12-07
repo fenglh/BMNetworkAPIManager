@@ -302,7 +302,7 @@
         [self.httpRequestTaskTable removeObjectForKey:requestId];
     }
     [BMLoger logDebugInfoWithResponse:nil resposeString:nil request:task.originalRequest error:error];
-    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:nil requestId:requestId request:task.originalRequest responseData:nil error:error];
+    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:nil requestId:requestId request:task.originalRequest response:(NSHTTPURLResponse *)task.response responseData:nil error:error];
     failureCallback?failureCallback(response):nil;
 }
 
@@ -333,7 +333,7 @@
     }
     
     [BMLoger logDebugInfoWithResponse:(NSHTTPURLResponse *)task.response resposeString:contentString request:task.originalRequest error:NULL];
-    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest responseData:responseData status:BMURLResponseStatusSuccess];
+    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest response:(NSHTTPURLResponse *)task.response responseData:responseData status:BMURLResponseStatusSuccess];
     successCallback?successCallback(response):nil;
 
 }

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "BMEnumType.h"
+#import "BMBaseAPIManager.h"
 
 
 @protocol BMBaseNetworkConfigureProtocol <NSObject>
@@ -26,6 +27,14 @@
 - (NSString *)appType;                  //appType,即可至尊：washMall
 - (NSInteger)tokenInvalidValue;         //token无效值
 
+
+
+
+@optional
+
+//代替 BMBaseAPIManager 对象使用通知来处理token无效、用户未登录的事件，如果在配置文件实现了以下的方法，那么BMBaseAPIManager 不再发通知，而是交给下面2个方法去处理，使用者可以重写该两个方法去处理token无效以及、用户未登录
+- (void)tokenInvalidEvent:(BMBaseAPIManager *)manager;
+- (void)userUnLoginEvent:(BMBaseAPIManager *)manager;
 
 @optional
 - (NSDictionary *)httpHeaderFields;     //http header fields, 默认nil

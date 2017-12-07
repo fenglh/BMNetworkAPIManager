@@ -30,14 +30,16 @@ typedef NS_ENUM(NSUInteger, BMURLResponseStatus)
 @property (nonatomic, copy, readonly) id content;
 @property (nonatomic, copy, readonly) NSError *error;
 @property (nonatomic, assign, readonly) NSInteger requestId;
+@property (nonatomic, copy, readonly) NSHTTPURLResponse *response;
 @property (nonatomic, copy, readonly) NSURLRequest *request;
 @property (nonatomic, copy, readonly) NSData *responseData;
 @property (copy, nonatomic) NSDictionary *requestParams;
 @property (nonatomic, assign, readonly) BOOL isCache;
 
-- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request responseData:(NSData *)responseData status:(BMURLResponseStatus)status;
 
-- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request responseData:(NSData *)responseData error:(NSError *)error;
+- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request response:(NSHTTPURLResponse *)response responseData:(NSData *)responseData status:(BMURLResponseStatus)status;
+
+- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request response:(NSHTTPURLResponse *)response responseData:(NSData *)responseData error:(NSError *)error;
 
 
 //注意：这3个初始化response的方法是不可以随便用的，在只有在hasCacheWithParams return YES时，中才会使用- (instancetype)initWithData:(NSData *)data;来初始化response，表示该response是从缓存中取出来。为什么取缓存response的方法中，设置response.isCache = YES，是因为对于其他类isCache是readOnly的!设计成readOnly就可以保证response.isCache不会被误修改!

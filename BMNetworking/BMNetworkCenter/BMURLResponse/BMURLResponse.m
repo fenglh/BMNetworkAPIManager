@@ -20,6 +20,7 @@
 @property (nonatomic, copy, readwrite) NSError *error;
 @property (nonatomic, assign, readwrite) NSInteger requestId;
 @property (nonatomic, copy, readwrite) NSURLRequest *request;
+@property (nonatomic, copy, readwrite) NSHTTPURLResponse *response;
 @property (nonatomic, copy, readwrite) NSData *responseData;
 @property (nonatomic, assign, readwrite) BOOL isCache;
 
@@ -29,7 +30,9 @@
 
 #pragma mark - 生命周期
 
-- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request responseData:(NSData *)responseData status:(BMURLResponseStatus)status
+
+
+- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request response:(NSHTTPURLResponse *)response  responseData:(NSData *)responseData status:(BMURLResponseStatus)status
 {
     self = [super init];
     if (self) {
@@ -38,6 +41,7 @@
         self.status = status;
         self.requestId = [requestId integerValue];
         self.request = request;
+        self.response = response;
         self.responseData = responseData;
         self.requestParams = request.requestParams;//关联，主要给request添加一个属性用来hold住requestParams然后调试
         self.isCache = NO; //表示该response对象还没有进行缓存
@@ -45,7 +49,8 @@
     return self;
 }
 
--(instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request responseData:(NSData *)responseData error:(NSError *)error
+
+- (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request response:(NSHTTPURLResponse *)response responseData:(NSData *)responseData error:(NSError *)error
 {
     self = [super init];
     if (self) {
@@ -54,6 +59,7 @@
         self.status = [self responseStatusWithError:error];
         self.requestId = [requestId integerValue];
         self.request = request;
+        self.response = response;
         self.responseData = responseData;
         self.requestParams = request.requestParams;
         self.isCache = NO;//表示该response对象还没有进行缓存
@@ -77,6 +83,7 @@
         self.status = [self responseStatusWithError:nil];
         self.requestId = [[[BMAPICalledProxy sharedInstance] generateRequestId] integerValue];
         self.request = nil;
+        self.response = nil;
         self.responseData = [data copy];
         self.content =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL];
         self.isCache = YES;
