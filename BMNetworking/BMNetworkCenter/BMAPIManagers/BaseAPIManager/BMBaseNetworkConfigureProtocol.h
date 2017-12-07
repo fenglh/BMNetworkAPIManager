@@ -25,6 +25,8 @@
 - (NSString *)clientUUID;               //设备唯一标示符
 - (NSString *)appVersion;               //客户端版本
 - (NSString *)appType;                  //appType,即可至尊：washMall
+
+//在新版的服务端接口框架，不再涉及该方法来处理token过期，而使用：responseErrorEvent 方法统一处理
 - (NSInteger)tokenInvalidValue;         //token无效值
 
 
@@ -35,6 +37,7 @@
 //代替 BMBaseAPIManager 对象使用通知来处理token无效、用户未登录的事件，如果在配置文件实现了以下的方法，那么BMBaseAPIManager 不再发通知，而是交给下面2个方法去处理，使用者可以重写该两个方法去处理token无效以及、用户未登录
 - (void)tokenInvalidEvent:(BMBaseAPIManager *)manager;
 - (void)userUnLoginEvent:(BMBaseAPIManager *)manager;
+- (void)responseErrorEvent:(BMBaseAPIManager *)manager;//用来统一处理响应失败(401等)，在新版的服务端接口框架，不再涉及该方法来处理token过期，可以通过重写该方法来兼容
 
 @optional
 - (NSDictionary *)httpHeaderFields;     //http header fields, 默认nil

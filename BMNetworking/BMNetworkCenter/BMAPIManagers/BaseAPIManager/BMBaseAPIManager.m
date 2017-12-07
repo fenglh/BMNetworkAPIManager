@@ -875,6 +875,9 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
             }
         }
     }
+    if ([networkConfigureInstance respondsToSelector:@selector(responseErrorEvent:)]) {
+        [networkConfigureInstance responseErrorEvent:self];
+    }
 
     NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,kBMResponseCode,(long)self.errorCode);
 
