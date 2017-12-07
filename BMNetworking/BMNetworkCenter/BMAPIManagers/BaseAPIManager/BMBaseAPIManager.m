@@ -81,6 +81,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 @interface BMBaseAPIManager ()<BMAPIManager, BMAPIManagerValidator, BMAPIManagerInterceptor,BMAPIManagerParamsSourceDelegate>
 @property (strong, nonatomic) BMChace *cache;
+@property (nonatomic, copy, readwrite) BMURLResponse *response; //请参数
+
 @property (nonatomic, assign, readwrite)BMAPIManagerErrorType errorType;
 @property (nonatomic, assign, readwrite)NSInteger                errorCode;      //相对于errorType的具体化的错误代码
 @property (nonatomic, strong, readwrite )NSString *responseMsg;
@@ -697,54 +699,6 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     return resultData;
 }
 
-//是否存在缓存
-- (BOOL)hasCacheWithParams:(NSDictionary *)params
-{
-    //接口没有实现缓存代理时，则忽略参数保存
-    if (![self shouldCache]) {
-        return NO;
-    }
-    NSDictionary *reformerParam = [[self reformParamsBase:params] copy];
-   
-    NSData *result = [self.cache fetchCachedDataWithUrl:[self requestUrl] apiName:[self apiName] requestParams:reformerParam];
-    if (result == nil) {
-        return NO;
-    }
-    return YES;
-}
-
-
-/*
- * 针对特定参数删除缓存
- */
-- (void)deleteCacheWithParams:(NSDictionary *)params
-{
-    //接口没有实现缓存代理时，则忽略参数保存
-    if (![self shouldCache]) {
-        return;
-    }
-    NSDictionary *reformerParam = [[self reformParamsBase:params] copy];
-    [self.cache deleteCacheWithUrl:[self requestUrl] apiName:[self apiName] requestParams:reformerParam];
-    NSString *key = [[NSString stringWithFormat:@"%@%@%@", [self requestUrl], [self apiName],[reformerParam AIF_urlParamsStringSignature:NO]] md5String];
-    [self.allRequestParams removeObjectForKey:key];
-}
-
-//删除该接口的所有缓存
-- (void)cleanAllParamsCaChe
-{
-    //接口没有实现缓存代理时，则忽略参数保存
-    if (![self shouldCache]) {
-        return;
-    }
-    NSArray *allKeys = [self.allRequestParams allKeys];
-    for (NSString *key in allKeys) {
-        NSDictionary *param = [self.allRequestParams objectForKey:key];
-        [self deleteCacheWithParams:param];
-    }
-    
-    
-}
-
 
 
 - (NSDictionary *)reformParamsBase:(NSDictionary *)params
@@ -820,6 +774,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     if (response.content) {
         self.fetchedRawData = [response.content copy];
     }
+    self.response = response;
     self.errorCode = [networkConfigureInstance responseCodeSuccessValue];
     self.responseMsg = getAPICallingResponseMsg(response.content);
     self.requestId = response.requestId;
@@ -848,6 +803,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 - (void)failedOnCallingAPI:(BMURLResponse *)response withErrorType:(BMAPIManagerErrorType)errorType
 {
     self.errorType = errorType;
+    self.response = response;
     if (errorType == BMAPIManagerErrorTypeNotAllowCallingApi) {
         self.errorCode = BMManagerDefaultAPINotAllow;
     }else
@@ -897,5 +853,66 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 
 
+@end
+
+@implementation BMBaseAPIManager (cache)
+
+//是否存在缓存
+- (BOOL)hasCacheWithParams:(NSDictionary *)params
+{
+    //接口没有实现缓存代理时，则忽略参数保存
+    if (![self shouldCache]) {
+        return NO;
+    }
+    NSDictionary *reformerParam = [[self reformParamsBase:params] copy];
+    
+    NSData *result = [self.cache fetchCachedDataWithUrl:[self requestUrl] apiName:[self apiName] requestParams:reformerParam];
+    if (result == nil) {
+        return NO;
+    }
+    return YES;
+}
+
+
+/*
+ * 针对特定参数删除缓存
+ */
+- (void)deleteCacheWithParams:(NSDictionary *)params
+{
+    //接口没有实现缓存代理时，则忽略参数保存
+    if (![self shouldCache]) {
+        return;
+    }
+    NSDictionary *reformerParam = [[self reformParamsBase:params] copy];
+    [self.cache deleteCacheWithUrl:[self requestUrl] apiName:[self apiName] requestParams:reformerParam];
+    NSString *key = [[NSString stringWithFormat:@"%@%@%@", [self requestUrl], [self apiName],[reformerParam AIF_urlParamsStringSignature:NO]] md5String];
+    [self.allRequestParams removeObjectForKey:key];
+}
+
+//删除该接口的所有缓存
+- (void)cleanAllParamsCaChe
+{
+    //接口没有实现缓存代理时，则忽略参数保存
+    if (![self shouldCache]) {
+        return;
+    }
+    NSArray *allKeys = [self.allRequestParams allKeys];
+    for (NSString *key in allKeys) {
+        NSDictionary *param = [self.allRequestParams objectForKey:key];
+        [self deleteCacheWithParams:param];
+    }
+    
+    
+}
+
+
+
+@end
+
+@implementation BMBaseAPIManager (http)
+
+- (NSHTTPURLResponse *)fetchHttpUrlResponse {
+    return self.response.response;
+}
 
 @end

@@ -95,11 +95,9 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
  * 应该调用[super reformParams:params];
  *
  */
+
+
 - (NSDictionary *)reformParams:(NSDictionary *)params;
-
-
-
-
 
 /**
  *  取消所有请求
@@ -114,12 +112,6 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
 - (void)cancelRequestWithRequestId:(NSInteger)requestID;
 
 
-/*
- * 接口缓存操作
- */
-- (BOOL)hasCacheWithParams:(NSDictionary *)params;//是否存在缓存
-- (void)deleteCacheWithParams:(NSDictionary *)params;//删除指定参数缓存
-- (void)cleanAllParamsCaChe;//删除所有缓存
 
 //通知
 extern NSString * BMNotificationNetworkingTokenInvalid;   //token无效
@@ -129,5 +121,27 @@ extern NSString * BMNotificationNetworkingUserUnLogin;        //用户未登录
 @end
 
 
+
+/**
+ 缓存相关
+ */
+@interface BMBaseAPIManager (cache)
+
+
+- (BOOL)hasCacheWithParams:(NSDictionary *)params;//是否存在缓存
+- (void)deleteCacheWithParams:(NSDictionary *)params;//删除指定参数缓存
+- (void)cleanAllParamsCaChe;//删除所有缓存
+
+@end
+
+
+/**
+ HTTP 信息相关
+ */
+@interface BMBaseAPIManager (http)
+
+- (NSHTTPURLResponse *)fetchHttpUrlResponse;
+
+@end
 
 
