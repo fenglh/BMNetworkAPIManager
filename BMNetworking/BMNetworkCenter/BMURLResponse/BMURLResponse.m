@@ -12,7 +12,7 @@
 
 #import "BMAPICalledProxy.h"
 
-@interface BMURLResponse ()
+@interface BMURLResponse ()<NSCopying, NSMutableCopying>
 
 @property (nonatomic, assign, readwrite) BMURLResponseStatus status;
 @property (nonatomic, copy, readwrite) NSString *contentString;
@@ -29,7 +29,6 @@
 @implementation BMURLResponse
 
 #pragma mark - 生命周期
-
 
 
 - (instancetype)initWithResponseString:(NSString *)responseString requestId:(NSNumber *)requestId request:(NSURLRequest *)request response:(NSHTTPURLResponse *)response  responseData:(NSData *)responseData status:(BMURLResponseStatus)status
@@ -125,6 +124,29 @@
     }
 }
 
+
+#pragma mark - copy protocol
+
+
+
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    BMURLResponse *response = [[BMURLResponse alloc] init];
+    response.status = self.status;
+    response.contentString = self.contentString;
+    response.content = self.content;
+    response.error = self.error;
+    response.requestId = self.requestId;
+    response.request = self.request;
+    response.response = self.response;
+    response.responseData = self.responseData;
+    response.isCache = self.isCache;
+    return response;
+}
+
+- (id)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
 
 
 @end
