@@ -75,7 +75,7 @@
 {
 
     
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self newManager];
     AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
     serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
@@ -102,7 +102,7 @@
                         failure:(BMAPICallback)failure
 {
     
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self newManager];
     
     AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
@@ -126,7 +126,7 @@
                        success:(BMAPICallback)success
                        failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self newManager];
     
     AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
@@ -162,7 +162,7 @@
                           success:(BMAPICallback)success
                           failure:(BMAPICallback)failure
 {
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self newManager];
     
     AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
@@ -201,7 +201,7 @@
 
     
     NSNumber *requestId = [self generateRequestId];//生成requestId
-    NSString *urlString =[NSString stringWithFormat:@"%@?%@",url,queryString];
+    NSString *urlString = [self urlString:url queryString:queryString];
     
     
     AFHTTPSessionManager *manager = [self newManager];
@@ -259,6 +259,13 @@
 
 #pragma mark - 私有方法
 
+- (NSString *)urlString:(NSString *)url queryString:(NSString *)queryString {
+    if (queryString && ![queryString isEqualToString:@""]) {
+        return [NSString stringWithFormat:@"%@?%@",url,queryString];
+    }else {
+        return url;
+    }
+}
 
 
 /**
