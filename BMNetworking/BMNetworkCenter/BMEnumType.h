@@ -39,4 +39,10 @@ typedef NS_ENUM (NSUInteger , BMNetworkLogLevel){
     BMNetworkLogLevelVerbose
 };
 
+
+//token 传输方式
+typedef NS_ENUM (NSUInteger, BMTokenTransmissionMode){
+    BMTokenTransmissionModeInParams,  //在参数中
+    BMTokenTransmissionModeInHeaders, //在header中
+};
 #endif /* BMEnumType_h */

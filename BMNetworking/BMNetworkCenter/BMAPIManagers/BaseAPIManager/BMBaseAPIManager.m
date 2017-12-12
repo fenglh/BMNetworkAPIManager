@@ -55,7 +55,7 @@
     /*将token插入到header(打了token标记的接口，都会增加header，在params即http body中也会保留这个值，兼容旧版本) */                                                                              \
     BOOL useToken = [self useToken];                                                                    \
     NSMutableDictionary *httpHeaderFields = [NSMutableDictionary dictionary];                           \
-    if (useToken) {                                                                                     \
+    if (useToken && [networkConfigureInstance tokenTransmissionMode] == BMTokenTransmissionModeInHeaders) {                                                                                     \
         [httpHeaderFields setValue:[networkConfigureInstance tokenValue] forKey:[networkConfigureInstance tokenKey]];   \
     }                                                                                                   \
     NSDictionary *headers = [self reformHeaders:httpHeaderFields];                                          \
@@ -706,7 +706,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     
     NSMutableDictionary *mutableParams = params?[params mutableCopy]:[[NSMutableDictionary alloc]init];
     //是否使用token
-    if ([self useToken]) {
+    if ([self useToken] && [networkConfigureInstance tokenTransmissionMode] == BMTokenTransmissionModeInParams) {
         // 配置token
         mutableParams[kBMToken] = [networkConfigureInstance tokenValue];
     }
@@ -911,8 +911,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 @implementation BMBaseAPIManager (http)
 
-- (NSHTTPURLResponse *)fetchHttpUrlResponse {
-    return self.response.response;
+- (BMURLResponse *)fetchHttpUrlResponse {
+    return self.response;
 }
 
 @end

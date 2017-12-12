@@ -140,7 +140,7 @@ extern NSString * BMNotificationNetworkingUserUnLogin;        //用户未登录
  */
 @interface BMBaseAPIManager (http)
 
-- (NSHTTPURLResponse *)fetchHttpUrlResponse;
+- (BMURLResponse *)fetchHttpUrlResponse;
 
 @end
 

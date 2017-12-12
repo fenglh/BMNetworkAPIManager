@@ -111,6 +111,9 @@
 
 
 #pragma mark - 可选
+- (BMTokenTransmissionMode)tokenTransmissionMode {
+    return BMTokenTransmissionModeInParams;
+}
 
 - (NSDictionary *)httpHeaderFields {
     return nil;
