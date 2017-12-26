@@ -339,6 +339,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
                 if (self.nextPageNumber <= totalPageCount) {
                     self.nextPageNumber++;
                 }
+            }else{
+                self.nextPageNumber = [self pageStartIndex] + 1;
             }
 
         }
