@@ -74,7 +74,7 @@
 /**
  多传递一个url回来，为了兼容洗衣大师：部分接口使用小屋的签名、部分接口使用至尊洗衣的签名。统一处理根据url来区分使用不同签名，避免部分接口需要一个个的去重写签名方法！
  */
--(NSString *)queryStringWithParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type url:(NSString *)url;//查询字符串签名方法
+-(NSString *)queryStringWithParam:(NSDictionary *)businessParam requestType:(BMAPIManagerRequestType)type url:(NSString *)url;//查询字符串签名方法
 
 
 @end

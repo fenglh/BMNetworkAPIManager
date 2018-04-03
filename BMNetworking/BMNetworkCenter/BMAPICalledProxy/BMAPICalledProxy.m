@@ -20,22 +20,22 @@
 
 #define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
-    NSNumber *requestId = [self generateRequestId];\
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
-    @weakify(self);\
-    NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
-        @strongify(self);\
-        [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
-        @strongify(self);\
-        [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:SUCCESS_CALLBACK];\
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {\
-        @strongify(self);\
-        [self callAPIFailure:task error:error requestId:requestId failureCallback:FAILURE_CALLBACK];\
-    }];\
-    task.originalRequest.requestParams = REQUEST_PARAMS;\
-    self.httpRequestTaskTable[requestId] = task;\
-    return [requestId integerValue];\
+NSNumber *requestId = [self generateRequestId];\
+[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
+@weakify(self);\
+NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
+@strongify(self);\
+[self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
+} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
+@strongify(self);\
+[self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:SUCCESS_CALLBACK];\
+} failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {\
+@strongify(self);\
+[self callAPIFailure:task error:error requestId:requestId failureCallback:FAILURE_CALLBACK];\
+}];\
+task.originalRequest.requestParams = REQUEST_PARAMS;\
+self.httpRequestTaskTable[requestId] = task;\
+return [requestId integerValue];\
 }
 
 @interface BMAPICalledProxy ()
@@ -73,23 +73,18 @@
                        success:(BMAPICallback)success
                        failure:(BMAPICallback)failure
 {
-
+    
     
     NSString *urlString = [self urlString:url queryString:queryString];
-    AFHTTPSessionManager *manager = [self newManager];
-    AFHTTPResponseSerializer *serializer=[AFHTTPResponseSerializer serializer];
-    serializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
-    manager.responseSerializer = serializer;
+    AFHTTPSessionManager *manager = [self sharedSessionManager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
+    [manager.requestSerializer addHeaders:headers];
     
-    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer addHeaders:headers];
-    manager.requestSerializer =  requestSerializer;
-
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
     callHttpRequest(manager, GET, urlString, params, progress, success, failure);
-
+    
 }
 
 - (NSInteger)callPOSTWithParams:(NSDictionary *)params
@@ -103,11 +98,10 @@
 {
     
     NSString *urlString = [self urlString:url queryString:queryString];
-    AFHTTPSessionManager *manager = [self newManager];
     
-    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer addHeaders:headers];
-    manager.requestSerializer =  requestSerializer;
+    AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer addHeaders:headers];
+    
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
@@ -127,11 +121,9 @@
                        failure:(BMAPICallback)failure
 {
     NSString *urlString = [self urlString:url queryString:queryString];
-    AFHTTPSessionManager *manager = [self newManager];
     
-    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer addHeaders:headers];
-    manager.requestSerializer =  requestSerializer;
+    AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"PUT"];
@@ -163,11 +155,8 @@
                           failure:(BMAPICallback)failure
 {
     NSString *urlString = [self urlString:url queryString:queryString];
-    AFHTTPSessionManager *manager = [self newManager];
-    
-    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer addHeaders:headers];
-    manager.requestSerializer =  requestSerializer;
+    AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"DELETE"];
@@ -198,16 +187,14 @@
                                 failure:(BMAPICallback)failure
 {
     
-
+    
     
     NSNumber *requestId = [self generateRequestId];//生成requestId
     NSString *urlString = [self urlString:url queryString:queryString];
     
     
-    AFHTTPSessionManager *manager = [self newManager];
-    AFHTTPRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializer];
-    [requestSerializer addHeaders:headers];
-    manager.requestSerializer =  requestSerializer;
+    AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer addHeaders:headers];
     
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];
@@ -252,7 +239,7 @@
     task.originalRequest.requestParams = params;
     self.httpRequestTaskTable[requestId] = task;
     //注释掉request转换，因为在调用上传视频接口是，params不符合json格式，导致转换失败。
-//    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
+    //    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"MineTypePOST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:nil apiName:apiName url:url requestParams:params httpMethod:@"MineTypePOST"];
     return [requestId integerValue];
 }
@@ -342,7 +329,7 @@
     [BMLoger logDebugInfoWithResponse:(NSHTTPURLResponse *)task.response resposeString:contentString request:task.originalRequest error:NULL];
     BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest response:(NSHTTPURLResponse *)task.response responseData:responseData status:BMURLResponseStatusSuccess];
     successCallback?successCallback(response):nil;
-
+    
 }
 
 //取消单个请求
@@ -363,6 +350,19 @@
 
 #pragma mark - getters and setters
 
+- (AFHTTPSessionManager *)sharedSessionManager {
+    
+    static AFHTTPSessionManager *manager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [AFHTTPSessionManager manager];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        manager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+    });
+    return manager;
+    
+}
 - (AFHTTPSessionManager *)newManager
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

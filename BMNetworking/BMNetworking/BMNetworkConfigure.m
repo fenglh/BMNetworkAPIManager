@@ -65,7 +65,7 @@
 }
 - (BMNetworkLogLevel)networkLogLevel
 {
-    return BMNetworkLogLevelVerbose;
+    return BMNetworkLogLevelUnLog ;
 }
 
 @end

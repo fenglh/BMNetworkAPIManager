@@ -133,7 +133,7 @@
         self.progressLabel.text = string;
     }else{
         NSString *string = [NSString stringWithFormat:@"下载:%@",progress.localizedDescription];
-        NSLog(@"%@",string);
+//        NSLog(@"%@",string);
         self.progressLabel.text = string;
     }
 

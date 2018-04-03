@@ -217,7 +217,7 @@
 //网络日志等级
 - (BMNetworkLogLevel)networkLogLevel
 {
-    return BMNetworkLogLevelVerbose;
+    return BMNetworkLogLevelRequest | BMNetworkLogLevelResponse;
 }
 
 #pragma mark - 私有方法（获取基类的子类）

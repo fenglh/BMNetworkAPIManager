@@ -27,6 +27,7 @@
 		0C7592801E31B0E700615928 /* BMBaseNetworkConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C75927F1E31B0E700615928 /* BMBaseNetworkConfigure.m */; };
 		0C7592831E31F80D00615928 /* NSString+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592821E31F80D00615928 /* NSString+Networking.m */; };
 		0C7592861E31F8B200615928 /* NSData+Networking.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7592851E31F8B200615928 /* NSData+Networking.m */; };
+		3637083C20732B3E0040F48E /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 3637083B20732B3E0040F48E /* readme.md */; };
 		3640176D1E5C168F00587D0C /* BMDownloadAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */; };
 		3645AE921E5D4A5200EC01CD /* EXTScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 3645AE8F1E5D4A5100EC01CD /* EXTScope.m */; };
 		3659C11F1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3659C11D1F78A69600C33A4A /* BMBaseAPIManager+BMBlock.m */; };
@@ -83,6 +84,7 @@
 		0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMBaseNetworkConfigureProtocol.h; path = BMAPIManagers/BaseAPIManager/BMBaseNetworkConfigureProtocol.h; sourceTree = "<group>"; };
 		2A3091C4A0B86DD4E377D2A9 /* Pods-BMNetworking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.release.xcconfig"; sourceTree = "<group>"; };
 		355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BMNetworking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3637083B20732B3E0040F48E /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		3640176B1E5C168F00587D0C /* BMDownloadAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMDownloadAPIManager.h; sourceTree = "<group>"; };
 		3640176C1E5C168F00587D0C /* BMDownloadAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMDownloadAPIManager.m; sourceTree = "<group>"; };
 		3645AE8E1E5D4A5100EC01CD /* EXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTScope.h; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		0C75915E1E3093B300615928 /* BMNetworkCenter */ = {
 			isa = PBXGroup;
 			children = (
+				3637083B20732B3E0040F48E /* readme.md */,
 				36C245501F78CDBA0022E164 /* BMNetworkAPIManager.h */,
 				3687BECD1EB9DB4300DFCF99 /* BMEnumType.h */,
 				0C7592871E35E8F400615928 /* BMBaseNetworkConfigureProtocol.h */,
@@ -451,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C75922E1E3093B400615928 /* BMBaseAPIManager.m in Sources */,
+				3637083C20732B3E0040F48E /* readme.md in Sources */,
 				369C1D281E53F794001B543C /* BMTestAPIManager.m in Sources */,
 				0C7592721E3093B400615928 /* BMURLResponse.m in Sources */,
 				0C75926D1E3093B400615928 /* NSMutableString+AXNetworkingMethods.m in Sources */,
@@ -596,8 +600,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "87f5988f-e884-40b6-b591-02abc8c9afbf";
-				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20171106;
+				PROVISIONING_PROFILE = "b0722f82-6bba-4285-9ea7-1e633d436ba0";
+				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20181227;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Debug;
@@ -615,8 +619,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.com.bluemoon.sfa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "87f5988f-e884-40b6-b591-02abc8c9afbf";
-				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20171106;
+				PROVISIONING_PROFILE = "b0722f82-6bba-4285-9ea7-1e633d436ba0";
+				PROVISIONING_PROFILE_SPECIFIER = dev_cn.com.bluemoon.sfa_20181227;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/BMNetworkCenter/**";
 			};
 			name = Release;
