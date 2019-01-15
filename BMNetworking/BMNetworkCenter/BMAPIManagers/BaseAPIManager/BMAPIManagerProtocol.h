@@ -124,7 +124,9 @@
 - (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
 - (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
 
-
+//responseMsg key 和 responseCode key
+- (NSString *)responseMsgKey;
+- (NSString *)responseCodeKey;
 
 - (BOOL)useToken;//默认NO
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost

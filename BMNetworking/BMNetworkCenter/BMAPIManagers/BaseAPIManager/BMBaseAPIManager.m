@@ -43,11 +43,11 @@
 
 
 //是否成功
-#define isAPICallingSuccess(_ref) ( !isNillOrNull([(_ref) objectForKey:kBMResponseCode]) &&\
-        [[(_ref) objectForKey:kBMResponseCode] integerValue] == kBMResponseCodeSuccess)
+#define isAPICallingSuccess(_ref) ( !isNillOrNull([(_ref) objectForKey:[self responseCodeKey]]) &&\
+        [[(_ref) objectForKey:[self responseCodeKey]] integerValue] == kBMResponseCodeSuccess)
 
 //获取服务端返回信息
-#define getAPICallingResponseMsg(_ref) (isNillOrNull(_ref)?@"服务器返回数据异常":(isNillOrNull([(_ref) objectForKey:kBMResponseMsg])?@"服务器返回错误信息异常":[(_ref) objectForKey:kBMResponseMsg]))
+#define getAPICallingResponseMsg(_ref) (isNillOrNull(_ref)?@"服务器返回数据异常":(isNillOrNull([(_ref) objectForKey:[self responseMsgKey]])?@"服务器返回错误信息异常":[(_ref) objectForKey:[self responseMsgKey]]))
 
 
 #define BMCallAPI(REQUEST_METHOD, REQUEST_PARAMS,REQUEST_ID)                                            \
@@ -445,6 +445,14 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 #pragma mark - 默认配置数据
 
+- (NSString *)responseMsgKey {
+    return kBMResponseMsg;
+}
+
+- (NSString *)responseCodeKey {
+    return kBMResponseCode;
+}
+
 - (BOOL)usePage
 {
     return NO;
@@ -814,8 +822,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
             self.responseMsg = @"参数错误(前端校验)";
             self.errorCode = BMManagerDefaultParamsError;
         }else{
-            if ([response.content objectForKey:kBMResponseCode]) {
-                self.errorCode =[[response.content objectForKey:kBMResponseCode] integerValue];
+            if ([response.content objectForKey:[self responseCodeKey]]) {
+                self.errorCode =[[response.content objectForKey:[self responseCodeKey]] integerValue];
                 self.responseMsg = getAPICallingResponseMsg(response.content);
             }else{
                 //默认认为网络或者服务器错误BMManagerDefaultOtherError
@@ -837,7 +845,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         [networkConfigureInstance responseErrorEvent:self];
     }
 
-    NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,kBMResponseCode,(long)self.errorCode);
+    NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,[self responseCodeKey],(long)self.errorCode);
 
 
     self.requestId = response.requestId;
