@@ -77,6 +77,7 @@ return [requestId integerValue];\
     
     NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer clearAuthorizationHeader]; //先删除
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
     [manager.requestSerializer addHeaders:headers];
     
@@ -100,6 +101,7 @@ return [requestId integerValue];\
     NSString *urlString = [self urlString:url queryString:queryString];
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer clearAuthorizationHeader]; //先删除
     [manager.requestSerializer addHeaders:headers];
     
     
@@ -123,6 +125,7 @@ return [requestId integerValue];\
     NSString *urlString = [self urlString:url queryString:queryString];
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer clearAuthorizationHeader]; //先删除
     [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:params error:NULL];
@@ -156,6 +159,7 @@ return [requestId integerValue];\
 {
     NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer clearAuthorizationHeader]; //先删除
     [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:params error:NULL];
@@ -194,6 +198,7 @@ return [requestId integerValue];\
     
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
+    [manager.requestSerializer clearAuthorizationHeader]; //先删除
     [manager.requestSerializer addHeaders:headers];
     
     //1.分离NSData类型和非NSData类型参数
