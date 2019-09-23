@@ -18,7 +18,11 @@ Pod::Spec.new do |s|
   s.source_files  = "Classes", "BMNetworking/BMNetworkCenter/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
   s.ios.deployment_target = '8.0'
-  s.dependency "AFNetworking"
-  s.dependency "RealReachability"
+
+  s.dependency "AFNetworking/Serialization"
+  s.dependency "AFNetworking/Security"
+  s.dependency "AFNetworking/Reachability"
+  s.dependency "AFNetworking/NSURLSession"
+
 
 end

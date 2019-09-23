@@ -5,8 +5,12 @@ platform :ios, "7.0"
 
 inhibit_all_warnings!
 target:BMNetworking do
-    pod "AFNetworking" #网络
-    pod 'RealReachability' #网络可达检测
+    #pod "AFNetworking" #网络
+
+    pod 'AFNetworking/Serialization', '3.2.1'
+    pod 'AFNetworking/Security', '3.2.1'
+    pod 'AFNetworking/Reachability', '3.2.1'
+    pod 'AFNetworking/NSURLSession', '3.2.1'
 end
 
 #常用命令

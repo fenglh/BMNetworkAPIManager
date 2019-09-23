@@ -10,7 +10,6 @@
 #import "BMChace.h"
 #import "BMAPICalledProxy.h"
 #import "BMLoger.h"
-#import "RealReachability.h"
 #import "NSDictionary+AXNetworkingMethods.h"
 #import "NSArray+AXNetworkingMethods.h"
 #import "BMBaseNetworkConfigure.h"
@@ -139,29 +138,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 }
 
 - (BOOL)isReachable
-{
-//    ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
-//    
-//    if (status == RealStatusNotReachable)
-//    {
-//        NSLog(@"当前网络状态:网络不可达");
-//    }
-//    else if (status == RealStatusViaWiFi)
-//    {
-//        NSLog(@"当前网络状态:WiFi");
-//    }
-//    
-//    else if (status == RealStatusViaWWAN)
-//    {
-//        NSLog(@"当前网络状态:WWAN");
-//    }else{
-//        NSLog(@"当前网络状态:未知网络");
-//    }
-//    
-//    if (status == RealStatusNotReachable) {
-//        return NO;
-//    }
-    
+{    
     return YES;
 }
 
