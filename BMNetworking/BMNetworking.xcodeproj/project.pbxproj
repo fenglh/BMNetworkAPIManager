@@ -341,8 +341,6 @@
 				0C7591401E30925B00615928 /* Sources */,
 				0C7591411E30925B00615928 /* Frameworks */,
 				0C7591421E30925B00615928 /* Resources */,
-				1A4587F19645CB2BE14CF742 /* [CP] Embed Pods Frameworks */,
-				0F997EBD9D6D97226AE212D7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -401,36 +399,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0F997EBD9D6D97226AE212D7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1A4587F19645CB2BE14CF742 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6E18B16B17F6897D601C296F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
