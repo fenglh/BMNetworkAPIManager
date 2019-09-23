@@ -5,7 +5,7 @@
 //  Created by fenglh on 2017/11/23.
 //  Copyright © 2017年 BlueMoon. All rights reserved.
 //
-#import <AFURLRequestSerialization.h>
+#import <AFNetworking/AFURLRequestSerialization.h>
 
 @interface AFHTTPRequestSerializer (addHeaders)
 - (void)addHeaders:(NSDictionary *)headers;

@@ -15,7 +15,7 @@
 #import "AFHTTPRequestSerializer+addHeaders.h"
 #import "BMMineTypeFileModel.h"
 #import "EXTScope.h"
-#import <AFHTTPSessionManager.h>
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 
 #define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
