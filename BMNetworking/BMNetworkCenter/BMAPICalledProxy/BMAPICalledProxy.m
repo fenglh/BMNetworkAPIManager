@@ -320,19 +320,27 @@ return [requestId integerValue];\
     }
     
     NSString *contentString;
-    NSData *responseData;
-    
-    if ([NSJSONSerialization isValidJSONObject:responseObject]) {
-        responseData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];\
-        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-        contentString = responseDictionary.jsonStringEncoded;
-    }else{
+    NSError *err;
+    NSJSONSerialization *serialization = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&err];
+    if (err || serialization == nil) {
         contentString = @"(responseObject 不是有效的JSON对象(例如：文件、视频等)，此类型数据不作日志打印输出！)";
-        responseData = responseObject;
+    }else{
+        NSDictionary *responseDictionary = (NSDictionary *)serialization;
+        contentString = responseDictionary.jsonStringEncoded;
     }
     
+    
+//    if ([NSJSONSerialization isValidJSONObject:responseObject]) {
+//        responseData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];\
+//        NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+//        contentString = responseDictionary.jsonStringEncoded;
+//    }else{
+//        contentString = @"(responseObject 不是有效的JSON对象(例如：文件、视频等)，此类型数据不作日志打印输出！)";
+//        responseData = responseObject;
+//    }
+    
     [BMLoger logDebugInfoWithResponse:(NSHTTPURLResponse *)task.response resposeString:contentString request:task.originalRequest error:NULL];
-    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest response:(NSHTTPURLResponse *)task.response responseData:responseData status:BMURLResponseStatusSuccess];
+    BMURLResponse *response = [[BMURLResponse alloc] initWithResponseString:contentString requestId:requestId request:task.originalRequest response:(NSHTTPURLResponse *)task.response responseData:responseObject status:BMURLResponseStatusSuccess];
     successCallback?successCallback(response):nil;
     
 }
