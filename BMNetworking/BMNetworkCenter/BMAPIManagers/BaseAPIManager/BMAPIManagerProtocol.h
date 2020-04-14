@@ -69,9 +69,9 @@
 /*                          api回调数据格式化器 BMAPIManagerCallBackDataReformer                              */
 /***********************************************************************************************************/
 @protocol BMAPIManagerCallBackDataReformer <NSObject>
-@required
+@optional
 /**
- *  格式化器
+ *  格式化器,
  *
  *  @param manager manager对象
  *  @param data    网络请求返回的原始数据
@@ -79,6 +79,7 @@
  *  @return 格式化之后的数据
  */
 - (id)manager:(BMBaseAPIManager *)manager reformData:(NSDictionary *)data;
++ (id)manager:(BMBaseAPIManager *)manager reformData:(NSDictionary *)data;
 @end
 
 
