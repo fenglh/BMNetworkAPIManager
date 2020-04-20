@@ -23,198 +23,46 @@
 }
 
 
-
-
-//baseUrl
-- (NSString *)baseUrl
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
-//baseUrlTest
-- (NSString *)baseUrlTest
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
-
-//token 值
-- (NSString *)tokenValue
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
-
-//响应码成功值
-- (NSInteger)responseCodeSuccessValue
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return 0;
-}
-
-//登录状态
-- (BMUserLoginStatus)loginStatus
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return BMUserLoginStatusUnLogin;
-}
-
-//@"Er78s1hcT4Tyoaj2";//私钥
+//密钥，默认BMAPIParamsSign使用，可以抽离
 - (NSString *)secrect
 {
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
+    return @"";
 }
 
-//设备唯一标示符
+//默认BMAPIParamsSign使用，可以抽离
 - (NSString *)clientUUID
 {
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
+    return @"";
 }
 
-//时间戳,传[NSString stringWithFormat:@"%ld",time(NULL)];即可
-- (NSString *)timeStamp
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
-
-//客户端版本
+//默认BMAPIParamsSign使用，可以抽离
 - (NSString *)appVersion
 {
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
+    return @"1.0.0";
 }
 
-//appType,即可至尊：washMall
+//appType,例如：iOSDemo,默认BMAPIParamsSign使用，可以抽离
 - (NSString *)appType
 {
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
-
-//是否测试环境
-- (BOOL)isTestEnVironment
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return NO;
+    return @"iOSDemo";
 }
 
 
-//token无效值
-- (NSInteger)tokenInvalidValue
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return 0;
-}
-
-
-#pragma mark - 可选
-- (BMTokenTransmissionMode)tokenTransmissionMode {
-    return BMTokenTransmissionModeInParams;
-}
-
-- (NSDictionary *)httpHeaderFields {
-    return nil;
-}
-//token
-- (NSString *)tokenKey
-{
-    return @"token";
-}
-- (NSString *)pageIndexKey
-{
-    return @"pageIndex";
-}
-- (NSString *)pageTotalKey
-{
-    return @"total";
-}
-
-- (NSUInteger)pageStartIndex
-{
-    return 0;
-}
-
-//分页key
-- (NSString *)pageSizeKey
-{
-    return @"pageSize";
-}
-
-- (NSUInteger)unPageSize
-{
-    return 10;
-}
-
-//分页大小
-- (NSUInteger)pageSize
-{
-    return 10;
-}
-
-//时间戳key
-- (NSString *)timestampKey
-{
-    return @"timestamp";
-}
-
-//响应码key
-- (NSString *)responseCodeKey
-{
-    return @"responseCode";
-}
-
-//响应信息key
-- (NSString *)responseMsgKey
-{
-    return @"responseMsg";
-}
-
-//响应数据 key
-- (NSString *)responseDataKey
-{
-    return nil;
-}
-
-//最多缓存数量
-- (NSUInteger)cacheCountLimit
-{
-    return 1000;
-}
-
-//缓存时间
-- (NSTimeInterval)cacheTimeOutSeconds
-{
-    return 300;
-}
-
-//网络超时时间
-- (NSTimeInterval)requestTimeOutSeconds
-{
-    return 20;
-}
-
-//默认@"json"
+//默认@"json",默认BMAPIParamsSign使用，可以抽离
 - (NSString *)contentFormat
 {
     return @"json";
 }
 
-//@"ios"
+//@"ios",默认BMAPIParamsSign使用，可以抽离
 - (NSString *)clientPlatform
 {
     return @"ios";
 }
 
-//定位
-- (CLLocation *)location
-{
-    return nil;
-}
 
-//网络日志等级
+
+//网络日志等级,BMLoger使用，可以抽离
 - (BMNetworkLogLevel)networkLogLevel
 {
     return BMNetworkLogLevelRequest | BMNetworkLogLevelResponse;

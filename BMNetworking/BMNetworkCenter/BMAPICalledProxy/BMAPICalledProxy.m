@@ -18,6 +18,8 @@
 #import <AFNetworking/AFHTTPSessionManager.h>
 
 
+#define kBMRequestTimeOutSeconds ([networkConfigureInstance respondsToSelector:@selector(requestTimeOutSeconds)] ? [networkConfigureInstance requestTimeOutSeconds]:10)
+
 #define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
 NSNumber *requestId = [self generateRequestId];\
@@ -371,7 +373,7 @@ return [requestId integerValue];\
         manager = [AFHTTPSessionManager manager];
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        manager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+        manager.requestSerializer.timeoutInterval =kBMRequestTimeOutSeconds;
     });
     return manager;
     
@@ -379,7 +381,7 @@ return [requestId integerValue];\
 - (AFHTTPSessionManager *)newManager
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer.timeoutInterval = [networkConfigureInstance requestTimeOutSeconds];
+    manager.requestSerializer.timeoutInterval = kBMRequestTimeOutSeconds;
     manager.requestSerializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;//默认缓存策略
     return manager;
 }

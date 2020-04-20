@@ -11,6 +11,15 @@
 #import "NSDictionary+AXNetworkingMethods.h"
 #import "NSString+Networking.h"
 
+
+#define kBMClientPlatform [networkConfigureInstance respondsToSelector:@selector(clientPlatform)] ? [networkConfigureInstance clientPlatform] : @"ios"
+#define kBMClientUUID [networkConfigureInstance respondsToSelector:@selector(clientUUID)] ?[networkConfigureInstance clientUUID] : @""
+#define kBMContentFormat [networkConfigureInstance respondsToSelector:@selector(contentFormat)] ? [networkConfigureInstance contentFormat] :@"json"
+#define kBMAppVersion [networkConfigureInstance respondsToSelector:@selector(appVersion)] ?  [networkConfigureInstance appVersion] : @""
+#define kBMSecrect [networkConfigureInstance respondsToSelector:@selector(secrect)] ?  [networkConfigureInstance secrect] : @""
+#define kBMAppType [networkConfigureInstance respondsToSelector:@selector(appType)] ?  [networkConfigureInstance appType] : @""
+
+
 @implementation BMAPIParamsSign
 #pragma mark - 公有方法
 
@@ -44,10 +53,16 @@
 {
     //获取非签名公参
     NSMutableDictionary *nonSignParams = [NSMutableDictionary dictionary];
-    [nonSignParams setObject:@([networkConfigureInstance location].coordinate.longitude) forKey:@"lng"];
-    [nonSignParams setObject:@([networkConfigureInstance location].coordinate.latitude) forKey:@"lat"];
-    [nonSignParams setObject:@([networkConfigureInstance location].altitude) forKey:@"hig"];
-    [nonSignParams setObject:[networkConfigureInstance appType] forKey:@"appType"];
+    if ([networkConfigureInstance respondsToSelector:@selector(location)]) {
+        CLLocation *location = [networkConfigureInstance location];
+        if (location) {
+            [nonSignParams setObject:@(location.coordinate.longitude) forKey:@"lng"];
+            [nonSignParams setObject:@(location.coordinate.latitude) forKey:@"lat"];
+            [nonSignParams setObject:@(location.altitude) forKey:@"hig"];
+        }
+    }
+
+    [nonSignParams setObject:kBMAppType forKey:@"appType"];
     return nonSignParams;
 }
 
@@ -59,12 +74,16 @@
 + (NSDictionary *)signaturedParamsWithParam:(NSDictionary *)param requestType:(BMAPIManagerRequestType)type
 {
 
-    //
-    NSString *clientPlatform = [networkConfigureInstance clientPlatform];
-    NSString *clientUUID = [networkConfigureInstance clientUUID];
-    NSString *format = [networkConfigureInstance contentFormat];
+    
+    
+
+    
+    
+    NSString *clientPlatform = kBMClientPlatform;
+    NSString *clientUUID = kBMClientUUID;
+    NSString *format = kBMContentFormat;
     NSString *timeStamp = [NSString stringWithFormat:@"%ld000",time(NULL)];
-    NSString *version = [networkConfigureInstance appVersion];
+    NSString *version = kBMAppVersion;
     NSString *paramJsonString = param.jsonStringEncoded;//不能使用[NSDictionary dictionaryWithDictionary:businessParam].jsonStringEncoded，否则会导致jsonStringEncoded不一致
     NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithDictionary:@{@"client":clientPlatform,@"cuid":clientUUID,@"format":format,@"time":timeStamp,@"version":version}];
     //进行签名
@@ -80,7 +99,7 @@
 //+ (NSString *)signWithParams:(NSDictionary *)params businessJsonString:(NSString *)businessJsonString signBusinessParam:(BOOL)signBusinessParam
 + (NSString *)signWithParams:(NSDictionary *)params businessJsonString:(NSString *)businessJsonString requestType:(BMAPIManagerRequestType)type
 {
-    NSString *secrect = [networkConfigureInstance secrect];//私钥
+    NSString *secrect = kBMSecrect;//私钥
     
     //1.按字母顺序排序
     NSArray *keys = [params allKeys];

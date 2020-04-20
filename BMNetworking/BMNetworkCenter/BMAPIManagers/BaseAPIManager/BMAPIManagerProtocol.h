@@ -106,47 +106,57 @@
 /*                          apiManager BMAPIManager                                                        */
 /***********************************************************************************************************/
 @protocol BMAPIManager<NSObject>
-@required
-- (NSString *)interfaceUrl;//接口地址，不包含baseUrl
+
 @optional
 
-- (NSString *)baseUrl;      //正式地址
-- (NSString *)testBaseUrl;  //测试地址
-
+//接口地址
+- (NSString *)baseUrl;      //正式地址, 默认@""
+- (NSString *)baseUrlTest;  //测试地址, 默认@""
+- (NSString *)interfaceUrl; //接口地址，默认@""
+- (BOOL)isTestEnVironment;  //是否测试环境,默认NO
 
 //分页
 - (BOOL)usePage;            //是否使用分页，默认NO
 - (BMPageType)pageType;     //分页类型，默认BMPageTypeTimeStamp
-- (NSUInteger)unPageSize;   //不分页大小,默认10(即调用loadData时，返回的分页大小)
-- (NSUInteger)pageSize;     //分页大小，默认10(即调用loadNextData时，返回的分页大小)
+- (NSUInteger)unPageSize;   //不分页大小,默认10
+- (NSUInteger)pageSize;     //分页大小，默认10
+- (NSUInteger)pageStartIndex; //默认0
 - (NSString *)pageTimeStampKey; //分页时间戳的key，默认@"timestamp"
-
-- (NSUInteger)pageStartIndex; //默认startIndex = 0，有些接口startIndex = 1
 - (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
-- (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
+- (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageTotal"
+- (NSString *)pageSizeKey;//分页大小key，默认@"pageSize"
 
-//responseMsg key 和 responseCode key
-- (NSString *)responseMsgKey;
-- (NSString *)responseCodeKey;
-
-- (BOOL)useToken;//默认NO
+//请求和响应
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost
-- (BOOL)shouldCache;//是否缓存，YES缓存（5分钟）
-- (NSDictionary *)reformParams:(NSDictionary *)params;//格式化参数，例如去前后空格 ,当子类没有重写该方法时，会调用基类的该方法
+- (NSString *)responseMsgKey;//默认@"responseMsg"
+- (NSString *)responseCodeKey;//默认@"responseCode"
+- (NSInteger)responseCodeSuccess;//默认0
+- (void)responseErrorEvent:(BMBaseAPIManager *)manager;//请求错误事件
+- (NSString *)queryStringWithParam:(NSDictionary *)params;//查询字符串
 
-//20171123
+//缓存
+- (BOOL)shouldCache;//是否缓存，YES缓存（5分钟）
+
+//格式化
+- (NSDictionary *)reformParams:(NSDictionary *)params;//格式化参数，例如去前后空格
 - (NSDictionary *)reformHeaders:(NSDictionary *)headers;//格式化header
 
-/**
- * 描述：返回查询字符串，当接口需要单独的签名生成查询字符串时，可通过该协议方法实现并返回！
- *
- *      优先级：接口 > BMBaseNetworkConfigure > BMAPIParamsSignature
- *
- *      当接口没有实现queryStringWithParam方法时，使用BMBaseNetworkConfigure 对象返回的签名查询字符串。
- *      当BMBaseNetworkConfigure对象也没有配置签名查询字符串时，默认使用BMAPIParamsSignature对象返回的签名查询字符串
 
- */
-- (NSString *)queryStringWithParam:(NSDictionary *)params;
+//登录
+- (void)userUnLoginEvent:(BMBaseAPIManager *)manager ;//用户未登录事件
+- (BMUserLoginStatus)loginStatus; //登录状态
+
+//token
+- (BOOL)useToken;//默认NO
+- (BMTokenTransmissionMode)tokenTransmissionMode;
+- (NSString *)tokenKey;//默认@"token"
+- (NSString *)tokenValue;//默认@""
+- (void)tokenInvalidEvent:(BMBaseAPIManager *)manager;//token无效事件
+- (NSInteger)tokenInvalidValue;//默认-1
+
+
+
+
 @end
 
 

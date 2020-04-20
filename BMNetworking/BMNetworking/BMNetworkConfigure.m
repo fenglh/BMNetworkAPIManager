@@ -65,7 +65,7 @@
 }
 - (BMNetworkLogLevel)networkLogLevel
 {
-    return BMNetworkLogLevelUnLog ;
+    return BMNetworkLogLevelRequest | BMNetworkLogLevelResponse;
 }
 
 @end

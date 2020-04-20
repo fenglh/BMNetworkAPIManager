@@ -5,16 +5,11 @@
 //  Created by fenglh on 15/9/25.
 //  Copyright (c) 2015年 fenglh. All rights reserved.
 //----------------------------------------
-// 版本2.0.0
-// 修改：1.将protocol Delegate 剥离到一个单独的文件
-//      2.去掉BMService类
-//      3.基类自带分页功能
-//      4.
-// 2016/10/11 冯立海
-//----------------------------------------
-// 版本2.0.1
-// 修改：1.提供缓存管理操作函数（是否缓存、删除缓存）
-// 2016/10/11 冯立海
+
+
+
+#define BMAPIManagerInit(clas, name, delegate) - (clas *)name {if (!_##name) {_##name = [[clas alloc] init];_##name.apiCallBackDelegate = delegate;}return _##name;}
+#define BMAPIManagerDelegateSelfInit(clas, name)  BMAPIManagerInit(clas, name, self)
 
 
 #import <Foundation/Foundation.h>
@@ -96,7 +91,6 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
  *
  */
 
-
 - (NSDictionary *)reformParams:(NSDictionary *)params;
 
 /**
@@ -110,8 +104,6 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
  *  @param requestID 请求id
  */
 - (void)cancelRequestWithRequestId:(NSInteger)requestID;
-
-
 
 //通知
 extern NSString * BMNotificationNetworkingTokenInvalid;   //token无效

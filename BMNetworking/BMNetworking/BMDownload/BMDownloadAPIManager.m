@@ -41,7 +41,7 @@
 {
 
     NSURL *downloadUrl = [NSURL URLWithString:url];
-    self.hostUrl = [NSString stringWithFormat:@"%@://%@",downloadUrl.scheme, downloadUrl.host];
+    self.hostUrl = [NSString stringWithFormat:@"%@:/%@",downloadUrl.scheme, downloadUrl.host];
     self.path = downloadUrl.path;
     return [self loadData];
 }

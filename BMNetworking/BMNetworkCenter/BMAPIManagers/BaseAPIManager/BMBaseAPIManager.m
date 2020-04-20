@@ -19,22 +19,29 @@
 
 
 
-
-
-#define kBMResponseMsg              ([networkConfigureInstance responseMsgKey])
-#define kBMResponseCode             ([networkConfigureInstance responseCodeKey])
-#define kBMResponseCodeSuccess      ([networkConfigureInstance responseCodeSuccessValue])
-#define kBMPageSizeKey              ([networkConfigureInstance pageSizeKey])
-#define kBMPageStartIndex           ([networkConfigureInstance pageStartIndex])
-#define kBMPageSize                 ([networkConfigureInstance pageSize])
-#define kBMUnPageSize               ([networkConfigureInstance unPageSize])
-#define kBMTimestamp                ([networkConfigureInstance timestampKey])
-#define kBMToken                    ([networkConfigureInstance tokenKey])
-
-#define kBMPageIndexKey             ([networkConfigureInstance pageIndexKey])
-#define kBMPageTotalKey             ([networkConfigureInstance pageTotalKey])
-#define kBMResponseDataKey          ([networkConfigureInstance responseDataKey])
-#define kBMHttpHeaderFields         ([networkConfigureInstance httpHeaderFields])
+#define kBMTokenTransmissionMode        ([networkConfigureInstance respondsToSelector:@selector(tokenTransmissionMode)]?[networkConfigureInstance tokenTransmissionMode] :BMTokenTransmissionModeInParams)
+#define kBMTokenValue                   ([networkConfigureInstance respondsToSelector:@selector(tokenValue)]?[networkConfigureInstance tokenValue]:@"")
+#define kBMTokenInvalidEvent(manager)   ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidEvent:)]?[networkConfigureInstance tokenInvalidEvent:manager]:nil)
+#define kBMUserUnLoginEvent(manager)    ([networkConfigureInstance respondsToSelector:@selector(userUnLoginEvent:)]?[networkConfigureInstance userUnLoginEvent:manager]:nil)
+#define kBMResponseErrorEvent(manager)  ([networkConfigureInstance respondsToSelector:@selector(responseErrorEvent:)]?[networkConfigureInstance responseErrorEvent:manager]:nil)
+#define kBMLoginStatus                  ([networkConfigureInstance respondsToSelector:@selector(loginStatus)]?[networkConfigureInstance loginStatus]:BMUserLoginStatusUnLogin)
+#define kBMIsTestEnVironment            ([networkConfigureInstance respondsToSelector:@selector(isTestEnVironment)]?[networkConfigureInstance isTestEnVironment]:NO)
+#define kBMBaseUrl                      ([networkConfigureInstance respondsToSelector:@selector(baseUrl)]?[networkConfigureInstance baseUrl]:@"")
+#define kBMBaseUrlTest                  ([networkConfigureInstance respondsToSelector:@selector(baseUrlTest)]?[networkConfigureInstance baseUrlTest]:@"")
+#define KBMTokenInvalid             ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidValue)]?[networkConfigureInstance tokenInvalidValue]:-1)
+#define kBMResponseMsg              ([networkConfigureInstance respondsToSelector:@selector(responseMsgKey)]?[networkConfigureInstance responseMsgKey]:@"responseMsg")
+#define kBMResponseCode             ([networkConfigureInstance respondsToSelector:@selector(responseCodeKey)]?[networkConfigureInstance responseCodeKey]:@"responseCode")
+#define kBMResponseCodeSuccess      ([networkConfigureInstance respondsToSelector:@selector(responseCodeSuccessValue)]?[networkConfigureInstance responseCodeSuccessValue]:0)
+#define kBMPageSizeKey              ([networkConfigureInstance respondsToSelector:@selector(pageSizeKey)]?[networkConfigureInstance pageSizeKey]:@"pageSize")
+#define kBMPageStartIndex           ([networkConfigureInstance respondsToSelector:@selector(pageStartIndex)]?[networkConfigureInstance pageStartIndex]:0)
+#define kBMPageSize                 ([networkConfigureInstance respondsToSelector:@selector(pageSize)]?[networkConfigureInstance pageSize]:10)
+#define kBMUnPageSize               ([networkConfigureInstance respondsToSelector:@selector(unPageSize)]?[networkConfigureInstance unPageSize]:10)
+#define kBMTimestampKey                ([networkConfigureInstance respondsToSelector:@selector(timestampKey)]?[networkConfigureInstance timestampKey]:@"timestamp")
+#define kBMToken                    ([networkConfigureInstance respondsToSelector:@selector(tokenKey)]?[networkConfigureInstance tokenKey]:@"token")
+#define kBMPageIndexKey             ([networkConfigureInstance respondsToSelector:@selector(pageIndexKey)]?[networkConfigureInstance pageIndexKey]:@"pageIndex")
+#define kBMPageTotalKey             ([networkConfigureInstance respondsToSelector:@selector(pageTotalKey)]?[networkConfigureInstance pageTotalKey]:@"pageTotal")
+#define kBMResponseDataKey          ([networkConfigureInstance respondsToSelector:@selector(responseDataKey)]?[networkConfigureInstance responseDataKey]:@"data")
+#define kBMPageType
 
 
 //判断是否为空nil null
@@ -43,7 +50,7 @@
 
 //是否成功
 #define isAPICallingSuccess(_ref) ( !isNillOrNull([(_ref) objectForKey:[self responseCodeKey]]) &&\
-        [[(_ref) objectForKey:[self responseCodeKey]] integerValue] == kBMResponseCodeSuccess)
+        [[(_ref) objectForKey:[self responseCodeKey]] integerValue] == [self responseCodeSuccess])
 
 //获取服务端返回信息
 #define getAPICallingResponseMsg(_ref) (isNillOrNull(_ref)?@"服务器返回数据异常":(isNillOrNull([(_ref) objectForKey:[self responseMsgKey]])?@"服务器返回错误信息异常":[(_ref) objectForKey:[self responseMsgKey]]))
@@ -54,8 +61,8 @@
     /*将token插入到header(打了token标记的接口，都会增加header，在params即http body中也会保留这个值，兼容旧版本) */                                                                              \
     BOOL useToken = [self useToken];                                                                    \
     NSMutableDictionary *httpHeaderFields = [NSMutableDictionary dictionary];                           \
-    if (useToken && [networkConfigureInstance tokenTransmissionMode] == BMTokenTransmissionModeInHeaders) {                                                                                     \
-        [httpHeaderFields setValue:[networkConfigureInstance tokenValue] forKey:[networkConfigureInstance tokenKey]];   \
+    if (useToken && [self tokenTransmissionMode] == BMTokenTransmissionModeInHeaders) {                                                                                     \
+        [httpHeaderFields setValue:[self tokenValue] forKey:[self tokenKey]];   \
     }                                                                                                   \
     NSDictionary *headers = [self reformHeaders:httpHeaderFields];                                          \
     /*调用请求*/                                                                                         \
@@ -356,14 +363,14 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 - (BOOL)shouldCallAPIWithParams:(NSDictionary *)params
 {
     BOOL useToken = [self useToken];
-    BMUserLoginStatus loginStatus = [networkConfigureInstance loginStatus];
+    BMUserLoginStatus loginStatus = [self loginStatus];
     // 未登录or token无效情况
     if (useToken ) {
         if ( loginStatus == BMUserLoginStatusTokenInvalid) {
             self.responseMsg = @"Token失效";
             NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-            if ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidEvent:)]) {
-                [networkConfigureInstance tokenInvalidEvent:self];
+            if ([self respondsToSelector:@selector(tokenInvalidEvent:)]) {
+                [self tokenInvalidEvent:self];
             }else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
             }
@@ -371,8 +378,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         }else if (loginStatus == BMUserLoginStatusUnLogin){
             self.responseMsg = @"用户未登录";
             NSLog(@"%@，用户登录状态:%@",self.responseMsg, @(loginStatus));
-            if ([networkConfigureInstance respondsToSelector:@selector(userUnLoginEvent:)]) {
-                [networkConfigureInstance userUnLoginEvent:self];
+            if ([self respondsToSelector:@selector(userUnLoginEvent:)]) {
+                [self userUnLoginEvent:self];
             }else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingUserUnLogin object:self];
             }
@@ -422,6 +429,66 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 #pragma mark - 默认配置数据
 
+//默认缓存配置
+- (BOOL)shouldCache
+{
+    return NO;
+}
+- (BOOL)useToken
+{
+    return NO;
+}
+
+- (BOOL)usePage
+{
+    return NO;
+}
+
+
+- (NSString *)interfaceUrl
+{
+    return @"";
+}
+
+- (BMPageType)pageType
+{
+    return BMPageTypeTimeStamp;
+}
+
+
+- (BMTokenTransmissionMode)tokenTransmissionMode {
+    return kBMTokenTransmissionMode;
+}
+- (NSString *)tokenKey {
+    return kBMToken;
+
+}
+- (NSString *)tokenValue {
+    return kBMTokenValue;
+}
+- (void)tokenInvalidEvent:(BMBaseAPIManager *)manager {
+    return kBMTokenInvalidEvent(manager);
+}
+- (void)userUnLoginEvent:(BMBaseAPIManager *)manager {
+    return kBMUserUnLoginEvent(manager);
+}
+- (void)responseErrorEvent:(BMBaseAPIManager *)manager {
+   return kBMResponseErrorEvent(manager);
+}
+
+- (BMUserLoginStatus)loginStatus {
+    return kBMLoginStatus;
+}
+- (BOOL)isTestEnVironment {
+    return kBMIsTestEnVironment;
+}
+- (NSString *)baseUrl {
+    return kBMBaseUrl;
+}
+- (NSString *)baseUrlTest{
+    return kBMBaseUrlTest;
+}
+
 - (NSString *)responseMsgKey {
     return kBMResponseMsg;
 }
@@ -430,14 +497,18 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     return kBMResponseCode;
 }
 
-- (BOOL)usePage
-{
-    return NO;
+- (NSInteger)tokenInvalidValue {
+    return KBMTokenInvalid;
 }
+- (NSInteger)responseCodeSuccess {
+    return kBMResponseCodeSuccess;
+}
+
+
 
 - (NSString *)pageTimeStampKey
 {
-    return kBMTimestamp;
+    return kBMTimestampKey;
 }
 
 
@@ -468,10 +539,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 }
 
 
-- (BMPageType)pageType
-{
-    return BMPageTypeTimeStamp;
-}
+
 
 //这里传入的param，不能是self.requestParams。因为
 - (NSString *)queryString
@@ -494,21 +562,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     }
 }
 
-- (NSString *)interfaceUrl
-{
-    NSAssert(0, @"子类必须实现协议方法:%@",NSStringFromSelector(_cmd));
-    return nil;
-}
 
-//默认缓存配置
-- (BOOL)shouldCache
-{
-    return NO;
-}
-- (BOOL)useToken
-{
-    return NO;
-}
 //api名字
 - (NSString *)apiName
 {
@@ -522,20 +576,17 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 - (NSString *)requestUrl
 {
-    BOOL isTestEnvironment = [networkConfigureInstance isTestEnVironment];
-    NSString *baseUrl = isTestEnvironment? [networkConfigureInstance baseUrlTest]:[networkConfigureInstance baseUrl];
-    if (isTestEnvironment ) {
-        if([self respondsToSelector:@selector(testBaseUrl)]){
-            baseUrl = [self testBaseUrl];
-        }
-        
-    }else{
-        if ([self respondsToSelector:@selector(baseUrl)]) {
-            baseUrl = [self baseUrl];
-        }
+    BOOL isTestEnvironment = [self isTestEnVironment];
+    NSString *url = isTestEnvironment? [self baseUrlTest]:[self baseUrl];
+    NSString *path = [self interfaceUrl];
+    
+
+    if ([[url substringFromIndex:url.length-1] isEqualToString:@"/"] || [[path substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"/"]) {
+        url = [url stringByAppendingString:path];
+    }else {
+       url = [url stringByAppendingString:[NSString stringWithFormat:@"/%@", path]];
     }
     
-    NSString *url = [baseUrl stringByAppendingString:[NSString stringWithFormat:@"/%@", [self interfaceUrl]]];
     return url;
 }
 
@@ -592,9 +643,9 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     if ([self.allRequestParams objectForKey:key] == nil) {
         [self.allRequestParams setObject:params forKey:key];
         //调试日志
-        NSLog(@"调试日志,新增一组请求参数,当请求参数一共有:%@组",@([[self.allRequestParams allKeys] count]));
+//        NSLog(@"调试日志,新增一组请求参数,当请求参数一共有:%@组",@([[self.allRequestParams allKeys] count]));
     }else{
-        NSLog(@"调试日志,已存在改组请求参数,当请求参数一共有:%@组",@([[self.allRequestParams allKeys] count]));
+//        NSLog(@"调试日志,已存在改组请求参数,当请求参数一共有:%@组",@([[self.allRequestParams allKeys] count]));
     }
 }
 
@@ -609,7 +660,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         return 0;
     }
     
-    NSLog(@"调试日志,接口%@取得缓存数据",NSStringFromClass([self class]));
+//    NSLog(@"调试日志,接口%@取得缓存数据",NSStringFromClass([self class]));
     BMURLResponse *response = [[BMURLResponse alloc] initWithData:result];//这里只用initwithData初始化来表示，response是从缓存中取出来
     response.requestParams = params;
     self.requestId = response.requestId;
@@ -693,9 +744,10 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     
     NSMutableDictionary *mutableParams = params?[params mutableCopy]:[[NSMutableDictionary alloc]init];
     //是否使用token
-    if ([self useToken] && [networkConfigureInstance tokenTransmissionMode] == BMTokenTransmissionModeInParams) {
+    if ([self useToken] && [self tokenTransmissionMode] == BMTokenTransmissionModeInParams) {
         // 配置token
-        mutableParams[kBMToken] = [networkConfigureInstance tokenValue];
+        NSString *tokenKey = [self tokenKey];
+        mutableParams[tokenKey] = [self tokenValue];
     }
     
     if ([self usePage]) {
@@ -762,7 +814,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         self.fetchedRawData = [response.content copy];
     }
     self.response = response;
-    self.errorCode = [networkConfigureInstance responseCodeSuccessValue];
+    self.errorCode = [[response.content objectForKey:[self responseCodeKey]] integerValue];
     self.responseMsg = getAPICallingResponseMsg(response.content);
     self.requestId = response.requestId;
     [self removeRequestWithRequestId:response.requestId];//清除列表
@@ -810,16 +862,16 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         }
 
         //处理token过期
-        if (self.errorCode == [networkConfigureInstance tokenInvalidValue]) {
-            if ([networkConfigureInstance respondsToSelector:@selector(tokenInvalidEvent:)]) {
-                [networkConfigureInstance tokenInvalidEvent:self];
+        if (self.errorCode == [self tokenInvalidValue]) {
+            if ([self respondsToSelector:@selector(tokenInvalidEvent:)]) {
+                [self tokenInvalidEvent:self];
             }else {
                 [[NSNotificationCenter defaultCenter] postNotificationName:BMNotificationNetworkingTokenInvalid object:self];
             }
         }
     }
-    if ([networkConfigureInstance respondsToSelector:@selector(responseErrorEvent:)]) {
-        [networkConfigureInstance responseErrorEvent:self];
+    if ([self respondsToSelector:@selector(responseErrorEvent:)]) {
+        [self responseErrorEvent:self];
     }
 
     NSLog(@">> 【%@】接口请求失败:\n\t错误描述：%@\n\t错误类型：%lu\n\t错误码%@：%ld",NSStringFromClass([self class]),self.responseMsg,(unsigned long)errorType,[self responseCodeKey],(long)self.errorCode);
