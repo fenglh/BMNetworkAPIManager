@@ -312,22 +312,25 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         if (kBMResponseDataKey) {
             data = [response.content objectForKey:kBMResponseDataKey];
         }
-        if ([self pageType] == BMPageTypeTimeStamp) {
-            //分页记录
-            int64_t timeStamp = [[data objectForKey:[self pageTimeStampKey]] longLongValue];
-            self.nextPageTimeStamp = timeStamp;
-        }else{
-            self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
-            if (self.isPageRequest) {//若是是上拉，那么页码递增
-                NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
-                if (self.nextPageNumber <= totalPageCount) {
-                    self.nextPageNumber++;
-                }
+        if ([data isKindOfClass:[NSDictionary class]]) {
+            if ([self pageType] == BMPageTypeTimeStamp) {
+                //分页记录
+                int64_t timeStamp = [[data objectForKey:[self pageTimeStampKey]] longLongValue];
+                self.nextPageTimeStamp = timeStamp;
             }else{
-                self.nextPageNumber = [self pageStartIndex] + 1;
-            }
+                self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
+                if (self.isPageRequest) {//若是是上拉，那么页码递增
+                    NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
+                    if (self.nextPageNumber <= totalPageCount) {
+                        self.nextPageNumber++;
+                    }
+                }else{
+                    self.nextPageNumber = [self pageStartIndex] + 1;
+                }
 
+            }
         }
+        
 
     }
 
