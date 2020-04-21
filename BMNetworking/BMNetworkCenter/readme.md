@@ -12,3 +12,9 @@ return BMNetworkLogLevelUnLog ;
 
 
 ```
+#### 3.0.0
+
+1.  此版本动较大，本次改动增加接口实例对象的配置能力。BMNetworConfig 能配置的，接口都能配置。
+2.  `- (NSString *)testBaseUrl;`  更改名字: `- (NSString *)baseUrlTest;`
+3.  此版本最先使用的"月亮小店"App上
+4.  历史项目接入，请测试接口是否存在异常

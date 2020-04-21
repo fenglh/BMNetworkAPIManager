@@ -112,6 +112,8 @@
 //接口地址
 - (NSString *)baseUrl;      //正式地址, 默认@""
 - (NSString *)baseUrlTest;  //测试地址, 默认@""
+//接口在3.0.0版本将不再支持，请使用- (NSString *)baseUrlTest 代替
+- (NSString *)testBaseUrl DEPRECATED_MSG_ATTRIBUTE("接口在3.0.0版本将不再支持，请使用- (NSString *)baseUrlTest 代替");
 - (NSString *)interfaceUrl; //接口地址，默认@""
 - (BOOL)isTestEnVironment;  //是否测试环境,默认NO
 

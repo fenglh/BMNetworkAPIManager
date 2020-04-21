@@ -580,7 +580,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 - (NSString *)requestUrl
 {
     BOOL isTestEnvironment = [self isTestEnVironment];
-    NSString *url = isTestEnvironment? [self baseUrlTest]:[self baseUrl];
+    NSString *url = isTestEnvironment? ([self respondsToSelector:@selector(testBaseUrl)]?[self testBaseUrl]:[self baseUrlTest]):[self baseUrl];
     NSString *path = [self interfaceUrl];
     
 
