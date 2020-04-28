@@ -859,7 +859,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
                 self.responseMsg = getAPICallingResponseMsg(response.content);
             }else{
                 //默认认为网络或者服务器错误BMManagerDefaultOtherError
-                self.errorCode = BMManagerDefaultOtherError;//默认其他错误
+                self.errorCode = response.error?response.error.code : BMManagerDefaultOtherError;//默认其他错误
                 self.responseMsg = response.error.localizedDescription;
             }
         }
