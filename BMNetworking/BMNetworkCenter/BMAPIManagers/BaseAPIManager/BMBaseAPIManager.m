@@ -145,7 +145,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 }
 
 - (BOOL)isReachable
-{    
+{
     return YES;
 }
 
@@ -184,7 +184,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 
 
-#pragma mark - 调用 api 
+#pragma mark - 调用 api
 //不分页
 - (NSInteger)loadData
 {
@@ -407,7 +407,12 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
     
     
-    if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:)]) {
+    if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:responseMsg:)]) {
+        NSMutableString *msg = [[NSMutableString alloc] init];
+        BOOL shouldCall = [self.interceptor manager:self shouldCallAPIWithParams:params responseMsg:&msg];
+        self.responseMsg = msg;
+        return shouldCall;
+    }if ([self.interceptor respondsToSelector:@selector(manager:shouldCallAPIWithParams:)]) {
         return [self.interceptor manager:self shouldCallAPIWithParams:params];
     } else {
         return YES;

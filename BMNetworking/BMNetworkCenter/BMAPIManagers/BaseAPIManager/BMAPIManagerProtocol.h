@@ -176,7 +176,11 @@
 - (void)manager:(BMBaseAPIManager *)manager beforePerformFailWithResponse:(BMURLResponse *)response;    //网络请求完毕，在调用失败回调之前
 - (void)manager:(BMBaseAPIManager *)manager afterPerformFailWithResponse:(BMURLResponse *)response;     //网络请求完毕，在调用失败回调之后
 
-- (BOOL)manager:(BMBaseAPIManager *)manager shouldCallAPIWithParams:(NSDictionary *)params;//是否允许调用api
+- (BOOL)manager:(BMBaseAPIManager *)manager shouldCallAPIWithParams:(NSDictionary *)params;DEPRECATED_MSG_ATTRIBUTE("接口在3.0.2版本将不再支持，请使用- (BOOL)manager: shouldCallAPIWithParams:responseMsg: 代替");
+
+- (BOOL)manager:(BMBaseAPIManager *)manager shouldCallAPIWithParams:(NSDictionary *)params responseMsg:(NSString **)responseMsg;//是否允许调用api
+
+
 
 - (void)manager:(BMBaseAPIManager *)manager beforeCallingAPIWithParams:(NSDictionary *)params;
 - (void)manager:(BMBaseAPIManager *)manager afterCallingAPIWithParams:(NSDictionary *)params;
