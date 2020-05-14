@@ -39,6 +39,7 @@
 		369C1D371E569FF3001B543C /* BMMineTypeFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C1D361E569FF3001B543C /* BMMineTypeFileModel.m */; };
 		36B37FF61E5AC291002E8D02 /* BMAPIParamsSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B37FF51E5AC291002E8D02 /* BMAPIParamsSign.m */; };
 		52DFCF6D4684F2F6CDF9AECD /* libPods-BMNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 355FB81A567B7756B2E855AA /* libPods-BMNetworking.a */; };
+		DBA962BD246D19BE00FDFC67 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = DBA962BC246D19BE00FDFC67 /* readme.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,7 @@
 		36B37FF51E5AC291002E8D02 /* BMAPIParamsSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMAPIParamsSign.m; sourceTree = "<group>"; };
 		36C245501F78CDBA0022E164 /* BMNetworkAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMNetworkAPIManager.h; sourceTree = "<group>"; };
 		447691D787D7D1754083434E /* Pods-BMNetworking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMNetworking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMNetworking/Pods-BMNetworking.debug.xcconfig"; sourceTree = "<group>"; };
+		DBA962BC246D19BE00FDFC67 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 		0C75913B1E30925B00615928 = {
 			isa = PBXGroup;
 			children = (
+				DBA962BC246D19BE00FDFC67 /* readme.md */,
 				367BA17B1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec */,
 				0C7592731E3093C800615928 /* Podfile */,
 				0C75915E1E3093B300615928 /* BMNetworkCenter */,
@@ -371,6 +374,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -392,6 +396,7 @@
 				0C7592741E3093C800615928 /* Podfile in Resources */,
 				367BA17C1FC6C5C0001781C0 /* BMNetworkAPIManager.podspec in Resources */,
 				0C7591571E30925B00615928 /* LaunchScreen.storyboard in Resources */,
+				DBA962BD246D19BE00FDFC67 /* readme.md in Resources */,
 				0C7591541E30925B00615928 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

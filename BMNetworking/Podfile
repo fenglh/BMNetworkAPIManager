@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-
+# pod trunk push --allow-warnings
 #pod repo remove trunk
 platform :ios, "7.0"
 

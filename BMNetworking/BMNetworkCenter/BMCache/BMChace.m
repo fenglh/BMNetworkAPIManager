@@ -25,7 +25,7 @@
 {
     if (_cache == nil) {
         _cache = [[NSCache alloc] init];
-        _cache.countLimit = [networkConfigureInstance respondsToSelector:@selector(cacheCountLimit)] ? [networkConfigureInstance cacheCountLimit] :1000;
+        _cache.countLimit = [self cacheCountLimit];
     }
     return _cache;
 }
@@ -96,7 +96,12 @@
     [self.cache removeAllObjects];
 }
 
-
+- (NSInteger)cacheCountLimit {
+    if ([networkConfigureInstance respondsToSelector:@selector(cacheCountLimit)]) {
+        return [networkConfigureInstance cacheCountLimit];
+    }
+    return 1000;
+}
 
 
 @end
