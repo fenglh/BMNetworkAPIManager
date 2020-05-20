@@ -1,16 +1,18 @@
 source 'https://github.com/CocoaPods/Specs.git'
 # pod trunk push --allow-warnings
 #pod repo remove trunk
-platform :ios, "7.0"
+platform :ios, "9.0"
 
 inhibit_all_warnings!
 target:BMNetworking do
     #pod "AFNetworking" #网络
 
-    pod 'AFNetworking/Serialization', '3.2.1' , :source = "https://github.com/AFNetworking/AFNetworking.git"
-    pod 'AFNetworking/Security', '3.2.1'     , :source = "https://github.com/AFNetworking/AFNetworking.git"
-    pod 'AFNetworking/Reachability', '3.2.1'     , :source = "https://github.com/AFNetworking/AFNetworking.git"
-    pod 'AFNetworking/NSURLSession', '3.2.1'     , :source = "https://github.com/AFNetworking/AFNetworking.git"
+    pod 'AFNetworking/Serialization', '4.0.1'
+    pod 'AFNetworking/Security', '4.0.1'
+    pod 'AFNetworking/Reachability', '4.0.1'
+    pod 'AFNetworking/NSURLSession', '4.0.1'
+
+
 end
 
 #常用命令
