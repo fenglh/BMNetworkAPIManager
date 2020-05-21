@@ -1,5 +1,7 @@
 
 
+# pod trunk push --allow-warnings
+
 
 Pod::Spec.new do |s|
 
@@ -20,10 +22,10 @@ Pod::Spec.new do |s|
   s.exclude_files = "Classes/Exclude"
   s.ios.deployment_target = '9.0'
 
-  s.dependency "AFNetworking/Serialization"
-  s.dependency "AFNetworking/Security"
-  s.dependency "AFNetworking/Reachability"
-  s.dependency "AFNetworking/NSURLSession"
+  s.dependency "AFNetworking/Serialization",  '~>4.0.1'
+  s.dependency "AFNetworking/Security",  '~>4.0.1'
+  s.dependency "AFNetworking/Reachability",  '~>4.0.1'
+  s.dependency "AFNetworking/NSURLSession",  '~>4.0.1'
 
 
 end
