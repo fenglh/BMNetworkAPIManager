@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/aa335418265/BMNetworkAPIManager.git", :tag => "3.1.1" }
   s.source_files  = "Classes", "BMNetworking/BMNetworkCenter/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.dependency "AFNetworking/Serialization"
   s.dependency "AFNetworking/Security"
