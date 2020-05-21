@@ -20,12 +20,11 @@
 
 #define kBMRequestTimeOutSeconds ([networkConfigureInstance respondsToSelector:@selector(requestTimeOutSeconds)] ? [networkConfigureInstance requestTimeOutSeconds]:10)
 
-#define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
+#define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS,HEADERS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
 NSNumber *requestId = [self generateRequestId];\
-[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
 @weakify(self);\
-NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
+NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS headers:HEADERS progress:^(NSProgress * _Nonnull uploadProgress) {\
 @strongify(self);\
 [self callAPIPogress:uploadProgress requestId:[requestId integerValue] progressCallback:progress];\
 } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {\
@@ -81,12 +80,12 @@ return [requestId integerValue];\
     AFHTTPSessionManager *manager = [self sharedSessionManager];
     [manager.requestSerializer clearAuthorizationHeader]; //先删除
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json" ,@"text/javascript",@"video/mp4", nil]; // 设置相应的 http header Content-Type
-    [manager.requestSerializer addHeaders:headers];
+//    [manager.requestSerializer addHeaders:headers];
     
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"GET"];
-    callHttpRequest(manager, GET, urlString, params, progress, success, failure);
+    callHttpRequest(manager, GET, urlString, params, headers, progress, success, failure);
     
 }
 
@@ -104,12 +103,12 @@ return [requestId integerValue];\
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
     [manager.requestSerializer clearAuthorizationHeader]; //先删除
-    [manager.requestSerializer addHeaders:headers];
+//    [manager.requestSerializer addHeaders:headers];
     
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"POST"];
-    callHttpRequest(manager,POST, urlString, params, progress, success, failure);
+    callHttpRequest(manager,POST, urlString, params,headers ,progress, success, failure);
     
 }
 
@@ -128,15 +127,14 @@ return [requestId integerValue];\
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
     [manager.requestSerializer clearAuthorizationHeader]; //先删除
-    [manager.requestSerializer addHeaders:headers];
+//    [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"PUT" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"PUT"];
     
     NSNumber *requestId = [self generateRequestId];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     @weakify(self);
-    NSURLSessionTask *task = [manager PUT:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSURLSessionTask *task = [manager PUT:urlString parameters:params headers:headers success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         @strongify(self);
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -162,15 +160,14 @@ return [requestId integerValue];\
     NSString *urlString = [self urlString:url queryString:queryString];
     AFHTTPSessionManager *manager = [self sharedSessionManager];
     [manager.requestSerializer clearAuthorizationHeader]; //先删除
-    [manager.requestSerializer addHeaders:headers];
+//    [manager.requestSerializer addHeaders:headers];
     
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"DELETE" URLString:urlString parameters:params error:NULL];
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"DELETE"];
     
     NSNumber *requestId = [self generateRequestId];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     @weakify(self);
-    NSURLSessionTask *task = [manager DELETE:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSURLSessionTask *task = [manager DELETE:urlString parameters:params headers:headers success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         @strongify(self);
         [self callAPISuccess:task responseObject:responseObject requestId:requestId successCallback:success];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -201,7 +198,7 @@ return [requestId integerValue];\
     
     AFHTTPSessionManager *manager = [self sharedSessionManager];
     [manager.requestSerializer clearAuthorizationHeader]; //先删除
-    [manager.requestSerializer addHeaders:headers];
+//    [manager.requestSerializer addHeaders:headers];
     
     //1.分离NSData类型和非NSData类型参数
     NSMutableDictionary *noDataDict = [params mutableCopy];
@@ -218,9 +215,8 @@ return [requestId integerValue];\
     //2.取出kBMMineTypeFileModels ，该列表指出哪些参数是作为文件来上传
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     @weakify(self);
-    NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict headers:headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
         NSString *fileName=[NSString stringWithFormat:@"%.0f.unknow",[NSDate date].timeIntervalSince1970];//默认
         NSString *mineType=@"";//默认
@@ -294,7 +290,6 @@ return [requestId integerValue];\
  */
 - (void)callAPIFailure:(NSURLSessionTask *)task error:(NSError *)error requestId:(NSNumber *)requestId failureCallback:(BMAPICallback)failureCallback
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     NSURLSessionTask *storedTask = self.httpRequestTaskTable[requestId];
     if (storedTask == nil) {
         NSLog(@"接口请求失败！但在接口请求过程中接口被取消掉了，所以忽略该请求!");
@@ -312,7 +307,6 @@ return [requestId integerValue];\
  */
 - (void)callAPISuccess:(NSURLSessionTask *)task responseObject:(id)responseObject requestId:(NSNumber *)requestId successCallback:(BMAPICallback)successCallback
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     NSURLSessionTask *storedTask = self.httpRequestTaskTable[requestId];
     if (storedTask == nil) {
         NSLog(@"接口请求成功！但在接口请求过程中接口被取消掉了，所以忽略该请求!");
