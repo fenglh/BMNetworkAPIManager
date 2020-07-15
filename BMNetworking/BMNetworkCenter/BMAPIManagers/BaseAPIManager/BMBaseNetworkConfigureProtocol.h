@@ -49,7 +49,7 @@
 - (NSString *)pageIndexKey;             //当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
 - (NSString *)pageTotalKey;             //当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"total"
 
-- (NSString *)responseDataKey;          //默认nil, 为了兼容接口返回业务数据都封装在{data：...} data字段里面，所以这里可以配置给字段的key
+
 - (NSString *)responseCodeKey;          //响应码key,默认@"responseCode"
 - (NSString *)responseMsgKey;           //响应信息key,默认@"responseMsg"
 - (NSUInteger)cacheCountLimit;          //最多缓存数量,默认1000

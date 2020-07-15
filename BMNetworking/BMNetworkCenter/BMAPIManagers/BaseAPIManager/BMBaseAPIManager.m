@@ -40,7 +40,7 @@
 #define kBMToken                    ([networkConfigureInstance respondsToSelector:@selector(tokenKey)]?[networkConfigureInstance tokenKey]:@"token")
 #define kBMPageIndexKey             ([networkConfigureInstance respondsToSelector:@selector(pageIndexKey)]?[networkConfigureInstance pageIndexKey]:@"pageIndex")
 #define kBMPageTotalKey             ([networkConfigureInstance respondsToSelector:@selector(pageTotalKey)]?[networkConfigureInstance pageTotalKey]:@"pageTotal")
-#define kBMResponseDataKey          ([networkConfigureInstance respondsToSelector:@selector(responseDataKey)]?[networkConfigureInstance responseDataKey]:@"data")
+
 #define kBMPageType
 
 
@@ -309,9 +309,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
     if ([self usePage]) {
         NSDictionary *data = [response.content copy];
-        if (kBMResponseDataKey) {
-            data = [response.content objectForKey:kBMResponseDataKey];
-        }
+
         if ([data isKindOfClass:[NSDictionary class]]) {
             if ([self pageType] == BMPageTypeTimeStamp) {
                 //分页记录
