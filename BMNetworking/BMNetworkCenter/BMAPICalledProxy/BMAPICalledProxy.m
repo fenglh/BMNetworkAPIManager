@@ -23,7 +23,6 @@
 #define callHttpRequest(MANAGER,REQUEST_METHOD, REQUEST_URL, REQUEST_PARAMS, PROGRESS_CALLBACK, SUCCESS_CALLBACK, FAILURE_CALLBACK)\
 {\
 NSNumber *requestId = [self generateRequestId];\
-[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];\
 @weakify(self);\
 NSURLSessionTask *task = [MANAGER REQUEST_METHOD:REQUEST_URL parameters:REQUEST_PARAMS progress:^(NSProgress * _Nonnull uploadProgress) {\
 @strongify(self);\
@@ -134,7 +133,7 @@ return [requestId integerValue];\
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"PUT"];
     
     NSNumber *requestId = [self generateRequestId];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
     @weakify(self);
     NSURLSessionTask *task = [manager PUT:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         @strongify(self);
@@ -168,7 +167,7 @@ return [requestId integerValue];\
     [BMLoger logDebugInfoWithRequest:request apiName:apiName url:url requestParams:params httpMethod:@"DELETE"];
     
     NSNumber *requestId = [self generateRequestId];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
     @weakify(self);
     NSURLSessionTask *task = [manager DELETE:urlString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         @strongify(self);
@@ -218,7 +217,7 @@ return [requestId integerValue];\
     //2.取出kBMMineTypeFileModels ，该列表指出哪些参数是作为文件来上传
     NSArray *mineTypeFileModels = [params objectForKey:kBMMineTypeFileModels];
     [noDataDict removeObjectForKey:kBMMineTypeFileModels];//移除该参数，因该参数只是辅助作用
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
     @weakify(self);
     NSURLSessionTask *task = [manager POST:urlString parameters:noDataDict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         //3.组装
@@ -294,7 +293,7 @@ return [requestId integerValue];\
  */
 - (void)callAPIFailure:(NSURLSessionTask *)task error:(NSError *)error requestId:(NSNumber *)requestId failureCallback:(BMAPICallback)failureCallback
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
     NSURLSessionTask *storedTask = self.httpRequestTaskTable[requestId];
     if (storedTask == nil) {
         NSLog(@"接口请求失败！但在接口请求过程中接口被取消掉了，所以忽略该请求!");
@@ -312,7 +311,6 @@ return [requestId integerValue];\
  */
 - (void)callAPISuccess:(NSURLSessionTask *)task responseObject:(id)responseObject requestId:(NSNumber *)requestId successCallback:(BMAPICallback)successCallback
 {
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     NSURLSessionTask *storedTask = self.httpRequestTaskTable[requestId];
     if (storedTask == nil) {
         NSLog(@"接口请求成功！但在接口请求过程中接口被取消掉了，所以忽略该请求!");
