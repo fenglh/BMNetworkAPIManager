@@ -127,6 +127,8 @@
 - (NSString *)pageIndexKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageIndex"
 - (NSString *)pageTotalKey;//当使用BMPageTypePageNumber,类型的分页方式时候，需要用到该key,默认@"pageTotal"
 - (NSString *)pageSizeKey;//分页大小key，默认@"pageSize"
+- (NSInteger)pageTotalCount;
+- (BOOL)hasMorePage:(NSDictionary *)data; //是否存在更多页
 
 //请求和响应
 - (BMAPIManagerRequestType)requestType;//默认BMAPIManagerRequestTypePost

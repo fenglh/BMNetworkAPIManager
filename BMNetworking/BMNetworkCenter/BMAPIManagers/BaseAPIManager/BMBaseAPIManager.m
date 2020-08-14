@@ -40,7 +40,6 @@
 #define kBMToken                    ([networkConfigureInstance respondsToSelector:@selector(tokenKey)]?[networkConfigureInstance tokenKey]:@"token")
 #define kBMPageIndexKey             ([networkConfigureInstance respondsToSelector:@selector(pageIndexKey)]?[networkConfigureInstance pageIndexKey]:@"pageIndex")
 #define kBMPageTotalKey             ([networkConfigureInstance respondsToSelector:@selector(pageTotalKey)]?[networkConfigureInstance pageTotalKey]:@"pageTotal")
-#define kBMResponseDataKey          ([networkConfigureInstance respondsToSelector:@selector(responseDataKey)]?[networkConfigureInstance responseDataKey]:@"data")
 #define kBMPageType
 
 
@@ -309,19 +308,27 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
     if ([self usePage]) {
         NSDictionary *data = [response.content copy];
-        if (kBMResponseDataKey) {
-            data = [response.content objectForKey:kBMResponseDataKey];
-        }
+
         if ([data isKindOfClass:[NSDictionary class]]) {
             if ([self pageType] == BMPageTypeTimeStamp) {
                 //分页记录
                 int64_t timeStamp = [[data objectForKey:[self pageTimeStampKey]] longLongValue];
                 self.nextPageTimeStamp = timeStamp;
             }else{
-                self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
-                if (self.isPageRequest) {//若是是上拉，那么页码递增
+                
+                BOOL hasMorePage = NO;
+                if ([self respondsToSelector:@selector(hasMorePage:)]) {
+                    hasMorePage = [self hasMorePage:data];
+                }else {
+                    self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
                     NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
                     if (self.nextPageNumber <= totalPageCount) {
+                        hasMorePage = YES;
+                    }
+                }
+                
+                if (self.isPageRequest) {//若是是上拉，那么页码递增
+                    if (hasMorePage) {
                         self.nextPageNumber++;
                     }
                 }else{
