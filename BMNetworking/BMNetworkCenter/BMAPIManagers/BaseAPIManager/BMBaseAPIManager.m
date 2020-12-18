@@ -101,7 +101,9 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 //分页
 @property (nonatomic,assign) NSInteger nextPageNumber;  //下一页,分页类型是BMPageTypePageNumber时使用
-@property (nonatomic, assign) NSInteger totalDataCount; //总数量，用于判断是否达到最后一页，分页类型是BMPageTypePageNumber时使用
+//@property (nonatomic, assign) NSInteger totalDataCount; //总数量，用于判断是否达到最后一页，分页类型是BMPageTypePageNumber时使用
+
+@property (nonatomic, assign) BOOL hasMorePage;///< 是否有更多的页码
 @property (nonatomic, assign) long long nextPageTimeStamp;//分页时间戳，分页类型是BMPageTypeTimeStamp时使用
 @property (nonatomic, readwrite,assign) BOOL isPageRequest;//是否是分页请求
 
@@ -174,6 +176,7 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
         // 页码分页和时间戳分页还是有区别，页码分页可以直接跳到指定分页，而时间戳分页只能上一页跳到下一页，不能夸页。
         //目前，页码分页的实现也只有在上一页成功之后，才能请求下一页！
         _nextPageNumber = [self pageStartIndex] + 1;
+        _hasMorePage = YES; //默认有分页
     }
     return self;
     
@@ -184,15 +187,27 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
 
 
 #pragma mark - 调用 api
+
+// 重新发起请求
+- (NSInteger)reloadData {
+    //兼容调用者没有使用paramSource delegate设置参数的方式，导致中间者调用loadData参数缺漏的情况
+    if (self.requestParams) {
+        return [self _loadDataWithParams:self.requestParams];
+    }else {
+        return [self loadData];
+    }
+}
+
 //不分页
 - (NSInteger)loadData
 {
     self.isPageRequest = NO;
     NSDictionary *params = [self.paramSource paramsForApi:self];
     //兼容调用者没有使用paramSource delegate设置参数的方式，导致中间者调用loadData参数缺漏的情况
-    if (params == nil && self.requestParams) {
-        params = self.requestParams;
-    }
+    //20201218 已经去掉兼容，但是要在中间者中切换调用-[self reloadData];
+//    if (params == nil && self.requestParams) {
+//        params = self.requestParams;
+//    }
     NSInteger requestId = [self _loadDataWithParams:params];
     return requestId;
 }
@@ -303,6 +318,8 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
  * 1.由于多态的特性，如果子类重写了父类的方法，调用顺序是：先会找到子类的该方法，存在则调用，如果子类不存在该方法则会去父类找
  * 2.当子类继承了父类时，子类对象和父类对象指的都是同一块内存，即父类的self 和子类的self所表示 的对象是同样的。
  */
+
+
 - (void)beforePerformSuccessWithResponse:(BMURLResponse *)response
 {
 
@@ -316,19 +333,20 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
                 self.nextPageTimeStamp = timeStamp;
             }else{
                 
-                BOOL hasMorePage = NO;
+                self.hasMorePage = YES;//默认还有下一页
                 if ([self respondsToSelector:@selector(hasMorePage:)]) {
-                    hasMorePage = [self hasMorePage:data];
+                    self.hasMorePage = [self hasMorePage:data];
                 }else {
-                    self.totalDataCount = [[data objectForKey:[self pageTotalKey]] floatValue];
-                    NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
-                    if (self.nextPageNumber <= totalPageCount) {
-                        hasMorePage = YES;
+                    //判断是否返回totalCount
+                    BOOL isContainPageTotalKey = [[data allKeys] containsObject:[self pageTotalKey]];
+                    if (isContainPageTotalKey) {
+                        NSInteger totalDataCount =  [[data objectForKey:[self pageTotalKey]] integerValue];
+                        NSInteger totalPageCount = ceilf((double)totalDataCount / (double)[self pageSize]);//类型转换double，防止int 除以 int 忽略小数点数值
+                        self.hasMorePage = self.nextPageNumber < totalPageCount;
                     }
                 }
-                
                 if (self.isPageRequest) {//若是是上拉，那么页码递增
-                    if (hasMorePage) {
+                    if (self.hasMorePage) {
                         self.nextPageNumber++;
                     }
                 }else{
@@ -400,16 +418,13 @@ static NSInteger BMManagerDefaultNoNextPage = -9000;//没有下一页了
     
     if ([self usePage]) {
         if (self.isPageRequest && [self pageType] == BMPageTypePageNumber) {
-            if (self.nextPageNumber >0) {
-                //如果分页达到上限，则不请求
-                NSInteger totalPageCount = ceilf((double)self.totalDataCount / (double)[self pageSize]);
-                if (self.nextPageNumber > totalPageCount ) {
-                    self.responseMsg = @"已经没有下一页了!";
-                    self.errorCode = BMManagerDefaultNoNextPage;
-                    return NO;
-                }
+            if (!self.hasMorePage ) {
+                self.responseMsg = @"已经没有下一页了!";
+                self.errorCode = BMManagerDefaultNoNextPage;
+                return NO;
             }
         }
+
     }
 
     

@@ -70,7 +70,10 @@ typedef NS_ENUM(NSUInteger, BMAPIManagerErrorType){
  * 发起请求
  */
 - (NSInteger)loadData;
+- (NSInteger)reloadData; /// 重新调起上一次请求，无需传参，参数为上一次参数
 - (NSInteger)loadDataWithParams:(NSDictionary *)params;
+
+/// BMBaseAPIManager 中的分页功能将会被逐步移除，请继承专用的”分页基类“
 - (NSInteger)loadNextPage;
 - (NSInteger)loadNextPageWithParams:(NSDictionary *)params OBJC_SWIFT_UNAVAILABLE("请使用'loadNextPage' 方法代替");
 
